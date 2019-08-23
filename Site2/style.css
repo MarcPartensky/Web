@@ -1,0 +1,27 @@
+p
+{
+    color: blue;
+}
+
+h1,em
+{
+  color: red;
+  background: black;
+  centered: true;
+}
+
+.osef
+{
+  color: grey;
+}
+
+#tresosef
+{
+  color: lightgrey;
+}
+
+
+title
+{
+    font-family: Impact, "Arial Black", Arial, Verdana, sans-serif;
+}

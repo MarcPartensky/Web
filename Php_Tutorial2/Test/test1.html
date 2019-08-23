@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Plus ou moins</title>
+  </head>
+  <body>
+    <div id="test1">
+      <p>Ceci est un jeu du plus ou moins en php?</p>
+      <!-- <button a=machin> test </button> -->
+      <input id="clickme" type="text" size="50" value="Cliquez ici !" onfocus="this.value='Appuyez maintenant sur votre touche de tabulation.';" onblur="this.value='Cliquez ici !';"/>
+      <button onclick="alert('Hello !');">Cliquez-moi !</button>
+      <button id='bouttonchelou' onclick="alert('Voici le contenu de l\'élément que vous avez cliqué :\n\n' + this.innerHTML);">Cliquez-moi !</button>
+      <a href="https://github.com/" onclick="alert('Vous avez cliqué !'); return false;">Cliquez-moi !</a>
+    </div>
+    <div id='test2'>
+      <button id="clickme">Cliquez-moi !</button>
+      <script>
+        var b1 = document.getElementById('clickme');
+        var b2 = document.getElementById('bouttonchelou')
+
+        var myFunction = function() {
+            alert("Vous m'avez cliqué Yes!");
+        };
+        var myFunction2 = function() {
+            alert("Vous m'avez vraiment cliqué so gg.");
+        };
+        var myFunction3 = function() {
+            alert("wtf is happening.");
+        };
+
+        b1.addEventListener('click', myFunction)
+        b2.addEventListener('click', myFunction2)
+        b3.addEventListener('click', myFunction3)
+        b4.addEventListener('click', myFunction4)
+        b5.addEventListener('click', myFunction5)
+        b6.addEventListener('click', myFunction6)
+
+      </script>
+    </div>
+  </body>
+</html>
