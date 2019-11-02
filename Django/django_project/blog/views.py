@@ -13,7 +13,8 @@ from .models import Post
 
 def home(request):
     context = {
-        'posts': Post.objects.all()
+        'posts': Post.objects.all(),
+        'title': "Website of Marc Partensky",
     }
     return render(request, 'blog/home.html', context)
 

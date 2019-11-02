@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Javascript Tutorial</title>
+</head>
+
+<body>
+  <p> This is a tutorial of javascript. </p>
+</body>
+<script src="forms.js"></script>
+<form id="myForm">
+  <input id="text" type="text" value="ton num de tel" />
+  <input type="submit" value="Soumettre" />
+  <input type="reset" value="Abandonner" />
+  <input id="text" type="text" value="Entrez un texte" />
+  <br /><br />
+  <input type="button" value="Donner le focus" onclick="foc();" /><br />
+  <input type="button" value="Retirer le focus" onclick="document.getElementById('text').blur();" />
+</form>
+<script>
+  function foc() {
+    var text = document.getElementById('text');
+    text.value="tiens le voilà ton focus fdp";
+    text.focus();
+    text.style.color='blue';
+    alert("je t'alerte");
+  }
+
+  var myForm = document.getElementById("myForm");
+  myForm.addEventListener('submit', function(e) {
+    alert('wesh tu ne me submit pas comme ça');
+  });
+  myForm.addEventListener('reset', function(e) {
+    alert('wesh tu ne me reset pas comme ça !');
+  });
+</script>
+</html>

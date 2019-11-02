@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import django_heroku
+import dj_database_url
+
+ON_HEROKU = os.environ.get('ON_HEROKU')
+HEROKU_SERVER = os.environ.get('HEROKU_SERVER')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +29,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.environ.get('DEBUG_VALUE')=='True')
 
 ALLOWED_HOSTS = ["websiteofmarcpartensky.herokuapp.com","localhost"]
 
@@ -34,6 +39,7 @@ ALLOWED_HOSTS = ["websiteofmarcpartensky.herokuapp.com","localhost"]
 INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
+    'oldsite.apps.OldsiteConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -77,6 +83,15 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+if ON_HEROKU:
+    DATABASE_URL = 'postgresql:///postgresql'
+else:
+    DATABASE_URL = 'sqlite://' + os.path.join(BASE_DIR, 'db.sqlite3')
+
+#print("DATABASE_URL:",DATABASE_URL)
+#DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
+
+#print("BASE_DIR:",BASE_DIR)
 
 DATABASES = {
     'default': {
@@ -84,6 +99,28 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+print("DATABASES:",DATABASES)
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'DatabaseName',
+#         'USER': 'DatabaseUserName',
+#         'PASSWORD': 'DatabaseUserpassword',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
+
 
 
 # Password validation
@@ -149,3 +186,5 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+django_heroku.settings(locals())
