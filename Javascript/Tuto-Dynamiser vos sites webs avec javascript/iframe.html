@@ -1,0 +1,18 @@
+<form id="myForm" method="post" action="request.php" target="myFrame">
+  <div>
+    <input type="text" name="first name">
+    <input type="text" name="last name">
+    <input type="submit" value="Submit"/>
+  </div>
+</form>
+
+<!-- <iframe src="#" name="myFrame" id="myFrame"></iframe> -->
+<iframe src="file.html" name="myFrame" id="myFrame" onload="trigger()"></iframe>
+
+<script>
+    function trigger() {
+        var frame = document.getElementById('myFrame').contentDocument;
+
+        alert(frame.body.textContent);
+    }
+</script>
