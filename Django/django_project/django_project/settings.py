@@ -20,19 +20,17 @@ HEROKU_SERVER = os.environ.get('HEROKU_SERVER')
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'exhlfdat&vfum(-34*c2uroi(($ww(yo$9pv98=e6p^gl(-eoj'
+# SECRET_KEY = 'exhlfdat&vfum(-34*c2uroi(($ww(yo$9pv98=e6p^gl(-eoj'
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.environ.get('DEBUG_VALUE')=='True')
+DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
 
-ALLOWED_HOSTS = ["websiteofmarcpartensky.herokuapp.com","localhost"]
-
+ALLOWED_HOSTS = ["websiteofmarcpartensky.herokuapp.com", "localhost"]
 
 # Application definition
 
@@ -80,7 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_project.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 if ON_HEROKU:
@@ -88,10 +85,10 @@ if ON_HEROKU:
 else:
     DATABASE_URL = 'sqlite://' + os.path.join(BASE_DIR, 'db.sqlite3')
 
-#print("DATABASE_URL:",DATABASE_URL)
-#DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
+# print("DATABASE_URL:",DATABASE_URL)
+# DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
 
-#print("BASE_DIR:",BASE_DIR)
+# print("BASE_DIR:",BASE_DIR)
 
 DATABASES = {
     'default': {
@@ -100,7 +97,7 @@ DATABASES = {
     }
 }
 
-print("DATABASES:",DATABASES)
+print("DATABASES:", DATABASES)
 
 # DATABASES = {
 #     'default': {
@@ -121,8 +118,6 @@ print("DATABASES:",DATABASES)
 # }
 
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
@@ -141,7 +136,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -155,12 +149,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL =  '/static/'
+STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

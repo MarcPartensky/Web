@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <input id="file" type="file" multiple />
+    <p draggable="true"> je suis draggable </p>
+  </body>
+  <script type="text/javascript">
+    var fileInput = document.querySelector("#file");
+    fileInput.addEventListener('change', function() {
+      var reader = new FileReader();
+      reader.addEventListener('load', function() {
+        alert('contenu du fichier"' +fileInput.files[0].name + '": \n\n' +
+        reader.result);
+      });
+      reader.readAsText(fileInput.files[0]);
+    })
+  </script>
+</html>
