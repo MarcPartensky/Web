@@ -1,0 +1,24 @@
+<p> machin </p>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+
+<script>
+// $('p').animate({
+//     width : '3000px',
+//     fontSize : '300px', // ne pas oublier la syntaxe de l'identifiant !
+//     marginTop : '50px'},
+//   {
+//     duration : 3000,
+//     easing : 'swing',
+//   });
+
+$('p').fadeOut();
+$('p').fadeIn();
+$('p').slideUp();
+$('p').slideDown();
+
+var fileAttente = $('p').queue('fx'); // je stocke la file d'attente, le tableau, dans une variable
+
+alert(fileAttente.length); // renvoie 4
+
+</script>

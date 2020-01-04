@@ -7,6 +7,6 @@
         "pm2": "^4.2.1",
         "socket.io": "^2.3.0"
     },
-    "author": "Mateo21 <mateo21@email.com>",
+    "author": "Marc <marc.partensky@gmail.com>",
     "description": "Un super Chat temps réel avec socket.io"
 }

@@ -1,0 +1,89 @@
+<div id="erreur">
+    <p>Vous n'avez pas rempli correctement les champs du formulaire !</p>
+</div>
+
+<form>
+    <label for="pseudo">Pseudonyme</label> <input type="text" id="pseudo" class="champ" />
+    <label for="mdp">Mot de passe</label> <input type="password" id="mdp" class="champ" />
+    <label for="confirmation">Confirmation</label>  <input type="password" id="confirmation" class="champ" />
+    <label for="mail">E-mail</label> <input type="text" id="mail" class="champ" />
+    <input type="submit" id="envoi" value="Envoyer" /> <input type="reset" id="rafraichir" value="Rafraîchir" />
+</form>
+
+<!-- on inclut la bibliothèque depuis les serveurs de Google -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+<script>
+
+$(document).ready(function(){
+
+    var $pseudo = $('#pseudo'),
+        $mdp = $('#mdp'),
+        $confirmation = $('#confirmation'),
+        $mail = $('#mail'),
+        $envoi = $('#envoi'),
+        $reset = $('#rafraichir'),
+        $erreur = $('#erreur'),
+        $champ = $('.champ');
+
+    $champ.keyup(function(){
+        if($(this).val().length < 5){ // si la chaîne de caractères est inférieure à 5
+            $(this).css({ // on rend le champ rouge
+                borderColor : 'red',
+	        color : 'red'
+            });
+         }
+         else{
+             $(this).css({ // si tout est bon, on le rend vert
+	         borderColor : 'green',
+	         color : 'green'
+	     });
+         }
+    });
+
+    $confirmation.keyup(function(){
+        if($(this).val() != $mdp.val()){ // si la confirmation est différente du mot de passe
+            $(this).css({ // on rend le champ rouge
+     	        borderColor : 'red',
+        	color : 'red'
+            });
+        }
+        else{
+	    $(this).css({ // si tout est bon, on le rend vert
+	        borderColor : 'green',
+	        color : 'green'
+	    });
+        }
+    });
+
+    $envoi.click(function(e){
+        e.preventDefault(); // on annule la fonction par défaut du bouton d'envoi
+
+        // puis on lance la fonction de vérification sur tous les champs :
+        verifier($pseudo);
+        verifier($mdp);
+        verifier($confirmation);
+        verifier($mail);
+    });
+
+    $reset.click(function(){
+        $champ.css({ // on remet le style des champs comme on l'avait défini dans le style CSS
+            borderColor : '#ccc',
+    	    color : '#555'
+        });
+        $erreur.css('display', 'none'); // on prend soin de cacher le message d'erreur
+    });
+
+    function verifier(champ){
+        if(champ.val() == ""){ // si le champ est vide
+    	    $erreur.css('display', 'block'); // on affiche le message d'erreur
+            champ.css({ // on rend le champ rouge
+    	        borderColor : 'red',
+    	        color : 'red'
+    	    });
+        }
+    }
+
+});
+
+</script>

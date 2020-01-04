@@ -37,7 +37,7 @@ Weapons = function(Player) {
             _this._deltaFireRate = _this.fireRate;
         }
     }
-});
+  });
 
 };
 
@@ -63,7 +63,7 @@ Weapons.prototype = {
       newWeapon.material = materialWeapon;
 
       return newWeapon
-  }
+  },
   fire : function(pickInfo) {
       this.launchBullets = true;
   },
@@ -71,24 +71,20 @@ Weapons.prototype = {
       this.launchBullets = false;
   },
   launchFire : function() {
-    if (this.canFire) {
-        var renderWidth = this.Player.game.engine.getRenderWidth(true);
-        var renderHeight = this.Player.game.engine.getRenderHeight(true);
+      if (this.canFire) {
+          // console.log('Pew !');
 
-        var direction = this.Player.game.scene.pick(renderWidth/2,renderHeight/2);
-        direction = direction.pickedPoint.subtractInPlace(this.Player.camera.position);
-        direction = direction.normalize();
-
-        this.createRocket(this.Player.camera,direction)
-        this.canFire = false;
-    } else {
-        // Nothing to do : cannot fire
-    }
+          this.createRocket(this.Player.camera.playerBox)
+          this.canFire = false;
+      } else {
+          // Nothing to do : cannot fire
+      }
   },
-  createRocket : function(playerPosition, direction) {
+  createRocket : function(playerPosition) {
       var positionValue = this.rocketLauncher.absolutePosition.clone();
       var rotationValue = playerPosition.rotation;
-      var newRocket = BABYLON.Mesh.CreateBox("rocket", 1, this.Player.game.scene);
+      var Player = this.Player;
+      var newRocket = BABYLON.Mesh.CreateBox("rocket", 1, Player.game.scene);
       newRocket.direction = new BABYLON.Vector3(
           Math.sin(rotationValue.y) * Math.cos(rotationValue.x),
           Math.sin(-rotationValue.x),
@@ -104,5 +100,43 @@ Weapons.prototype = {
 
       newRocket.material = new BABYLON.StandardMaterial("textureWeapon", this.Player.game.scene);
       newRocket.material.diffuseColor = new BABYLON.Color3(1, 0, 0);
+
+      newRocket.registerAfterRender(function(){
+          // On bouge la roquette vers l'avant
+          newRocket.translate(new BABYLON.Vector3(0,0,1),1,0);
+
+          // On crée un rayon qui part de la base de la roquette vers l'avant
+          var rayRocket = new BABYLON.Ray(newRocket.position,newRocket.direction);
+
+          // On regarde quel est le premier objet qu'on touche
+          var meshFound = newRocket.getScene().pickWithRay(rayRocket);
+
+          // Si la distance au premier objet touché est inférieure a 10, on détruit la roquette
+          if(!meshFound || meshFound.distance < 10){
+            // On vérifie qu'on a bien touché quelque chose
+            if(meshFound.pickedMesh){
+                // On crée une sphere qui représentera la zone d'impact
+                var explosionRadius = BABYLON.Mesh.CreateSphere("sphere", 5.0, 20, Player.game.scene);
+                // On positionne la sphère là où il y a eu impact
+                explosionRadius.position = meshFound.pickedPoint;
+                // On fait en sorte que les explosions ne soient pas considérées pour le Ray de la roquette
+                explosionRadius.isPickable = false;
+                // On crée un petit material orange
+                explosionRadius.material = new BABYLON.StandardMaterial("textureExplosion", Player.game.scene);
+                explosionRadius.material.diffuseColor = new BABYLON.Color3(1,0.6,0);
+                explosionRadius.material.specularColor = new BABYLON.Color3(0,0,0);
+                explosionRadius.material.alpha = 0.8;
+
+                // Chaque frame, on baisse l'opacité et on efface l'objet quand l'alpha est arrivé à 0
+                explosionRadius.registerAfterRender(function(){
+                    explosionRadius.material.alpha -= 0.02;
+                    if(explosionRadius.material.alpha<=0){
+                        explosionRadius.dispose();
+                    }
+                });
+            }
+            newRocket.dispose();
+        }
+      })
   },
 };
