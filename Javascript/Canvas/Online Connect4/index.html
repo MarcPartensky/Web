@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Marcbook !</title>
+        <style>
+            #zone_chat strong {
+                color: white;
+                background-color: black;
+                padding: 2px;
+            }
+            #canvas {
+              width: 100%;
+              height: 100%;
+              background-color: blue;
+              border-width: thick;
+              border-color: darkblue;
+              margin: 0;
+            }
+            #game {
+              background-color: darkblue;
+              color: yellow;
+              border-width: thick;
+              text-align: center;
+              width: 100%;
+              height: 100%;
+              margin: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+      <h1 id="game">Jeu du Puissance 4</h1>
+      <canvas id="canvas">
+        <p>Désolé, votre navigateur ne supporte pas Canvas. Mettez-vous à jour</p>
+      </canvas>
+      <script src="connect4.js"></script>
+      <section id="clients"></section>
+
+        <form action="/" method="post" id="formulaire_chat">
+            <input type="text" name="message" id="message" placeholder="Votre message..." size="50" autofocus />
+            <input type="submit" id="envoi_message" value="Envoyer" />
+        </form>
+        <section id="zone_chat"></section>
+
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+
+            var mouse = {x: 0, y: 0};
+            var game = new Game();
+            var isMyTurn = false;
+            resize();
+            game.show(context, mouse);
+
+            var pseudo = prompt('Pseudo:');
+            var host = String(document.location);
+            // http://localhost:8080/
+            host = host.replace("http", "ws");
+            var socket = io(host, {transports: ['websocket']});
+            var ready = false;
+            socket.emit('nouveau_client', pseudo);
+            document.title = pseudo + ' - ' + document.title;
+
+            $('#clients').html('<p> Clients connectés:<strong>'+ 0 + '</strong> </p>');
+
+            // Quand on reçoit un message, on l'insère dans la page
+            socket.on('message', function(data) {
+                insereMessage(data.pseudo, data.message)
+            })
+
+            // Quand un nouveau client se connecte, on affiche l'information
+            socket.on('nouveau_client', function(data) {
+                $('#zone_chat').prepend('<p><em>' + data.pseudo + ' a rejoint le Chat !</em></p>');
+            })
+
+            socket.on('joue', function(choice) {
+              game.play(parseInt(choice));
+              isMyTurn = true;
+            })
+
+            socket.on('erreur', function(error) {
+              alert(error);
+            })
+
+            socket.on("clients" , function(clients) {
+              ready = parseInt(clients)==2;
+              $('#clients').html('<p> Clients connectés:<strong>'+ clients + '</strong> </p>');
+              alert(clients);
+              if (ready) {
+                alert("Que la partie commence!");
+              }
+            })
+
+            socket.on("turn", function(turn) {
+              isMyTurn = parseInt(turn)==1;
+            })
+
+            socket.on("restart", function(_) {
+              game.restart();
+            })
+
+            // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
+            $('#formulaire_chat').submit(function () {
+                var message = $('#message').val();
+                socket.emit('message', message); // Transmet le message aux autres
+                insereMessage(pseudo, message); // Affiche le message aussi sur notre page
+                $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
+                return false; // Permet de bloquer l'envoi "classique" du formulaire
+            });
+
+            // Ajoute un message dans la page
+            function insereMessage(pseudo, message) {
+                $('#zone_chat').prepend('<p><strong>' + pseudo + '</strong> ' + message + '</p>');
+            }
+
+            window.addEventListener("resize",resize);
+
+            window.addEventListener("mousemove",
+              function(event) {
+                mouse.x=event.x;
+                mouse.y=event.y;
+                game.show(context, mouse);
+              }
+            )
+
+            canvas.addEventListener("click",
+              function() {
+                if (!ready) {
+                  alert("Le jeu n'est pas prêt.");
+                } else {
+                  var choice = Math.floor(mouse.x*game.width/context.width);
+                  if (game.over) {
+                    if (confirm("Le jeu est terminé. Voulez-vous recommencer?")) {
+                      socket.emit('restart', "");
+                      game.restart();
+                    }
+                  } else {
+                    if (isMyTurn) {
+                      if (game.play(choice)) {
+                        socket.emit('joue', String(choice));
+                        game.show(context, mouse);
+                        isMyTurn = false;
+                      }
+                    } else {
+                      alert("Ce n'est pas votre tour");
+                    }
+                  }
+                }
+              }
+            );
+        </script>
+    </body>
+</html>

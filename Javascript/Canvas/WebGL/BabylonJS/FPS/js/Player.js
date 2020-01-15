@@ -130,6 +130,9 @@ Player.prototype = {
     this.camera.playerBox = playerBox;
     this.camera.parent = this.camera.playerBox;
 
+    this.camera.health = 100;
+    this.camera.armor = 0;
+
     // Ajout des collisions avec playerBox
     this.camera.playerBox.checkCollisions = true;
     this.camera.playerBox.applyGravity = true;
@@ -151,6 +154,11 @@ Player.prototype = {
     hitBoxPlayer.scaling.y = 2;
     hitBoxPlayer.isPickable = true;
     hitBoxPlayer.isMain = true;
+
+    // On réinitialise la position de la caméra
+    // Peut être au mauvais endroit
+    this.camera.setTarget(BABYLON.Vector3.Zero());
+    this.game.scene.activeCamera = this.camera;
   },
   _initPointerLock : function() {
     var _this = this;
@@ -225,5 +233,44 @@ Player.prototype = {
       if(this.isAlive === true){
           this.camera.weapons.stopFire();
       }
+  },
+  getDamage : function(damage) {
+    var damageTaken = damage;
+
+    if(this.camera.armor > Math.round(damageTaken/2)){
+        this.camera.armor -= Math.round(damageTaken/2);
+        damageTaken = Math.round(damageTaken/2);
+    } else {
+        damageTaken = damageTaken - this.camera.armor;
+        this.camera.armor = 0;
+    }
+
+    if (this.camera.health>damageTaken) {
+      this.camera.health-=damageTaken;
+    } else {
+      console.log("Vous êtes mort");
+    }
+  },
+  playerDead : function(i) {
+    this.deadCamera = new BABYLON.ArcRotateCamera("ArcRotateCamera",
+    1, 0.8, 10, new BABYLON.Vector3(
+        this.camera.playerBox.position.x,
+        this.camera.playerBox.position.y,
+        this.camera.playerBox.position.z),
+    this.game.scene);
+
+    this.game.scene.activeCamera = this.deadCamera;
+    this.deadCamera.attachControl(this.game.scene.getEngine().getRenderingCanvas());
+
+    this.camera.playerBox.dispose();
+    this.camera.dispose();
+    this.camera.weapons.rocketLauncher.dispose();
+    this.isAlive=false;
+
+    var newPlayer = this;
+    var canvas = this.game.scene.getEngine().getRenderingCanvas();
+    setTimeout(function(){
+        newPlayer._initCamera(newPlayer.game.scene, canvas);
+    }, 4000);
   },
 };
