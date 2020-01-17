@@ -11,7 +11,7 @@ class Matrix {
   }
   static fromVectors( ...vectors) {
     let x = Math.max(vectors.map());
-    let h = vectors.length
+    let h = vectors.length;
     return new Matrix(array);
   }
   get width() {
@@ -21,7 +21,7 @@ class Matrix {
     return this.array[0].length;
   }
   get format() {
-    return [this.width, this.height;
+    return [this.width, this.height];
   }
   constructor(args) {
     this.array = Array(...args);
