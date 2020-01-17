@@ -3,4 +3,8 @@ class Game {
     this.map = map;
     this.players = players;
   }
+  show(context) {
+    this.map.show(context);
+    this.players.map(p => p.show(context));
+  }
 }

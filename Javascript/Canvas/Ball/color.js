@@ -60,7 +60,7 @@ var Color = {
     d.imul(k);
     v.iadd(d);
     return Color.fromVector(v);
-  }
+  },
   /*
   * Ligthen a given color using some k factor which must be between 0 and 1.
   */
@@ -70,5 +70,5 @@ var Color = {
     d.imul(k);
     v.isub(d);
     return Color.fromVector(v);
-  }
+  },
 }

@@ -5,12 +5,16 @@ class Map {
     this.foods = foods;
     this.border_color = border_color;
   }
-  show(context, position) {
+  show(context) {
+    this.foods.map(f => f.show(context));
+    this.showBorders(context);
+  }
+  showBorders(context) {
     context.strokeStyle = this.border_color;
     let [x, y, w, h] = this.rect;
     context.strokeRect(x, y, w, h);
   }
-  update() {
+  update(dt=1) {
     this.spawnFoods(Map.foods_number-this.foods.length);
   }
   spawnFoods(n) {
@@ -18,5 +22,4 @@ class Map {
       this.foods.push(Food.random());
     }
   }
-
 }

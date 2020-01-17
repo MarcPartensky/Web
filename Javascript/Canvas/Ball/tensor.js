@@ -1,23 +1,42 @@
 class Tensor {
-  constructor(...vectors) {
-    this.vectors = vectors;
+  static random(n=3) {
+    let matrix = Array(3);
+    for (let i=0; i<n; i++) {
+      matrix[i] = Vector.random();
+    }
+    return new Tensor(...matrix);
+  }
+  constructor(...v) {
+    let width = ma
+    this.matrix = matrix;
   }
   get position() {
-    return this.vectors[0];
+    return this.matrix[0];
   }
-  set position(vector) {
-    this.vectors[0] = vector;
+  set position(matrix) {
+    this.matrix[0] = matrix;
   }
   get velocity() {
-    return this.vectors[1];
+    return this.matrix[1];
   }
-  set velocity(vector) {
-    this.vectors[1] = vector;
+  set velocity(matrix) {
+    this.matrix[1] = matrix;
   }
   get acceleration() {
-    return this.vectors[2];
+    return this.matrix[2];
   }
-  set acceleration(vector) {
-    this.vectors[2] = vector;
+  set acceleration(matrix) {
+    this.matrix[2] = matrix;
   }
+  get vectors() {
+    return this.matrix.vectors;
+  }
+  update(dt=1) {
+    for(let x=0; x<this.width-1; x++) {
+      for(let y=0; y<this.height; y++) {
+        this.matrix[x][y] = this.matrix[x+1][y]*dt;
+      }
+    }
+  }
+
 }

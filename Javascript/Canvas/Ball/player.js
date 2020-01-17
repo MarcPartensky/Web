@@ -9,7 +9,7 @@ class Player {
     let position = Vector.random();
     return new Player(position);
   }
-  constructor(position, mass=Player.mass, color=undefined, alive=false) {
+  constructor(position, mass=Player.mass, color=Color.random(), alive=false) {
     this.position = position;
     this.mass = mass;
     this.alive = alive;
