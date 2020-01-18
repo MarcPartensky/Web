@@ -1,35 +1,67 @@
+console.log("inside app.js");
+
 
 var canvas = document.getElementById("canvas");
 var engine = new BABYLON.Engine(canvas, true);
 var scene = new BABYLON.Scene(engine);
-scene.clearColor = new BABYLON.Color3(0.9,0.9,0.9);
-var camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 5, -10), scene);
-var player = BABYLON.Mesh.CreateBox("player", 3, scene);
-var pointerLock = false;
+scene.collisionsEnabled = true;
+// scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
+
+scene.clearColor = new BABYLON.Color3(0,0,0);
+var camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(0, 0, 0), scene);
+// var player = BABYLON.Mesh.CreateBox("player", 3, scene);
+var player = BABYLON.MeshBuilder.CreateSphere("player", {diameter: 3}, scene)
+// player.scaling.x=2;
+// player.scaling.y=2;
+// player.scaling.z=2;
+player.position.y = 10;
+player.checkCollisions = true;
+
+// var ground = B
 
 var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 10, 0), scene);
-// scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
-// scene.collisionsEnabled = true;
 var speed = 20;
+var pointerLock = false;
 
 var boxes = [];
 var n = 50;
 
-for (let i=0; i<10; i++) {
-  var box = BABYLON.Mesh.CreateBox("box"+i, 3, scene);
+function createBox(id, x, y, z, sx=1, sy=1, sz=1) {
+  var box = BABYLON.Mesh.CreateBox(id, 3, scene);
   var material = new BABYLON.StandardMaterial("dirt", scene);
   box.material = material;
   box.diffuseTexture = new BABYLON.Texture("dirt.png", scene);
   box.diffuseTexture.uScale = 8.0;
   box.diffuseTexture.vScale = 8.0;
-  box.scaling.x=1;
-  box.scaling.y=1;
-  box.scaling.z=1;
-  box.position.x = parseInt(n*Math.random());
-  box.position.y = parseInt(n*Math.random());
-  box.position.z = parseInt(n*Math.random());
+  box.scaling.x = sx;
+  box.scaling.y = sy;
+  box.scaling.z = sz;
+  box.position.x = x;
+  box.position.y = y;
+  box.position.z = z;
+  box.checkCollisions = true;
   boxes.push(box);
 }
+
+function createBoxes() {
+  let width = 1;
+  let length = 1;
+  let lambda = 1/10;
+  for (let x=0; x<width; x++) {
+    for (let z=0; z<length; z++) {
+      let height = parseInt(noise.perlin2(x*lambda, z*lambda));
+      height = 1
+      for (let y=0; y<height; z++) {
+        createBox("box("+x+"."+y+"."+z+")", x, y, z);
+      }
+    }
+  }
+}
+
+console.log("made it here");
+// createBoxes();
+createBox("box", 0, 0 , 0);
+console.log("made it there");
 
 
 player.movement = {forward: false, backward:false, left:false, right:false};
@@ -95,6 +127,22 @@ function move(fps) {
     );
     player.moveWithCollisions(right);
   }
+  if(player.movement.up){
+    up = new BABYLON.Vector3(
+      0,
+      relativeSpeed,
+      0,
+    );
+    player.moveWithCollisions(up);
+  }
+  if(player.movement.down){
+    down = new BABYLON.Vector3(
+      0,
+      -relativeSpeed,
+      0,
+    );
+    player.moveWithCollisions(down);
+  }
 }
 
 function onKeyDown(evt) {
@@ -117,16 +165,16 @@ function onKeyDown(evt) {
         case 68: // KeyD
           player.movement.right = true;
           break;
-        case 8:
+        case 32: // SpaceBar
           player.movement.up = true;
           break;
-        case 38:
+        case 38: // ArrowUp
           player.movement.up = true;
           break;
-        case 40:
+        case 40: // ArrowDown
           player.movement.down = true;
           break;
-        case 27:
+        case 27: // EscapeBar
           console.log("escape");
           pointerLock = false;
           onPointerLockChange();
@@ -154,13 +202,13 @@ function onKeyDown(evt) {
           case 68: // KeyD
             player.movement.right = false;
             break;
-          case 8:
+          case 32: // SpaceBar
             player.movement.up = false;
             break;
-          case 38:
+          case 38: // ArrowUp
             player.movement.up = false;
             break;
-          case 40:
+          case 40: // ArrowDown
             player.movement.down = false;
             break;
       }
@@ -189,6 +237,22 @@ function onClick(e) {
     pointerLock = true;
     onPointerLockChange();
   }
+  canvas.addEventListener('keydown', function(evt) {
+    switch (evt.keyCode) {
+      case 27:
+        evt.preventDefault();
+        break;
+      case 32:
+        evt.preventDefault();
+        break;
+      case 38:
+        evt.preventDefault();
+        break;
+      case 40:
+        evt.preventDefault();
+        break;
+    }
+  });
 }
 
 
