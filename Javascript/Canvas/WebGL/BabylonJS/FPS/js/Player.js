@@ -53,22 +53,22 @@ Player = function(game, canvas) {
         switch(evt.keyCode){
             case 87: // KeyW
               _this.camera.axisMovement[0] = false;
-            break;
+              break;
             case 90:
               _this.camera.axisMovement[0] = false;
-            break;
+              break;
             case 83: // KeyS
               _this.camera.axisMovement[1] = false;
-            break;
+              break;
             case 65: // KeyA
               _this.camera.axisMovement[2] = false;
-            break;
+              break;
             case 81: // KeyA
               _this.camera.axisMovement[2] = false;
-            break;
+              break;
             case 68: // KeyD
               _this.camera.axisMovement[3] = false;
-            break;
+              break;
         }
     }, false);
 
@@ -77,22 +77,22 @@ Player = function(game, canvas) {
         switch(evt.keyCode){
             case 87: // KeyW
               _this.camera.axisMovement[0] = true;
-            break;
+              break;
             case 90: // KeyW
               _this.camera.axisMovement[0] = true;
-            break;
+              break;
             case 83: // KeyS
               _this.camera.axisMovement[1] = true;
-            break;
+              break;
             case 65: // KeyA
               _this.camera.axisMovement[2] = true;
-            break;
+              break;
             case 81: // KeyA
               _this.camera.axisMovement[2] = true;
-            break;
+              break;
             case 68: // KeyD
               _this.camera.axisMovement[3] = true;
-            break;
+              break;
         }
     }, false);
 
