@@ -26,8 +26,29 @@ class Matrix {
   constructor(args) {
     this.array = Array(...args);
   }
-  dot() {
-
+  map(f) {
+    return this.array.map(f);
+  }
+  str() {
+    let m = this.slice();
+    for (let x=0; x<this.width; x++) {
+      m[x] = m.array[x].join(" ");
+    }
+    return m.array.join("\n");
+  }
+  slice() {
+    return new Matrix(this.array.slice());
+  }
+  dot() {    let d = this.width;
+      let h = this.height;
+      let w = matrix.width;
+      let m = Matrix.fromFormat(w, h);
+      for (let x=0; x<w; x++) {
+        for (let y=0; y<h; y++) {
+          m.array[x][y] = this.array[x][y]*matrix.array[x][y];
+        }
+      }
+      return m;
   }
   mul(matrix) {
     let d = this.width;
@@ -45,12 +66,3 @@ class Matrix {
     return m;
   }
 }
-
-// m1 = Matrix([[0,1],[0,1]])
-// m2 = new Matrix([[1,2,3],[4,5,6]])
-// m3 = new Matrix([[1,2],[3,4],[5,6]])
-
-    0 0
-    1 2
-0 0 0 0
-1 2 2 4
