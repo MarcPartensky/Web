@@ -1,15 +1,8 @@
-class Vector {
+class Vector extends Array{
   static dim = 2;
   static color = "#FFFFFF";
   static copy(vector) {
-    return new Vector(vector.components);
-  }
-  static fill(value, dim=this.dim) {
-    const a = [];
-    for (let i=0; i<dim; i++) {
-      a.push(value);
-    }
-    return new Vector(a);
+    return new Vector(...vector.components);
   }
   static get empty() {
     return new Vector();
@@ -27,11 +20,18 @@ class Vector {
     return new Vector(0,0,0);
   }
   static random(dim=this.dim) {
-    const components = [];
+    let v = new Vector(dim);
     for (let i=0; i<dim; i++) {
-      components.push(Math.random());
+      v[i] = Math.random();
     }
-    return new Vector(components);
+    return v;
+  }
+  static fill(value, dim=this.dim) {
+    let v = Vector(dim);
+    for (let i=0; i<dim; i++) {
+      v[i] = value;
+    }
+    return v;
   }
   static format(...vectors) {
     let dim = Math.max(...vectors.map(v => v.dim));
@@ -50,33 +50,34 @@ class Vector {
   static average(...vectors) {
     return Vector.sum(...vectors).div(vectors.length);
   }
-  constructor(...components) {
-    if (components[0] instanceof Array) {
-      components = components[0];
-    }
-    this.components = components;
-    this.color = Vector.color; // white
-  }
   get x() {
-    return this.components[0];
+    return this[0];
   }
   set x(value) {
-    this.components[0] = value;
+    this[0] = value;
   }
   get y() {
-    return this.components[1];
+    return this[1];
   }
   set y(value) {
-    this.components[1] = value;
+    this[1] = value;
   }
   get z() {
-    return this.components[2];
+    return this[2];
   }
   set z(value) {
-    this.components[2] = value;
+    this[2] = value;
   }
   get dim() {
-    return this.components.length;
+    return this.length;
+  }
+  get components() {
+    return Array(...this);
+  }
+  set components(values) {
+    for (let i=0; i<values.length; i++) {
+      this[i] = values[i];
+    }
   }
   set dim(value) {
     throw "The dimension cannot be changed directly, however you can change it by setting new components."
@@ -85,22 +86,22 @@ class Vector {
     return Math.sqrt(this.components.map(x => x**2).reduce((x,y) => x+y));
   }
   get inv() {
-    return new Vector(this.components.map(x => 1/x));
+    return this.map(x => 1/x);
   }
   get unit() {
-    let m = Math.max(...this.components);
-    return new Vector(this.components.map(x => x/m));
+    let m = Math.max(...this);
+    return this.map(x => x/m);
   }
   copy(vector) {
     this.components = vector.components;
   }
   fill(value) {
     for (let i=0; i<this.dim; i++) {
-      this.components[i] = value;
+      this[i] = value;
     }
   }
   map(f) {
-    return new Vector(this.components.map(f));
+    return new Vector(...this.components.map(f));
   }
   imap(f) {
     for(let i=0; i<this.dim; i++) {

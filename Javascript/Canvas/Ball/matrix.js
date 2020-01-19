@@ -1,8 +1,23 @@
-class Matrix {
+class Matrix extends Array {
   /*
   * A matrix can be built from a 2d array, a list of vectors
   */
-  static fromFormat(width, height, value=undefined) {
+  static format = [2,2];
+  static random(format=Matrix.format) {
+    let [w, h] = format;
+    let m = Matrix.fromFormat(format);
+    for (let x=0; x<w; x++) {
+      for (let y=0; y<h; y++) {
+        m.array[x][y] = Math.random();
+      }
+    }
+    return m;
+  }
+  static fromFormat(...format) {
+    if (format[0] instanceof Array) {
+      format = format[0];
+    }
+    let [width, height] = format;
     let array = new Array(width);
     for (let x=0; x<width; x++) {
       array[x] = new Array(height);
@@ -22,6 +37,13 @@ class Matrix {
   }
   get format() {
     return [this.width, this.height];
+  }
+  get vectors() {
+    let vs = [];
+    for (const a of this.array) {
+      vs.append(Vector(a));
+    }
+    return vs;
   }
   constructor(args) {
     this.array = Array(...args);

@@ -1,4 +1,4 @@
-class Motion {
+class Motion extends Matrix{
   static random(n=3) {
     let matrix = Array(3);
     for (let i=0; i<n; i++) {
@@ -6,12 +6,8 @@ class Motion {
     }
     return new Motion(...matrix);
   }
-  constructor(...v) {
-    let width = ma
-    this.matrix = matrix;
-  }
   get position() {
-    return this.matrix[0];
+    return this.vectors[0];
   }
   set position(matrix) {
     this.matrix[0] = matrix;
