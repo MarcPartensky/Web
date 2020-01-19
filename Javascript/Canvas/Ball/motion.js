@@ -1,10 +1,10 @@
-class Tensor {
+class Motion {
   static random(n=3) {
     let matrix = Array(3);
     for (let i=0; i<n; i++) {
       matrix[i] = Vector.random();
     }
-    return new Tensor(...matrix);
+    return new Motion(...matrix);
   }
   constructor(...v) {
     let width = ma
