@@ -65,4 +65,16 @@ class Matrix {
     }
     return m;
   }
+  mulvec(vector) {
+    let w = this.width;
+    let h = this.height;
+    let a = Array(h);
+    for (let y=0; y<h; y++) {
+      a[y] = 0;
+      for (let x=0; x<w; x++) {
+        a[y] += this.array[x][y] * vector.components[x];
+      }
+    }
+    return new Vector(...a);
+  }
 }
