@@ -47,20 +47,22 @@ function createBoxes() {
   let width = 1;
   let length = 1;
   let lambda = 1/10;
+  let k = 10;
   for (let x=0; x<width; x++) {
     for (let z=0; z<length; z++) {
-      let height = parseInt(noise.perlin2(x*lambda, z*lambda));
+      let height = parseInt(k*noise.perlin2(x*lambda, z*lambda));
       height = 1
       for (let y=0; y<height; z++) {
-        createBox("box("+x+"."+y+"."+z+")", x, y, z);
+        // createBox("box("+x+"-"+y+"-"+z+")", x, y, z);
+        console.log(x, y, z);
       }
     }
   }
 }
 
 console.log("made it here");
-// createBoxes();
-createBox("box", 0, 0 , 0);
+createBoxes();
+// createBox("box", 0, 0 , 0);
 console.log("made it there");
 
 
