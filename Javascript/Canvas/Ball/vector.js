@@ -121,7 +121,7 @@ class Vector extends Array{
     for (let i=0; i<m; i++) {
       this.push(f(this[i],vector[i]));
     }
-    return new Vector(components);
+    return new Vector(...components);
   }
   assign(vector, f) {
     let m = Math.max(this.dim, vector.dim);
@@ -181,8 +181,3 @@ class Vector extends Array{
     context.closePath();
   }
 }
-
-
-v1 = Vector.random();
-v2 = Vector.random();
-console.log(Vector.sum(v1, v2));
