@@ -8,7 +8,7 @@ class Matrix extends Array {
     let m = Matrix.fromFormat(format);
     for (let x=0; x<w; x++) {
       for (let y=0; y<h; y++) {
-        m.array[x][y] = Math.random();
+        m[x][y] = Math.random();
       }
     }
     return m;
@@ -30,26 +30,23 @@ class Matrix extends Array {
     return new Matrix(array);
   }
   get width() {
-    return this.array.length;
+    return this.length;
   }
   get height() {
-    return this.array[0].length;
+    return this[0].length;
   }
   get format() {
     return [this.width, this.height];
   }
   get vectors() {
     let vs = [];
-    for (const a of this.array) {
-      vs.append(Vector(a));
+    for (const a of this) {
+      vs.append(Vector(...a));
     }
     return vs;
   }
-  constructor(args) {
-    this.array = Array(...args);
-  }
   map(f) {
-    return this.array.map(f);
+    return this.map(f);
   }
   str() {
     let m = this.slice();
@@ -67,7 +64,7 @@ class Matrix extends Array {
       let m = Matrix.fromFormat(w, h);
       for (let x=0; x<w; x++) {
         for (let y=0; y<h; y++) {
-          m.array[x][y] = this.array[x][y]*matrix.array[x][y];
+          m[x][y] = this[x][y]*matrix[x][y];
         }
       }
       return m;
@@ -79,9 +76,9 @@ class Matrix extends Array {
     let m = Matrix.fromFormat(w, h);
     for (let x=0; x<w; x++) {
       for (let y=0; y<h; y++) {
-        m.array[x][y] = 0;
+        m[x][y] = 0;
         for (let z=0; z<d; z++) {
-          m.array[x][y] += this.array[z][y]*matrix.array[x][z];
+          m[x][y] += this[z][y]*matrix[x][z];
         }
       }
     }
@@ -94,7 +91,7 @@ class Matrix extends Array {
     for (let y=0; y<h; y++) {
       a[y] = 0;
       for (let x=0; x<w; x++) {
-        a[y] += this.array[x][y] * vector.components[x];
+        a[y] += this[x][y] * vector[x];
       }
     }
     return new Vector(...a);

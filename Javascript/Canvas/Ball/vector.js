@@ -1,4 +1,4 @@
-class Vector extends Array{
+class Vector extends Array {
   static dim = 2;
   static color = "#FFFFFF";
   static copy(vector) {
