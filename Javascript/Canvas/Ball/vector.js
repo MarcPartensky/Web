@@ -33,16 +33,17 @@ class Vector extends Array{
     }
     return v;
   }
-  static format(...vectors) {
+  static adapt(...vectors) {
     let dim = Math.max(...vectors.map(v => v.dim));
     for (let i=0; i<vectors.length; i++) {
-      vectors[i].components.push(...Array(dim-vectors[i].dim).fill(0));
+      vectors[i].push(...Array(dim-vectors[i].dim).fill(0));
     }
   }
   static sum(...vectors) {
-    let v = Vector.empty;
+    Vector.adapt(...vectors);
+    let v = new Vector(vectors[0].dim);
+    v.fill(0);
     for (const vi of vectors) {
-      this.format(v, vi);
       v.iadd(vi);
     }
     return v;
@@ -112,20 +113,20 @@ class Vector extends Array{
     return this.components.reduce(f);
   }
   slice(a, b) {
-    return new Vector(this.components.slice(a,b));
+    return new Vector(...this.components.slice(a,b));
   }
   apply(vector, f) {
     var components = [];
     var m = Math.max(this.dim, vector.dim);
     for (let i=0; i<m; i++) {
-      components.push(f(this.components[i],vector.components[i]));
+      this.push(f(this[i],vector[i]));
     }
     return new Vector(components);
   }
   assign(vector, f) {
     let m = Math.max(this.dim, vector.dim);
     for (let i=0; i<m; i++) {
-      this.components[i] = f(this.components[i],vector.components[i]);
+      this[i] = f(this[i],vector[i]);
     }
   }
   add(vector) {
@@ -180,3 +181,8 @@ class Vector extends Array{
     context.closePath();
   }
 }
+
+
+v1 = Vector.random();
+v2 = Vector.random();
+console.log(Vector.sum(v1, v2));
