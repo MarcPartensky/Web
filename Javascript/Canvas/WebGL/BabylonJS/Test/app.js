@@ -14,6 +14,7 @@ var player = BABYLON.MeshBuilder.CreateSphere("player", {diameter: 3}, scene)
 // player.scaling.x=2;
 // player.scaling.y=2;
 // player.scaling.z=2;
+player.position.z = -10
 player.position.y = 10;
 player.checkCollisions = true;
 
@@ -22,11 +23,13 @@ player.checkCollisions = true;
 var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 10, 0), scene);
 var speed = 20;
 var pointerLock = false;
+let k = 100;
+var seed = parseInt(k*Math.random());
 
 var boxes = [];
 var n = 50;
 
-function createBox(id, x, y, z, sx=1, sy=1, sz=1) {
+function createBox(id, x, y, z, sx=1/3, sy=1/3, sz=1/3) {
   var box = BABYLON.Mesh.CreateBox(id, 3, scene);
   var material = new BABYLON.StandardMaterial("dirt", scene);
   box.material = material;
@@ -40,22 +43,27 @@ function createBox(id, x, y, z, sx=1, sy=1, sz=1) {
   box.position.y = y;
   box.position.z = z;
   box.checkCollisions = true;
+  box.checkUpdate = false;
   boxes.push(box);
 }
 
 function createBoxes() {
-  let width = 1;
-  let length = 1;
+  let width = 50;
+  let length = 50;
   let lambda = 1/10;
+  let height;
   let k = 10;
+  let y;
   for (let x=0; x<width; x++) {
     for (let z=0; z<length; z++) {
-      let height = parseInt(k*noise.perlin2(x*lambda, z*lambda));
-      height = 1
-      for (let y=0; y<height; z++) {
+      height = parseInt(k*(1+noise.perlin2(x*lambda+seed, z*lambda+seed)));
+      // let height = 1
+      // for (let y=0; y<height; y++) {
         // createBox("box("+x+"-"+y+"-"+z+")", x, y, z);
-        console.log(x, y, z);
-      }
+      // }
+      y = height;
+      createBox("box("+x+"-"+y+"-"+z+")", x, y, z);
+      createBox("box("+x+"-"+y-1+"-"+z+")", x, y-1, z);
     }
   }
 }

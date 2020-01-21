@@ -46,7 +46,7 @@ class Matrix extends Array {
     return vs;
   }
   map(f) {
-    return this.map(f);
+    return this.array.map(f);
   }
   str() {
     let m = this.slice();

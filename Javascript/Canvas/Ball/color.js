@@ -34,8 +34,8 @@ var Color = {
     let v = vector.floor();
     let color = "#";
     for (let i=0; i<3; i++) {
-      let b = v.components[i]%16;
-      let a = (v.components[i]-b)/16;
+      let b = v[i]%16;
+      let a = (v[i]-b)/16;
       color += letters[a];
       color += letters[b];
     }
