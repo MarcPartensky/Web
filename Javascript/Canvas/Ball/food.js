@@ -7,4 +7,8 @@ class Food {
      this.position = position;
      this.color = color;
    }
+   show(context) {
+     context.arc(this.x, y ,r, 0, math.pi)
+
+   }
 }

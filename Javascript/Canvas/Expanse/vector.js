@@ -1,9 +1,8 @@
 class Vector extends Array {
   static dim = 2;
   static color = "#FFFFFF";
-
   static copy(vector) {
-    return vector.slice();
+    return new Vector(...vector.components);
   }
   static get empty() {
     return new Vector();
@@ -52,7 +51,6 @@ class Vector extends Array {
   static average(...vectors) {
     return Vector.sum(...vectors).div(vectors.length);
   }
-
   get x() {
     return this[0];
   }
@@ -74,9 +72,6 @@ class Vector extends Array {
   get dim() {
     return this.length;
   }
-  set dim(value) {
-    this.length = value;
-  }
   get components() {
     return Array(...this);
   }
@@ -85,14 +80,11 @@ class Vector extends Array {
       this[i] = values[i];
     }
   }
+  set dim(value) {
+    throw "The dimension cannot be changed directly, however you can change it by setting new components."
+  }
   get norm() {
-    return Math.sqrt(this.map(x => x**2).reduce((x,y) => x+y));
-  }
-  set norm(v) {
-    throw "not done yet";
-  }
-  get angle() {
-    return Math.atan2(this.y, this.x);
+    return Math.sqrt(this.components.map(x => x**2).reduce((x,y) => x+y));
   }
   get inv() {
     return this.map(x => 1/x);
@@ -110,15 +102,18 @@ class Vector extends Array {
     }
   }
   map(f) {
-    return new Vector(...this.map(f));
+    return new Vector(...this.components.map(f));
   }
   imap(f) {
     for(let i=0; i<this.dim; i++) {
-      this[i] = f(this[i]);
+      this.components[i] = f(this.components[i]);
     }
   }
-  slice(...args) {
-    return new Vector(...this.components.slice(...args));
+  reduce(f) {
+    return this.components.reduce(f);
+  }
+  slice(a, b) {
+    return new Vector(...this.components.slice(a,b));
   }
   apply(vector, f) {
     var components = [];
