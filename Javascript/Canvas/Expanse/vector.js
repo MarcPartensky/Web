@@ -27,7 +27,7 @@ class Vector extends Array {
     return v;
   }
   static fill(value, dim=this.dim) {
-    let v = Vector(dim);
+    let v = new Vector(dim);
     for (let i=0; i<dim; i++) {
       v[i] = value;
     }
@@ -116,12 +116,12 @@ class Vector extends Array {
     return new Vector(...this.components.slice(a,b));
   }
   apply(vector, f) {
-    var components = [];
+    var v = new Vector(this.dim);
     var m = Math.max(this.dim, vector.dim);
     for (let i=0; i<m; i++) {
-      this.push(f(this[i],vector[i]));
+      v[i] = f(this[i],vector[i]);
     }
-    return new Vector(...components);
+    return v;
   }
   assign(vector, f) {
     let m = Math.max(this.dim, vector.dim);
