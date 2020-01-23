@@ -82,8 +82,7 @@ class ContextAdapter {
   }
   arc(x, y, r, a, b) {
     [x, y] = this.plane.toScreen(new Vector(x,y));
-    // r *= Math.max(...this.plane.units);
-    r = 50;
+    r *= Math.max(...this.plane.units);
     this.context.arc(x, y, r, a, b);
   }
   moveTo(x, y) {

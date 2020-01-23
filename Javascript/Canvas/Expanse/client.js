@@ -63,16 +63,16 @@ function onKeyUp(evt) {
 
 function move(movement) {
   if (movement.up) {
-    context.plane.position.y += 1;
+    context.plane.position.y += context.plane.speed/context.plane.ux;
   }
   if (movement.down) {
-    context.plane.position.y -= 1;
+    context.plane.position.y -= context.plane.speed/context.plane.uy;
   }
   if (movement.left) {
-    context.plane.position.x -= 1;
+    context.plane.position.x -= context.plane.speed/context.plane.ux;
   }
   if (movement.right) {
-    context.plane.position.x += 1;
+    context.plane.position.x += context.plane.speed/context.plane.uy;
   }
   if (movement.zoomin) {
     context.plane.units.imul(1.1);

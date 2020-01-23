@@ -1,9 +1,10 @@
 class Plane {
   static position = Vector.zero;
   static units = new Vector(50, 50);
-  constructor(position=Plane.position, units=Plane.units) {
+  constructor(position=Plane.position, units=Plane.units, speed=10) {
     this.position = position;
     this.units = units;
+    this.speed = speed;
   }
   get x() {
     return this.position.x;
@@ -27,10 +28,10 @@ class Plane {
     this.units.y = value;
   }
   toScreen(position) {
-    return (position.sub(this.position)).dot(this.units);
+    return position.sub(this.position).dot(this.units);
   }
   fromScreen(position) {
-    return (position.dot(this.units.map(x => 1/x))).add(this.position);
+    return position.dot(this.units.map(x => 1/x)).add(this.position);
   }
   zoom(value) {
     this.units.imul(value);

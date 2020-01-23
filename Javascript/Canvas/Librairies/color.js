@@ -20,8 +20,8 @@ var Color = {
     const letters = '0123456789ABCDEF';
     let v = new Vector();
     for (let i=0; i<3; i++) {
-      let a = letters.indexOf(color[2*i+1]);
-      let b = letters.indexOf(color[2*i+2]);
+      let a = letters.indexOf(color[2*i+1].toUpperCase());
+      let b = letters.indexOf(color[2*i+2].toUpperCase());
       v.push(a*16+b);
     }
     return v;
@@ -86,7 +86,7 @@ var Color = {
       console.log(c1, c2, k);
       let v1 = Color.toVector(c1);
       let v2 = Color.toVector(c2);
-      console.log(v1, v2));
+      console.log(v1, v2);
       let v = v1.rmul(t).add(v2.rmul(1-t));
       let c = Color.fromVector(v);
       return c;
