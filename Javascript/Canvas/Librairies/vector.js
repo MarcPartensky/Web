@@ -106,7 +106,7 @@ class Vector extends Array {
   }
   imap(f) {
     for(let i=0; i<this.dim; i++) {
-      this.components[i] = f(this.components[i]);
+      this[i] = f(this[i]);
     }
   }
   reduce(f) {
@@ -143,6 +143,12 @@ class Vector extends Array {
   }
   dot(vector) {
     return this.apply(vector, (x,y) => x*y);
+  }
+  inv() {
+    return this.map(x => 1/x);
+  }
+  neg() {
+    return this.map(x => -x);
   }
   rmul(k) {
     return this.map(x => k*x);

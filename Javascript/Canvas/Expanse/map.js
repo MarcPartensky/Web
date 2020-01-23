@@ -31,8 +31,9 @@ class Map extends Array {
   * Create a case at a given position.
   */
   create(x, y) {
+    let f = 1/10;
     let k = 255;
-    let a = parseInt(k*(noise.perlin2(x, y)+1)/2);
+    let a = parseInt(k*(noise.perlin2(f*x, f*y)+1)/2);
     let v = new Vector(a, a, a);
     let c = Color.fromVector(v);
     return new Case(c);

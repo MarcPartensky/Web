@@ -15,7 +15,7 @@ class Plane {
     return this.position.y;
   }
   get ux() {
-    return this.unit.x;
+    return this.units.x;
   }
   set ux(value) {
     this.units.x = value;
@@ -31,5 +31,8 @@ class Plane {
   }
   fromScreen(position) {
     return (position.dot(this.units.map(x => 1/x))).add(this.position);
+  }
+  zoom(value) {
+    this.units.imul(value);
   }
 }

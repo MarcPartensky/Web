@@ -68,9 +68,7 @@ class ContextAdapter {
   }
   fillRect(x, y, w, h) {
     [x, y] = this.toScreen(new Vector(x,y));
-    console.log("w/h:", w, h);
     [w, h] = this.plane.units.dot(new Vector(w,h));
-    console.log("w/h:", w, h);
     this.context.fillRect(x-w/2, y-h/2, w, h);
   }
   clearRect(x, y, w, h) {
