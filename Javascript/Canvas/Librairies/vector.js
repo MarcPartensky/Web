@@ -1,6 +1,9 @@
 class Vector extends Array {
   static dim = 2;
   static color = "#FFFFFF";
+  static distance(v1, v2) {
+    return (v1.sub(v2)).norm;
+  }
   static copy(vector) {
     return new Vector(...vector.components);
   }
@@ -25,6 +28,13 @@ class Vector extends Array {
       v[i] = Math.random();
     }
     return v;
+  }
+  static randoms(n, dim=this.dim) {
+    let vs = [];
+    for (let i=0; i<n; i++) {
+      vs.push(Vector.random());
+    }
+    return vs;
   }
   static fill(value, dim=this.dim) {
     let v = new Vector(dim);
@@ -185,5 +195,29 @@ class Vector extends Array {
     context.lineTo(...this.components);
     context.stroke();
     context.closePath();
+  }
+  closest(vectors) {
+    let a = Infinity;
+    let b, v;
+    for (const vi of vectors) {
+      b = this.sub(vi).norm;
+      if (a>b) {
+        v = vi;
+        a = b;
+      }
+    }
+    return v;
+  }
+  farthest(vectors) {
+    let a = 0;
+    let b, v;
+    for (const vi of vectors) {
+      b = this.sub(vi).norm;
+      if (a<b) {
+        v = vi;
+        a = b;
+      }
+    }
+    return v;
   }
 }

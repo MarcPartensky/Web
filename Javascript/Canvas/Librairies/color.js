@@ -79,20 +79,10 @@ var Color = {
     while (t>couples[i][1]) {
       i+=1;
     }
-    if (i<couples.length) {
-      let k = Color.linear(t, couples[i-1][1], couples[i][1], 0, 1);
-      let c1 = couples[i-1][0];
-      let c2 = couples[i][0];
-      console.log(c1, c2, k);
-      let v1 = Color.toVector(c1);
-      let v2 = Color.toVector(c2);
-      console.log(v1, v2);
-      let v = v1.rmul(t).add(v2.rmul(1-t));
-      let c = Color.fromVector(v);
-      return c;
-    } else {
-      throw "The values in the couple and the t parameter given do not match the function expectations.";
-    }
+    let v1 = Color.toVector(couples[i-1][0]);
+    let v2 = Color.toVector(couples[i][0]);
+    t = Color.linear(t, couples[i-1][1], couples[i][1], 0, 1);
+    return Color.fromVector(v1.rmul(1-t).add(v2.rmul(t)));
   },
   linear: function(x, e1, e2, s1, s2) {
     return (x-e1)/(e2-e1)*(s2-s1)+s1;

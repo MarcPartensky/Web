@@ -66,10 +66,10 @@ class ContextAdapter {
     [w, h] = this.plane.units.dot(new Vector(w,h));
     this.context.strokeRect(x-w/2, y-h/2, w, h);
   }
-  fillRect(x, y, w, h) {
+  fillRect(x, y, w, h, mg=0) {
     [x, y] = this.toScreen(new Vector(x,y));
     [w, h] = this.plane.units.dot(new Vector(w,h));
-    this.context.fillRect(x-w/2, y-h/2, w, h);
+    this.context.fillRect(x-w/2, y-h/2, w+mg, h+mg);
   }
   clearRect(x, y, w, h) {
     [x, y] = this.toScreen(new Vector(x,y));
