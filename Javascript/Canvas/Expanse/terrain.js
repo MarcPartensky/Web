@@ -34,6 +34,6 @@ class Terrain {
   */
   generate(height, temperature, humidity) {
 
-  }
 
+  }
 }

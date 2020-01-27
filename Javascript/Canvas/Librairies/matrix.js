@@ -58,16 +58,17 @@ class Matrix extends Array {
   slice() {
     return new Matrix(this.array.slice());
   }
-  dot() {    let d = this.width;
-      let h = this.height;
-      let w = matrix.width;
-      let m = Matrix.fromFormat(w, h);
-      for (let x=0; x<w; x++) {
-        for (let y=0; y<h; y++) {
-          m[x][y] = this[x][y]*matrix[x][y];
-        }
+  dot() {
+    let d = this.width;
+    let h = this.height;
+    let w = matrix.width;
+    let m = Matrix.fromFormat(w, h);
+    for (let x=0; x<w; x++) {
+      for (let y=0; y<h; y++) {
+        m[x][y] = this[x][y]*matrix[x][y];
       }
-      return m;
+    }
+    return m;
   }
   mul(matrix) {
     let d = this.width;
