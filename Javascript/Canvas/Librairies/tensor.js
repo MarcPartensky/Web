@@ -25,6 +25,26 @@ It makes it easier to use but maybe slower to compute with.
 */
 class Tensor1 extends Array {
   /*
+  Default functions arguments to be changed.
+  */
+  static format = [2,2];
+  static zero(format=Tensor1.format) {
+    let t = new Tensor1();
+    if (this.format.length>1) {
+      for (let i=0; i<format[0]; i++) {
+        t.push(Tensor1.zero(format.slice(1, format.length)));
+      }
+    } else {
+      for (let i=0; i<format[0]; i++) {
+        t.push(0);
+      }
+    }
+    return t;
+  }
+  static fill(value, format=Tensor1.format) {
+
+  }
+  /*
   Convert an array of arrays into a tensor of tensors using
   a recursive approach.
   */
@@ -69,19 +89,37 @@ class Tensor1 extends Array {
   /*
   Map that is applied to the lowest elements only.
   */
-  rmap(f) {
-
-
-  }
-  neg() {
+  recmap(f) {
     if (this.order==1) {
-      return new Tensor1(...this.map(t => -t)):
+      return new Tensor1(...this.map(f));
     } else {
-      return new Tensor1(...this.map(t => t.neg()));
+      return new Tensor1(...this.map(t => t.recmap(f)));
     }
   }
+  irecmap(f) {
+    if (this.order==1) {
+      return new Tensor1(...this.map(f));
+    } else {
+      return new Tensor1(...this.map(t => t.recmap(f)));
+    }
+  }
+  neg() {
+    return this.recmap(t => -t);
+  }
+  inv() {
+    return this.recmap(t => 1/t);
+  }
+  floor() {
+    return this.recmap(Math.floor);
+  }
+  rmul(k) {
+    return this.recmap(t => k*t);
+  }
+  fill(v) {
+    return this.recmap(t => v);
+  }
   add(other) {
-    let t = new Tensor1([]);
+    let t = new Tensor1();
     if (this.order==1) {
       for (let i=0; i<Math.max(this.length, other.length); i++) {
         t.push(this[i] + other[i]);
@@ -93,7 +131,25 @@ class Tensor1 extends Array {
     }
     return t;
   }
+  iadd(other) {
+
+  }
   sub(other) {
     return this.add(other.neg());
+  }
+  reshape(format) {
+
+  }
+  flatten() {
+    if (this.order==1) {
+      return new Tensor1(...this);
+      }
+    } else {
+      let t = new Tensor1();
+      for (const ti of this) {
+        t = t.concat(ti.flatten());
+      }
+      return t;
+    }
   }
 }
