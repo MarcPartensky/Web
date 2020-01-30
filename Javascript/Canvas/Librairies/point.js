@@ -1,7 +1,7 @@
-export class Point extends Vector {
+class Point extends Vector {
   static radius = 1;
   static color = "#ffffff";
-  constructor(...components) {
+  constructor(...components, radius=super.radius, color=super.color) {
     super(...components);
     this.radius = radius;
     this.color = color;
