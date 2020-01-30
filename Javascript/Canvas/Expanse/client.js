@@ -3,12 +3,18 @@ var context = canvas.getContext("2d");
 context = new ContextAdapter(context);
 var size = 100;
 
-
 // var map = new Map(size, size);
 // map.generate();
+// var generator = new Generator();
 
+var date = new Date();
 
-var generator = new Generator();
+var blocks = [
+  new Block("water", "imgs/water.png"),
+  new Block("sand", "imgs/sand.png"),
+]
+
+var terrain = new Terrain(blocks);
 
 var movement = {up: false, down: false, right: false, left: false, zoomin: false, zoomout: false};
 
@@ -93,8 +99,13 @@ function loop() {
   let [xmin, ymin] = context.plane.fromScreen(new Vector(-context.width/2, -context.height/2)).floor();
   let [xmax, ymax] = context.plane.fromScreen(new Vector(context.width/2, context.height/2)).floor();
   // generator.showNet(context, xmin-1, ymin-1, xmax+2, ymax+2);
-  generator.showRaw(context, xmin-1, ymin-1, xmax+2, ymax+2);
+  // generator.showRaw(context, xmin-1, ymin-1, xmax+2, ymax+2);
+  // var img = new Image(100, 100);
+  // img.src = "imgs/water.png";
+  // context.drawImage(img, 0, 0, 10, 10);
   // map.show(context)
+  var t = date.getTime();
+  terrain.show(context, t);
   move(movement);
   requestAnimationFrame(loop);
 }

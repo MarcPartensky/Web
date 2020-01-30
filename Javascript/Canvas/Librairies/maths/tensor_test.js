@@ -14,3 +14,7 @@ console.log("substraction:", ts);
 
 let format = [1,2,3];
 console.log(Tensor1.zero(format));
+
+// iadd
+// isub
+// imul

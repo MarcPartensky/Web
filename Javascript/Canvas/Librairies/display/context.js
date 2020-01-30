@@ -80,6 +80,16 @@ class ContextAdapter {
     [x, y] = this.toScreen(new Vector(x,y));
     this.context.fillText(x, y);
   }
+  drawImage(img, x, y, w=undefined, h=undefined) {
+    if (w && h) {
+      [x, y] = this.toScreen(new Vector(x,y));
+      [w, h] = this.plane.units.dot(new Vector(w,h));
+      this.context.drawImage(img, x, y, w, h);
+    } else {
+      [x, y] = this.toScreen(new Vector(x,y));
+      this.context.drawImage(img, x, y);
+    }
+  }
   arc(x, y, r, a, b) {
     [x, y] = this.plane.toScreen(new Vector(x,y));
     r *= Math.max(...this.plane.units);
