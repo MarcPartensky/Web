@@ -17,6 +17,10 @@
       <p> The canvas doesn't work on your browser. </p>
     </canvas>
     <input id="color" type="color" value="#eeeeee">
+    <p id=code> texture code </p>
+    <a id="generate">
+      <button type="button" onclick="generate();">Generate</button>
+    </a>
     <a id="download" download="pixelart.png">
       <button type="button" onclick="download();">Download</button>
     </a>
@@ -31,6 +35,10 @@
         image.clientWidth = 5;
         image.clientHeight = 5;
         download.setAttribute("href", image);
+      }
+      function generate() {
+        var code = document.getElementById("code");
+        code.innerHTML = board.code;
       }
     </script>
   </body>

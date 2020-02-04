@@ -1,8 +1,16 @@
-class Segment extends Matrix {
-  constructor(p1, p2, width=1, color="#ffffff") {
+class Segment extends Figure {
+  static lineWidth = 1;
+  static color = "#ffffff";
+  static random(lineWidth=super.width, color=super.color) {
+    p1 = Point.random();
+    p2 = Point.random();
+    return new Segment(p1, p2, lineWidth, color)
+  }
+  constructor(p1, p2, lineWidth, color) {
     super(p1, p2);
-    this.width = width;
-    this.color = color;
+    this.points = [p1, p2];
+    this.lineWidth = lineWidth || super.lineWidth;
+    this.color = color || super.color;
   }
   get p1() {
     return this[0];
@@ -17,6 +25,7 @@ class Segment extends Matrix {
     this[1] = value;
   }
   show(context) {
+    context.lineWidth = this.lineWidth;
     context.strokeStyle = this.color;
     context.beginPath();
     context.moveTo(...this.p1);

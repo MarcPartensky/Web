@@ -1,30 +1,47 @@
 /*
-Basically a list of points.
-*/
-class Form extends Matrix {
-  constructor(...points, width=1, color="#ffffff") {
-    super(...points);
-    this.width = 1;
-    this.color = color;
-  }
-}
-
-/*
 Polygon...
 */
 class Polygon extends Form {
+  get area() {
+
+  }
+  get center() {
+    return Point.average(...this);
+  }
+  set center(value) {
+    const t = value.sub(this.center);
+    this.imap(p => p.add(t));
+  }
+  get segments() {
+    const sgs = new Tensor();
+    var p = undefined;
+    for (const pi of this) {
+      if (p) {
+        sgs.push(new Segment(pi, p));
+      }
+    }
+    return sgs;
+  }
+  set segments(value) {
+    
+  }
   show(context) {
-    context.strokeStyle = this.color;
-    context.lineWidth = this.width;
+    if (this.fill) {
+      context.strokeStyle = this.color;
+    } else {
+      context.fillStyle = this.color;
+    }
+    context.lineWidth = this.lineWidth;
     context.beginPath();
     context.moveTo(...this[0]);
     for (const point of this) {
       context.lineTo(...point);
     }
-    context.stroke();
+    if (this.fill) {
+      context.stroke();
+    } else {
+      context.fill();
+    }
     context.close();
   }
 }
-
-
-var p = new Polygon

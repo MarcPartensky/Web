@@ -1,38 +1,17 @@
-class Tensor extends Array {
-  /*
-  Here the tensor is fundamentally an array of arrays.
-  */
-  get order() {
-    function recursiveOrder (v) {
-      if (v[0] instanceof Array) {
-        return recursiveOrder(v[0])+1;
-      } else {
-        return 0;
-      }
-    }
-    return recursiveOrder(this,0);
-  }
-  add(t) {
-    return ;
-
-  }
-}
-
-
 /*
 Here the tensor is fundamentally an array of tensors.
 It makes it easier to use but maybe slower to compute with.
 */
-class Tensor1 extends Array {
+class Tensor extends Array {
   /*
   Default functions arguments to be changed.
   */
   static format = [2,2];
-  static zero(format=Tensor1.format) {
-    let t = new Tensor1();
+  static zero(format=Tensor.format) {
+    let t = new Tensor();
     if (this.format.length>1) {
       for (let i=0; i<format[0]; i++) {
-        t.push(Tensor1.zero(format.slice(1, format.length)));
+        t.push(Tensor.zero(format.slice(1, format.length)));
       }
     } else {
       for (let i=0; i<format[0]; i++) {
@@ -41,8 +20,24 @@ class Tensor1 extends Array {
     }
     return t;
   }
-  static fill(value, format=Tensor1.format) {
+  static fill(value, format=Tensor.format) {
 
+  }
+  static sum(...tensors) {
+    let t = Tensor();
+    for (let ti of tensors) {
+      t.iadapt(ti);
+      t.iadd(ti);
+    }
+    return t;
+  }
+  static prod(...tensors) {
+    let t = Tensor();
+    for (let ti of tensors) {
+      t.iadapt(ti);
+      t.imul(ti);
+    }
+    return t;
   }
   /*
   Convert an array of arrays into a tensor of tensors using
@@ -51,7 +46,7 @@ class Tensor1 extends Array {
   static convert(v) {
     if (v instanceof Array) {
       if (v[0] instanceof Array) {
-        return v.map(t => new Tensor1(...t));
+        return v.map(t => new Tensor(...t));
       } else {
         return v;
       }
@@ -64,13 +59,13 @@ class Tensor1 extends Array {
   it a tensor of tensors.
   */
   constructor(...array) {
-    super(...Tensor1.convert(array));
+    super(...Tensor.convert(array));
   }
   /*
   Return the order of the tensor.
   */
   get order() {
-    if (this[0] instanceof Tensor1) {
+    if (this[0] instanceof Tensor) {
       return this[0].order+1;
     } else {
       return 1;
@@ -80,7 +75,7 @@ class Tensor1 extends Array {
   Return the format of the tensor.
   */
   get format() {
-    if (this[0] instanceof Tensor1) {
+    if (this[0] instanceof Tensor) {
       return [this.length].concat(this[0].format);
     } else {
       return [this.length];
@@ -91,16 +86,16 @@ class Tensor1 extends Array {
   */
   recmap(f) {
     if (this.order==1) {
-      return new Tensor1(...this.map(f));
+      return new Tensor(...this.map(f));
     } else {
-      return new Tensor1(...this.map(t => t.recmap(f)));
+      return new Tensor(...this.map(t => t.recmap(f)));
     }
   }
   irecmap(f) {
     if (this.order==1) {
-      return new Tensor1(...this.map(f));
+      return new Tensor(...this.map(f));
     } else {
-      return new Tensor1(...this.map(t => t.recmap(f)));
+      return new Tensor(...this.map(t => t.recmap(f)));
     }
   }
   neg() {
@@ -119,7 +114,7 @@ class Tensor1 extends Array {
     return this.recmap(t => v);
   }
   add(other) {
-    let t = new Tensor1();
+    let t = new Tensor();
     if (this.order==1) {
       for (let i=0; i<Math.max(this.length, other.length); i++) {
         t.push(this[i] + other[i]);
@@ -142,10 +137,9 @@ class Tensor1 extends Array {
   }
   flatten() {
     if (this.order==1) {
-      return new Tensor1(...this);
-      }
+      return new Tensor(...this);
     } else {
-      let t = new Tensor1();
+      let t = new Tensor();
       for (const ti of this) {
         t = t.concat(ti.flatten());
       }

@@ -1,4 +1,4 @@
-class Matrix extends Array {
+class Matrix extends Tensor {
   /*
   * A matrix can be built from a 2d array, a list of vectors
   */
@@ -13,10 +13,7 @@ class Matrix extends Array {
     }
     return m;
   }
-  static fromFormat(...format) {
-    if (format[0] instanceof Array) {
-      format = format[0];
-    }
+  static fromFormat(format) {
     let [width, height] = format;
     let array = new Array(width);
     for (let x=0; x<width; x++) {
@@ -24,7 +21,7 @@ class Matrix extends Array {
     }
     return new Matrix(array);
   }
-  static fromVectors( ...vectors) {
+  static fromVectors(vectors) {
     let x = Math.max(vectors.map());
     let h = vectors.length;
     return new Matrix(array);

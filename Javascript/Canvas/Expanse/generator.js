@@ -1,4 +1,4 @@
-class Generator {
+class TerrainColorGenerator {
   constructor(seed=100000*Math.random(), frequency=1/100, precision=100) {
     this.seed = seed;
     this.frequency = frequency;
@@ -44,5 +44,12 @@ class Generator {
       a[i] = (noise.perlin2(x*this.frequency*k**i+this.seed, y*this.frequency*k**i+this.seed)+1)/2
     }
     return a;
+  }
+}
+
+
+class TerrainGenerator extends Terrain {
+  constructor() {
+
   }
 }

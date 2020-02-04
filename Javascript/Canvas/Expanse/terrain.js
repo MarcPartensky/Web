@@ -6,11 +6,13 @@ class Terrain {
   */
   constructor(
     blocks=[],
+    biomes=[],
     frequency=1/20,
     seed=Math.floor(10**10*Math.random()),
     mg=1/10,
   ) {
     this.blocks = blocks;
+    this.biomes = biomes;
     this.frequency = frequency;
     this.seed = seed;
     this.mg = mg;
@@ -37,8 +39,15 @@ class Terrain {
     // this.generate(...this.getEnvironment(x, y)).show(context, x, y, w, h);
     this.getBlock(x, y, w, h).show(context, x, y, w+this.mg, h+this.mg, 0); // might be more efficient in the future
   }
+  perlin(x, y, n=3) {
+    let v = new Vector();
+    for (let i=0; i<n; i++) {
+      v.push(noise.perlin2(x*this.frequency+this.seed**10%(10**i), y*this.frequency+this.seed**10%(10**i)));
+    }
+    return v;
+  }
   generate(x, y) {
-    return Number(noise.perlin2(x*this.frequency+this.seed, y*this.frequency+this.seed)>=0);
+    return this.perlin(x,y).closestIndex(this.blocks.map(block => block.environment));;
   }
   getBlock(x, y) {
     return this.blocks[this.generate(x, y)];

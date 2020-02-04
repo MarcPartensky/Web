@@ -1,10 +1,10 @@
 class Point extends Vector {
   static radius = 1;
   static color = "#ffffff";
-  constructor(...components, radius=super.radius, color=super.color) {
+  constructor(...components) {
     super(...components);
-    this.radius = radius;
-    this.color = color;
+    this.radius = Point.radius;
+    this.color = Point.color;
   }
   get r() {
     return this.radius;

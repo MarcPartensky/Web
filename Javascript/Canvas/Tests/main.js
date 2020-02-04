@@ -10,10 +10,11 @@ class Board {
     }
     return grid;
   }
-  constructor(width=16, height=16, color="#eeeeee") {
+  constructor(width=8, height=8, color="#eeeeee", mg=1) {
     this.width = width;
     this.height = height;
     this.grid = Board.createGrid(width, height, color);
+    this.mg = mg;
   }
   show(context) {
     let W = context.width/this.width;
@@ -24,7 +25,7 @@ class Board {
         let X = x*S;
         let Y = y*S;
         context.fillStyle = this.grid[y][x];
-        context.fillRect(X, Y, S, S);
+        context.fillRect(X, Y, S+this.mg, S+this.mg);
       }
     }
   }
@@ -32,15 +33,19 @@ class Board {
     this.grid[y][x] = color;
     console.log("board.setPixel:color", this.grid[y][x]);
   }
+  get code() {
+    return this.grid.map(t => t.join()).join();
+  }
 }
 
 class Brush {
-  constructor(x, y, color="#000000", size=1) {
+  constructor(x, y, color="#000000", size=1, mg=1) {
     this.x = x;
     this.y = y;
     this.color = color;
     this.size = size;
     this.down = false;
+    this.mg = 1;
   }
   update() {
     brush.color = document.getElementById("color").value;
@@ -56,7 +61,7 @@ class Brush {
     // context.arc(this.x*S, this.y*S, this.size*S/2, 0, 2*Math.PI);
     // context.stroke();
     context.fillStyle = this.color;
-    context.fillRect(this.x*S, this.y*S, S, S);
+    context.fillRect(this.x*S, this.y*S, S+this.mg, S+this.mg);
   }
 }
 
@@ -68,8 +73,10 @@ let board = new Board(8,8);
 let brush = new Brush();
 
 function resize() {
-  context.width = canvas.width = window.innerWidth;
-  context.height = canvas.height = window.innerHeight;
+  context.width = canvas.width = window.innerWidth*0.9;
+  context.height = canvas.height = window.innerHeight*0.9;
+  // context.width = canvas.width;
+  // context.height = canvas.height;
 }
 
 resize();
@@ -96,9 +103,9 @@ function draw() {
   let W = board.width/context.width;
   let H = board.height/context.height;
   let S = Math.min(W, H);
-  let x = parseInt(brush.x * S);
-  let y = parseInt(brush.y * S);
-  console.log("x,y:", x, y);
+  let x = Math.min(parseInt(brush.x * S), board.width-1);
+  let y = Math.min(parseInt(brush.y * S), board.height-1);
+  console.log(x, y);
   board.setPixel(x, y, brush.color);
 }
 

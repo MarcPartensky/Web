@@ -76,9 +76,9 @@ class ContextAdapter {
     [w, h] = this.plane.units.dot(new Vector(w,h));
     this.context.clearRect(x-w/2, y-h/2, w, h);
   }
-  fillText(x, y) {
+  fillText(text, x, y) {
     [x, y] = this.toScreen(new Vector(x,y));
-    this.context.fillText(x, y);
+    this.context.fillText(text, x, y);
   }
   drawImage(img, x, y, w=undefined, h=undefined) {
     if (w && h) {
@@ -107,6 +107,12 @@ class ContextAdapter {
     v = this.plane.toScreen(v);
     v.iadd(this.center);
     return v;
+  }
+  get font() {
+    return this.context.font;
+  }
+  set font(value) {
+    this.context.font = value;
   }
 }
 

@@ -208,6 +208,21 @@ class Vector extends Array {
     }
     return v;
   }
+  closestIndex(vectors) {
+    let a = Infinity;
+    let b;
+    let i = 0, j = 0;
+    for (const vi of vectors) {
+      b = this.sub(vi).norm;
+      if (a>b) {
+        // console.log(a, b);
+        a = b;
+        j = i;
+      }
+      i++;
+    }
+    return j;
+  }
   farthest(vectors) {
     let a = 0;
     let b, v;
@@ -219,5 +234,20 @@ class Vector extends Array {
       }
     }
     return v;
+  }
+  farthestIndex(vectors) {
+    let a = Infinity;
+    let b;
+    let i = 0, j = 0;
+    for (const vi of vectors) {
+      b = this.sub(vi).norm;
+      if (a<b) {
+        // console.log(a, b);
+        a = b;
+        j = i;
+      }
+      i++;
+    }
+    return j;
   }
 }

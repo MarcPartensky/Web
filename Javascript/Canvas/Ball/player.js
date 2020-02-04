@@ -1,19 +1,19 @@
-class Player {
-  mass = 10;
-  position = [0,0];
-  view_factor = 5;
+class Player extends Body {
+  static mass = 10;
+  static position = [0,0];
+  static view_factor = 5;
+  static alive = false;
   /*
   * Creates a random player.
   */
   static random() {
-    let position = Vector.random();
-    return new Player(position);
+    return new Player(Vector.random());
   }
-  constructor(position, mass=Player.mass, color=Color.random(), alive=false) {
-    this.position = position;
-    this.mass = mass;
-    this.alive = alive;
-    this.color = color;
+  constructor(motion, mass, color, alive) {
+    super(motion);
+    this.mass = mass || super.mass;
+    this.alive = alive || super.alive;
+    this.color = color || Color.random();
   }
   get radius() {
     return this.mass**2;
@@ -36,9 +36,10 @@ class Player {
   show(context) {
     context.beginPath();
     context.fillStyle = this.color;
-    var [x, y] = this.position.components;
-    context.arc(x, y, this.radius, 0, 2*Math.PI);
+    context.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
     context.fill();
   }
-  follow
+  follow(positoin) {
+
+  }
 }

@@ -1,21 +1,20 @@
 class Map {
   static foods_number;
-  constructor(rect = [0, 0, 1, 1], foods=[], border_color="#ffffff") {
+  constructor(rect = [0, 0, 1, 1], foods=[], borderColor="#ffffff") {
     this.rect = rect;
     this.foods = foods;
-    this.border_color = border_color;
+    this.borderColor = borderColor;
   }
   show(context) {
-    this.foods.map(f => f.show(context));
+    this.foods.map(food => food.show(context));
     this.showBorders(context);
   }
   showBorders(context) {
-    context.strokeStyle = this.border_color;
-    let [x, y, w, h] = this.rect;
-    context.strokeRect(x, y, w, h);
+    context.strokeStyle = this.borderColor;
+    context.strokeRect(...this.rect);
   }
   update(dt=1) {
-    this.spawnFoods(Map.foods_number-this.foods.length);
+    this.spawnFoods(Map.foodsNumber-this.foods.length);
   }
   spawnFoods(n) {
     for (let i=0; i<n; i++) {

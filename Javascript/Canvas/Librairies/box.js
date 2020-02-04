@@ -1,4 +1,4 @@
-class Box extends Array {
+class Box extends Rectangle {
   constructor(...ars, position, size) {
 
   }

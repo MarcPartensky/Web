@@ -1,4 +1,8 @@
 class Motion extends Matrix {
+  static n=3;
+  static zero(n=Motion.n) {
+    return Matrix
+  }
   get position() {
     return new Vector(...this[0]);
   }
@@ -17,7 +21,6 @@ class Motion extends Matrix {
   set acceleration(v) {
     this[2] = v.components;
   }
-
   get x() {
     return this[0][0];
   }
