@@ -57,7 +57,7 @@ var Color = {
     let v = Color.toVector(color);
     let m = new Vector(255, 255, 255);
     let d = m.sub(v);
-    d.imul(k);
+    d.irmul(k);
     v.iadd(d);
     return Color.fromVector(v);
   },
@@ -67,7 +67,7 @@ var Color = {
   darken: function(color, k=0.5) {
     let v = Color.toVector(color);
     let d = Vector.copy(v);
-    d.imul(k);
+    d.irmul(k);
     v.isub(d);
     return Color.fromVector(v);
   },

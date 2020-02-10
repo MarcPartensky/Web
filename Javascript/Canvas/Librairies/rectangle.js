@@ -1,7 +1,10 @@
 class Rectangle extends Polygon {
   static color = "#ffffff";
   static lineWidth = 1;
-  constructor(x, y, w, h, color=super.color, lineWidth=super.lineWidth) {
+  static random() {
+    return new Rectangle(Math.random(), Math.random(), Math.random(), Math.random());
+  }
+  constructor(x, y, w, h, color=Form.color, lineWidth=Form.lineWidth) {
     this.x = x;
     this.y = y;
     this.w = w;
@@ -27,5 +30,8 @@ class Rectangle extends Polygon {
     this.y = Math.min(value.map((p) => p.y));
     this.w = Math.max(value.map((p) => p.x))-this.x;
     this.h = Math.max(value.map((p) => p.y))-this.y;
+  }
+  get area() {
+    return this.w*this.h;
   }
 }

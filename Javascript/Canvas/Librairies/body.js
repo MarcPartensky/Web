@@ -1,4 +1,7 @@
 class Body {
+  static random() {
+    return new Body(Motion.random());
+  }
   constructor(motion) {
     this.motion = motion;
   }

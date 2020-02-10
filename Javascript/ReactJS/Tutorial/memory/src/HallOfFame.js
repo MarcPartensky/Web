@@ -6,7 +6,7 @@ import './HallOfFame.css'
 const HallOfFame = ({ entries }) => (
   <table className="hallOfFame">
     <tbody>
-      {entries.map(({id, date, guesses, player }) => (
+      {entries.map(({ date, guesses, id, player }) => (
         <tr key={id}>
           <td className="date">{date}</td>
           <td className="guesses">{guesses}</td>
@@ -23,17 +23,6 @@ HallOfFame.propTypes = {
       date: PropTypes.string.isRequired,
       guesses: PropTypes.number.isRequired,
       id: PropTypes.number.isRequired,
-      player: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-}
-
-HallOfFame.propTypes = {
-  entries: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      date: PropTypes.string.isRequired,
-      guesses: PropTypes.number.isRequired,
       player: PropTypes.string.isRequired,
     })
   ).isRequired,

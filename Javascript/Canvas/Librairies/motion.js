@@ -1,25 +1,46 @@
+/*
+A motion is a matrix and also a list of vectors.
+*/
 class Motion extends Matrix {
-  static n=3;
-  static zero(n=Motion.n) {
-    return Matrix
+  static width = 3;
+  static height = 2;
+  static get length() {return Motion.width};
+  static set length(n) {Motion.width = n};
+  static get dimension() {return Motion.height};
+  static set dimension(n) {Motion.height = n};
+
+  static random(w,h) {
+    return new Motion(...Matrix.random(w,h));
   }
+  static zero(length=Motion.length) {
+    return new Motion(...Matrix.zero(length));
+  }
+  // constructor(...vectors) {
+  //   console.log("motion_constructor:", vectors);
+  //   super(...vectors);
+  //   console.log(this);
+  //   // this.imap(t => new Vector(...t));
+  //   for (let i=0; i<this.length; i++) {
+  //     this[i] = new Vector(...this[i]);
+  //   }
+  // }
   get position() {
     return new Vector(...this[0]);
   }
-  set position(v) {
-    this[0] = v.components;
+  set position(value) {
+    this[0] = value;
   }
   get velocity() {
     return new Vector(...this[1]);
   }
-  set velocity(v) {
-    this[1] = v.components;
+  set velocity(value) {
+    this[1] = value;
   }
   get acceleration() {
     return new Vector(...this[2]);
   }
-  set acceleration(v) {
-    this[2] = v.components;
+  set acceleration(value) {
+    this[2] = v;
   }
   get x() {
     return this[0][0];
@@ -77,12 +98,9 @@ class Motion extends Matrix {
   set az(v) {
     this[2][2] = v;
   }
-
   update(dt=1) {
-    for(let x=0; x<this.width-1; x++) {
-      for(let y=0; y<this.height; y++) {
-        this[x][y] = this[x+1][y]*dt;
-      }
+    for(let x=this.width-2; x>=0; x--) {
+      this[x].iadd(this[x+1].rmul(dt));
     }
   }
 

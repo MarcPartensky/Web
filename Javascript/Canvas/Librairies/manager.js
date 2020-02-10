@@ -6,6 +6,7 @@ class Manager {
   static addEventListeners(manager) {
     window.addEventListener("keydown", evt => manager.onKeyDown(evt));
     window.addEventListener("keyup", evt => manager.onKeyUp(evt));
+    window.addEventListener("mousemove", evt => manager.onMouseMotion(evt));
   }
   static deactivate() {
     // prevent default actions from space and arrow keys
@@ -26,6 +27,7 @@ class Manager {
     this.dt = dt;
     this.movement = movement;
     this.backgroundColor = backgroundColor;
+    this.mouse = new Vector(0, 0);
     this.resize();
   }
   clear() {
@@ -36,6 +38,8 @@ class Manager {
 
   }
   update() {
+    this.context.plane.location.update();
+    this.context.plane.units.update();
     this.move();
   }
   resize() {
@@ -88,24 +92,28 @@ class Manager {
         break;
       }
   }
+  onMouseMotion(evt) {
+    this.mouse = new Vector(evt.x, evt.y);
+  }
+
   move() {
     if (this.movement.up) {
-      this.context.plane.position.y += this.context.plane.speed/this.context.plane.ux;
+      this.context.plane.y += this.context.plane.speed/this.context.plane.ux;
     }
     if (this.movement.down) {
-      this.context.plane.position.y -= this.context.plane.speed/this.context.plane.uy;
+      this.context.plane.y -= this.context.plane.speed/this.context.plane.uy;
     }
     if (this.movement.left) {
-      this.context.plane.position.x -= this.context.plane.speed/this.context.plane.ux;
+      this.context.plane.x -= this.context.plane.speed/this.context.plane.ux;
     }
     if (this.movement.right) {
-      this.context.plane.position.x += this.context.plane.speed/this.context.plane.uy;
+      this.context.plane.x += this.context.plane.speed/this.context.plane.uy;
     }
     if (this.movement.zoomin) {
-      this.context.plane.units.imul(1.1);
+      this.context.plane.units[0].irmul(1.1);
     }
     if (this.movement.zoomout) {
-      this.context.plane.units.imul(0.9);
+      this.context.plane.units[0].irmul(0.9);
     }
   }
   loop() {
@@ -116,4 +124,19 @@ class Manager {
   main() {
     this.loop();
   }
+}
+
+
+class EntityManager extends Manager {
+  constructor(canvas, entities=[], dt, movement, backgroundColor) {
+    super(canvas, dt, movement, backgroundColor);
+    this.entities = entities;
+  }
+  map(f) {
+    return this.entities.map(f);
+  }
+  imap(f) {
+    this.entities = this.entities.map(f);
+  }
+
 }

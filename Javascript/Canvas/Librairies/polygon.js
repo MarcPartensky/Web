@@ -2,6 +2,9 @@
 Polygon...
 */
 class Polygon extends Form {
+  static random(...args) {
+    return new Polygon(...Form.random(...args));
+  }
   get area() {
 
   }
@@ -42,6 +45,6 @@ class Polygon extends Form {
     } else {
       context.fill();
     }
-    context.close();
+    context.closePath();
   }
 }

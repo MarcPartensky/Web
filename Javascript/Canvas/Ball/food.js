@@ -1,13 +1,18 @@
 class Food extends Body{
-  static scale = 1;
-  static random(n=this.scale) {
-    return new Food(Motion.random().mul(n), Color.random());
+  static radius = 2;
+  static random() {
+    return new Food(Motion.random(1,2).rsub(1/2).rmul(1000));
   }
-   constructor(motion, color) {
+   constructor(motion, radius=Food.radius, color=Color.random()) {
      super(motion);
+     this.radius = radius;
      this.color = color;
    }
    show(context) {
-     context.arc(this.x, this.y ,r, 0, 2*Math.PI);
+     context.fillStyle = this.color;
+     context.beginPath();
+     context.arc(this.x, this.y ,this.radius, 0, 2*Math.PI);
+     context.fill();
+     context.closePath()
    }
 }

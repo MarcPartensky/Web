@@ -1,24 +1,36 @@
 class Map {
-  static foods_number;
-  constructor(rect = [0, 0, 1, 1], foods=[], borderColor="#ffffff") {
+  static foodNumber = 100;
+  static borderColor = "#ffffff";
+  static lineWidth = 1;
+  static rect = [-500,-500, 1000, 1000]
+  constructor(rect = Map.rect, food=[], foodNumber=Map.foodNumber, lineWidth=Map.lineWidth, borderColor=Map.borderColor) {
     this.rect = rect;
-    this.foods = foods;
+    this.food = food;
+    this.foodNumber = foodNumber;
+    this.lineWidth = lineWidth;
     this.borderColor = borderColor;
   }
+  get vmin() {
+    return new Vector(this.rect[0], this.rect[1]);
+  }
+  get vmax() {
+    return new Vector(this.rect[0]+this.rect[2], this.rect[1]+this.rect[3]);
+  }
   show(context) {
-    this.foods.map(food => food.show(context));
+    this.food.map(food => food.show(context));
     this.showBorders(context);
   }
   showBorders(context) {
+    context.lineWidth = this.lineWidth;
     context.strokeStyle = this.borderColor;
     context.strokeRect(...this.rect);
   }
   update(dt=1) {
-    this.spawnFoods(Map.foodsNumber-this.foods.length);
+    this.spawnFood(this.foodNumber-this.food.length);
   }
-  spawnFoods(n) {
+  spawnFood(n) {
     for (let i=0; i<n; i++) {
-      this.foods.push(Food.random());
+      this.food.push(Food.random());
     }
   }
 }

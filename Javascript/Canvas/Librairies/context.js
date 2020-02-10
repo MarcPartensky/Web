@@ -1,7 +1,15 @@
 class ContextAdapter {
-  constructor(context, plane = new Plane()) {
+  constructor(context, plane=new Plane()) {
     this.context = context;
     this.plane = plane;
+    this.textSeparator = "px ";
+    this.textSizeFactor = 10;
+  }
+  toScreen(v) {
+    return this.plane.toScreen(v).add(this.center);
+  }
+  fromScreen(v) {
+    return this.plane.fromScreen(v.sub(this.center));;
   }
   get width() {
     return this.context.width;
@@ -36,11 +44,11 @@ class ContextAdapter {
   get strokeWidth() {
     return this.context.strokeWidth;
   }
-  set fillWidth(value) {
-    this.context.fillWidth = value;
+  set lineWidth(value) {
+    this.context.lineWidth = value * Math.max(...this.plane.units.position);
   }
-  get fillWidth() {
-    return this.context.fillWidth;
+  get lineWidth() {
+    return this.context.lineWidth / Math.max(...this.plane.units.position);
   }
   beginPath() {
     this.context.beginPath();
@@ -55,7 +63,7 @@ class ContextAdapter {
     this.context.fill();
   }
   translate(x, y) {
-    let v = this.plane.units.dot(new Vector(x,y));
+    let v = this.plane.units.position.dot(new Vector(x,y));
     this.plane.position = v;
   }
   clear() {
@@ -63,50 +71,48 @@ class ContextAdapter {
   }
   strokeRect(x, y, w, h) {
     [x, y] = this.toScreen(new Vector(x,y));
-    [w, h] = this.plane.units.dot(new Vector(w,h));
-    this.context.strokeRect(x-w/2, y-h/2, w, h);
+    [w, h] = this.plane.units.position.dot(new Vector(w,h));
+    this.context.strokeRect(x, y, w, h);
   }
   fillRect(x, y, w, h, mg=0) {
     [x, y] = this.toScreen(new Vector(x,y));
-    [w, h] = this.plane.units.dot(new Vector(w,h));
-    this.context.fillRect(x-w/2, y-h/2, w+mg, h+mg);
+    [w, h] = this.plane.units.position.dot(new Vector(w,h));
+    this.context.fillRect(x, y, w+mg, h+mg);
   }
   clearRect(x, y, w, h) {
     [x, y] = this.toScreen(new Vector(x,y));
-    [w, h] = this.plane.units.dot(new Vector(w,h));
-    this.context.clearRect(x-w/2, y-h/2, w, h);
+    [w, h] = this.plane.units.position.dot(new Vector(w,h));
+    this.context.clearRect(x, y, w, h);
   }
   fillText(text, x, y) {
     [x, y] = this.toScreen(new Vector(x,y));
-    this.context.fillText(text, x, y);
+    this.textSize = this.textSizeFactor*Math.max(...this.plane.units.position);
+    this.context.fillText(text, x, y, 1000);
   }
   drawImage(img, x, y, w=undefined, h=undefined) {
     if (w && h) {
       [x, y] = this.toScreen(new Vector(x,y));
-      [w, h] = this.plane.units.dot(new Vector(w,h));
+      [w, h] = this.plane.units.position.dot(new Vector(w,h));
       this.context.drawImage(img, x, y, w, h);
     } else {
       [x, y] = this.toScreen(new Vector(x,y));
       this.context.drawImage(img, x, y);
     }
   }
-  arc(x, y, r, a, b) {
-    [x, y] = this.plane.toScreen(new Vector(x,y));
-    r *= Math.max(...this.plane.units);
+  arc(x, y, r, a, b, conversion=true) {
+    [x, y] = this.toScreen(new Vector(x,y));
+    if (conversion) {
+      r *= Math.max(...this.plane.units.position);
+    }
     this.context.arc(x, y, r, a, b);
   }
   moveTo(x, y) {
-    [x, y] = this.plane.toScreen(new Vector(x,y));
+    [x, y] = this.toScreen(new Vector(x,y));
     this.context.moveTo(x, y);
   }
   lineTo(x, y) {
-    [x, y] = this.plane.toScreen(new Vector(x,y));
+    [x, y] = this.toScreen(new Vector(x,y));
     this.context.lineTo(x, y);
-  }
-  toScreen(v) {
-    v = this.plane.toScreen(v);
-    v.iadd(this.center);
-    return v;
   }
   get font() {
     return this.context.font;
@@ -114,49 +120,16 @@ class ContextAdapter {
   set font(value) {
     this.context.font = value;
   }
+  get textSize() {
+    return Number(this.context.font.split(this.textSeparator)[0]);
+  }
+  get textFont() {
+    return this.context.font.split(this.textSeparator)[1];
+  }
+  set textSize(value) {
+    this.context.font = String(value) + this.textSeparator + this.textFont;
+  }
+  set textFont(value) {
+    this.context.font = String(this.textSize) + this.textSeparator + value;
+  }
 }
-
-
-
-
-
-
-
-
-// CanvasRenderingContext2D.prototype.setPlane = function(plane) {
-//     this.plane = plane;
-// }
-// CanvasRenderingContext2D.prototype.strokeRect = function(x, y, w, h) {
-//     [x, y] = this.plane.toScreen(new Vector(x,y));
-//     [w, h] = this.plane.units.dot(new Vector(w,h));
-//     this.context.strokeRect(x, y, w, h);
-// }
-// CanvasRenderingContext2D.prototype.fillRect = function(x, y, w, h) {
-//     [x, y] = this.plane.toScreen(new Vector(x,y));
-//     [w, h] = this.plane.units.dot(new Vector(w,h));
-//     this.context.fillRect(x, y, w, h);
-// }
-// CanvasRenderingContext2D.prototype.clearRect = function(x, y, w, h) {
-//     [x, y] = this.plane.toScreen(new Vector(x,y));
-//     [w, h] = this.plane.units.dot(new Vector(w,h));
-//     this.context.clearRect(x, y, w, h);
-// }
-// CanvasRenderingContext2D.prototype.fillText = function(x, y) {
-//     [x, y] = this.plane.toScreen(new Vector(x,y));
-//     this.context.fillText(x, y);
-// }
-// CanvasRenderingContext2D.prototype.moveTo = function(x, y) {
-//     [x, y] = this.plane.toScreen(new Vector(x,y));
-//     this.context.moveTo(x, y);
-// }
-// CanvasRenderingContext2D.prototype.lineTo = function(x, y) {
-//     [x, y] = this.plane.toScreen(new Vector(x,y));
-//     this.context.lineTo(x, y);
-// }
-
-
-// CanvasRenderingContext2D.prototype.constructor = (
-//   function constructor(context, plane = new Plane()) {
-//     this.context = context;
-//     this.plane = plane;
-//   })

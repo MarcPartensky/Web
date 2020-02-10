@@ -1,26 +1,37 @@
 class Player extends Body {
   static mass = 10;
-  static position = [0,0];
-  static view_factor = 5;
+  static view = 5;
   static alive = false;
+  static lineWidth = 2;
+  static minSpeed = 0.1;
+  static maxSpeed = 10;
   /*
   * Creates a random player.
   */
   static random() {
-    return new Player(Vector.random());
+    return new Player(new Motion(Vector.random(2).radd(-1/2).rmul(10), Vector.random(2).radd(-1/2), Vector.random(2).radd(-1/2)));
   }
-  constructor(motion, mass, color, alive) {
+  constructor(
+    motion, 
+    mass=Player.mass, 
+    alive=Player.alive, 
+    lineWidth=Player.lineWidth, 
+    color=Color.random(),
+    minSpeed = Player.minSpeed,
+    maxSpeed = Player.maxSpeed) {
     super(motion);
-    this.mass = mass || super.mass;
-    this.alive = alive || super.alive;
-    this.color = color || Color.random();
+    this.mass = mass;
+    this.alive = alive;
+    this.lineWidth = lineWidth;
+    this.minSpeed = minSpeed;
+    this.maxSpeed = maxSpeed;
+    this.color = color;
   }
   get radius() {
-    return this.mass**2;
+    return this.mass**0.5;
   }
   spawn(position) {
-    this.position = Vector.random();
-    this.mass = Player.mass;
+    this.position = position;
     this.alive = true;
   }
   spawnRandom(borns) {
@@ -31,15 +42,30 @@ class Player extends Body {
   }
   setView(context) {
     context.plane.position = this.position;
-    context.plane.units = Player.view_factor*this.radius;
+    context.plane.units = Player.view*this.radius;
   }
   show(context) {
-    context.beginPath();
     context.fillStyle = this.color;
+    context.beginPath();
     context.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
     context.fill();
+    context.lineWidth = this.lineWidth;
+    context.strokeStyle = Color.darken(this.color);
+    context.beginPath();
+    context.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
+    context.stroke();
   }
-  follow(positoin) {
-
+  follow(vector) {
+    let norm = vector.sub(this.position).norm/this.radius;
+    if (norm<1) {
+      norm = 0;
+    } else if (norm > 10) {
+      norm = 10;
+    }
+    let angle = vector.sub(this.position).angle;
+    this.motion.velocity = Vector.polar(norm, angle);
+  }
+  update(dt) {
+    this.motion.update(dt);
   }
 }

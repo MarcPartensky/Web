@@ -5,6 +5,8 @@ class Biome {
   }
   generate(environment) {
     const height, temperature, humidity = environment;
+    
+
 
 
   }

@@ -1,6 +1,6 @@
 class Circle extends Form {
-  constructor(center, radius) {
-    super(center);
+  constructor(vector, radius) {
+    super(vector);
     this.radius = radius;
   }
   get center() {

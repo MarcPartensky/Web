@@ -6,6 +6,7 @@ import './App.css'
 import Card from './Card'
 import GuessCount from './GuessCount'
 import HallOfFame, {FAKE_HOF} from './HallOfFame'
+import HighScoreInput from './HighScoreInput'
 
 
 const SIDE = 6;
@@ -83,6 +84,7 @@ class App extends Component {
           index = {index}
           onClick={this.handleCardClick} />
         ))}
+        <HighScoreINput guesses={guesses} />
         {won && <HallOfFame entries={FAKE_HOF} />}
       </div>
     )
