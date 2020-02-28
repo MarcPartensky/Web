@@ -5,10 +5,10 @@ class Matrix extends Tensor {
   static get order() {return 2}; /* Fancy way of declaring a static constant. */
   static w = 1;
   static h = 1;
-  static format = [Matrix.w, Matrix.h];
+  static format = [this.w, this.h];
 
-  static random(w=Matrix.w, h=Matrix.h) {
-    return new Matrix(...Tensor.convert(Tensor.random(w,h), Vector));
+  static random(w=this.w, h=this.h) {
+    return super.random(w,h).map(t => Vector.from(t));
   }
   // constructor(...array) {
   //   Array.prototype.constructor(...Matrix.convert(...array));
@@ -21,13 +21,6 @@ class Matrix extends Tensor {
   }
   get format() {
     return [this.width, this.height];
-  }
-  get vectors() {
-    let vs = [];
-    for (const a of this) {
-      vs.append(Vector(...a));
-    }
-    return vs;
   }
   str() {
     let m = this.slice();
@@ -99,11 +92,11 @@ class SquareMatrix extends Matrix {
   }
   constructor(...vectors) {
     if (Math.max(...vectors.map(v => v.length)) != Math.min(...vectors.map(v => v.length))) {
-      throw "The vectors must have the same length.";
+      throw new Error("The vectors must have the same length.");
     }
     super(...vectors);
   }
-  get det() {
+  get det2() {
     const n = this.length;
     let v = 0;
     for (let i=0; i<n; i++) {
@@ -118,8 +111,14 @@ class SquareMatrix extends Matrix {
     }
     return v;
   }
+  get det() {
+    let v = 0;
+    for (p of permutation([...range(this.length)])) {
+     // v +=
+    }
+    return v;
+  }
 }
-
 /*
 node
 .load tensor.js

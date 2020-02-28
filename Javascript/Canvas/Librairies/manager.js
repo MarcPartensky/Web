@@ -1,4 +1,5 @@
-class Manager {
+class Manager extends Map {
+  static entities = [];
   static dt = 0.1;
   static movement = {up: false, down: false, right: false, left: false, zoomin: false, zoomout: false};
   static backgroundColor = "#000000";
@@ -16,31 +17,44 @@ class Manager {
       }
     }, false);
   }
-  constructor(
+  static from(
     canvas,
-    dt=Manager.dt,
-    movement=Manager.movement,
-    backgroundColor=Manager.backgroundColor
+    entities=this.entities,
+    dt=this.dt,
+    movement=this.movement,
+    backgroundColor=this.backgroundColor
   ) {
-    this.canvas = canvas;
-    this.context = new ContextAdapter(this.canvas.getContext("2d"));
-    this.dt = dt;
-    this.movement = movement;
-    this.backgroundColor = backgroundColor;
-    this.mouse = new Vector(0, 0);
-    this.resize();
+    let m = new this(entities)
+    m.canvas = canvas;
+    m.context = new ContextAdapter(m.canvas.getContext("2d"));
+    m.dt = dt;
+    m.movement = movement;
+    m.backgroundColor = backgroundColor;
+    m.mouse = new Vector(0, 0);
+    m.resize();
+    return m
   }
   clear() {
     this.context.fillStyle = this.backgroundColor;
     this.context.clear();
   }
   show() {
-
+    for (const [k,v] of this) {
+      v.show(this.context);
+    }
+    // this.forEach((v,k,m) => v.show(this.context));
   }
   update() {
     this.context.plane.location.update();
     this.context.plane.units.update();
     this.move();
+    for (const [k,v] of this) {
+      this.set(k, v);
+      v.update(this.dt);
+      // console.log(v.position);
+    }
+    // this.forEach((v,k,m) => v.update(this.dt));
+    // for (const v of this.values())
   }
   resize() {
     this.canvas.width = this.context.width = window.innerWidth;
@@ -126,17 +140,3 @@ class Manager {
   }
 }
 
-
-class EntityManager extends Manager {
-  constructor(canvas, entities=[], dt, movement, backgroundColor) {
-    super(canvas, dt, movement, backgroundColor);
-    this.entities = entities;
-  }
-  map(f) {
-    return this.entities.map(f);
-  }
-  imap(f) {
-    this.entities = this.entities.map(f);
-  }
-
-}

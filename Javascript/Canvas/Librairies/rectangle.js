@@ -4,13 +4,47 @@ class Rectangle extends Polygon {
   static random() {
     return new Rectangle(Math.random(), Math.random(), Math.random(), Math.random());
   }
-  constructor(x, y, w, h, color=Form.color, lineWidth=Form.lineWidth) {
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
+  
+  constructor(position, size, color=Form.color, lineWidth=Form.lineWidth) {
+    super(position, size);
     this.color = color;
     this.lineWidth = lineWidth;
+  }
+  get position() {
+    return this[0];
+  }
+  set position(vector) {
+    this[0] = vector;
+  }
+  get size() {
+    return this[1];
+  }
+  set size(vector) {
+    this[1] = vector;
+  }
+  get x() {
+    return this[0][0]
+  }
+  set x(value) {
+    this[0][0] = value;
+  }
+  get y() {
+    return this[0][1];
+  }
+  set y(value) {
+    this[0][1] = value;
+  }
+  get w() {
+    return this[1][0];
+  }
+  set w(value) {
+    this[1][0] = value;
+  }
+  get h() {
+    return this[1][1];
+  }
+  set h(value) {
+    this[1][1] = value;
   }
   get components() {
     return [this.x, this.y, this.w, this.h];

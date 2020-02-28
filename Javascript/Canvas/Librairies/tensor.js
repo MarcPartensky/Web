@@ -12,11 +12,11 @@ class Tensor extends Array {
   static format = [2, 2];
 
   static empty(...format) {
-    format = format || Tensor.format;
-    let t = new Tensor(...Array(format[0]));
+    format = format || this.format;
+    let t = new this.from(Array(format[0]));
     if (format.length>1) {
       for (let i = 0; i < format[0]; i++) {
-        t[i] = Tensor.empty(...format.slice(1, format.length));
+        t[i] = this.empty(...format.slice(1, format.length));
       }
     }
     return t;
@@ -25,11 +25,11 @@ class Tensor extends Array {
   Create a tensor filled with zero with given format.
   */
   static zero(...format) {
-    format = format || Tensor.format;
-    let t = new Tensor(...Array(format[0]));
+    format = format || this.format;
+    let t = new this.from(Array(format[0]));
     if (format.length > 1) {
       for (let i = 0; i < format[0]; i++) {
-        t[i] = Tensor.zero(...format.slice(1, format.length));
+        t[i] = this.zero(...format.slice(1, format.length));
       }
     } else {
       for (let i = 0; i < format[0]; i++) {
@@ -42,18 +42,18 @@ class Tensor extends Array {
   Create a new tensor with the same format of the given one but filled with zeros.
   */
   static zeroLike(tensor) {
-    return Tensor.zero(...tensor.format);
+    return this.zero(...tensor.format);
   }
   static fill(value, ...format) {
-    let t = Tensor.zero(...format);
+    let t = this.zero(...format);
     return t.fill(value);
   }
   static fillLike(value, tensor) {
-    return Tensor.fill(value, ...tensor.format);
+    return this.fill(value, ...tensor.format);
   }
   static random(...format) {
-    format = format || Tensor.format;
-    let t = new Tensor();
+    format = format || this.format;
+    let t = new this();
     if (format.length==0) {return t};
     for (let i = 0; i < format[0]; i++) {
       if (format.length==1) {
@@ -68,31 +68,19 @@ class Tensor extends Array {
   Does the sum of all tensors.
   */
   static sum(...tensors) {
-    let n = tensors.map(t => t.length);
-    let t = Tensor();
-    for (let ti of tensors) {
-      t.iadapt(n);
-      t.iadd(ti);
-    }
-    return t;
+    return tensors.reduce((x, y) => x.add(y));
   }
   /*
   Does the average of all tensors.
   */
   static average(...tensors) {
-    return Tensor.sum(...tensors).div(tensors.length);
+    return Tensor.sum(...tensors).rdiv(tensors.length);
   }
   /*
   Multiply all the tensors together.
   */
   static prod(...tensors) {
-    let n = tensors.map(t => t.length);
-    let t = Tensor();
-    for (let ti of tensors) {
-      t.iadapt(n);
-      t.imul(ti);
-    }
-    return t;
+    return tensors.reduce((x, y) => x.mul(y));
   }
   /*
   Create a copy of the given tensor.
@@ -104,10 +92,10 @@ class Tensor extends Array {
   Convert an array of arrays into a tensor of tensors using
   a recursive approach.
   */
-  static convert(v, type=Tensor) {
+  static convert(v, type=this) {
     if (v instanceof Array) {
       if (v[0] instanceof Array) {
-        return v.map(t => Tensor.convert(t, type=type));
+        return v.map(t => this.convert(t, type=type));
       } else {
         return new type(...v);
       }
@@ -119,15 +107,15 @@ class Tensor extends Array {
   The constructor takes an array of arrays as input and makes
   it a tensor of tensors.
   */
-  constructor(...array) {
-    if (array.length==1) {
-      super(1);
-      this[0] = array[0];
-    } else {
-      // super(...Tensor.convert(array));
-      super(...array);
-    }
-  }
+  // constructor(...array) {
+  //   if (array.length==1) {
+  //     super(1);
+  //     this[0] = array[0];
+  //   } else {
+  //     // super(...Tensor.convert(array));
+  //     super(...array);
+  //   }
+  // }
   /*
   Return the order of the tensor.
   */
@@ -280,7 +268,7 @@ class Tensor extends Array {
       }
     } else {
       for (let i = 0; i < m; i++) {
-        v[i] = f(this[i], vector[i]);
+        v[i] = f(this[i], tensor[i]);
       }
     }
     return v;
@@ -293,7 +281,7 @@ class Tensor extends Array {
       }
     } else {
       for (let i = 0; i < m; i++) {
-        this[i] = f(this[i], vector[i]);
+        this[i] = f(this[i], tensor[i]);
       }
     }
   }

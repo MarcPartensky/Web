@@ -99,9 +99,11 @@ class Motion extends Matrix {
     this[2][2] = v;
   }
   update(dt=1) {
-    for(let x=this.width-2; x>=0; x--) {
+    for (let x=this.width-2; x>=0; x--) {
       this[x].iadd(this[x+1].rmul(dt));
     }
   }
-
+  updateFriction(friction=0.1) {
+    this[1].irmul(1-friction);
+  }
 }

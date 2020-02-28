@@ -3,7 +3,6 @@ class ContextAdapter {
     this.context = context;
     this.plane = plane;
     this.textSeparator = "px ";
-    this.textSizeFactor = 10;
   }
   toScreen(v) {
     return this.plane.toScreen(v).add(this.center);
@@ -24,7 +23,7 @@ class ContextAdapter {
     this.context.height = value;
   }
   get center() {
-    return new Vector(this.width/2, this.height/2);
+    return new Vector(this.context.width/2, this.context.height/2);
   }
   set strokeStyle(value) {
     this.context.strokeStyle = value;
@@ -63,7 +62,7 @@ class ContextAdapter {
     this.context.fill();
   }
   translate(x, y) {
-    let v = this.plane.units.position.dot(new Vector(x,y));
+    let v = this.plane.units.position.tdot(new Vector(x,y));
     this.plane.position = v;
   }
   clear() {
@@ -71,28 +70,27 @@ class ContextAdapter {
   }
   strokeRect(x, y, w, h) {
     [x, y] = this.toScreen(new Vector(x,y));
-    [w, h] = this.plane.units.position.dot(new Vector(w,h));
+    [w, h] = this.plane.units.position.tdot(new Vector(w,h));
     this.context.strokeRect(x, y, w, h);
   }
   fillRect(x, y, w, h, mg=0) {
     [x, y] = this.toScreen(new Vector(x,y));
-    [w, h] = this.plane.units.position.dot(new Vector(w,h));
+    [w, h] = this.plane.units.position.tdot(new Vector(w,h));
     this.context.fillRect(x, y, w+mg, h+mg);
   }
   clearRect(x, y, w, h) {
     [x, y] = this.toScreen(new Vector(x,y));
-    [w, h] = this.plane.units.position.dot(new Vector(w,h));
+    [w, h] = this.plane.units.position.tdot(new Vector(w,h));
     this.context.clearRect(x, y, w, h);
   }
   fillText(text, x, y) {
     [x, y] = this.toScreen(new Vector(x,y));
-    this.textSize = this.textSizeFactor*Math.max(...this.plane.units.position);
     this.context.fillText(text, x, y, 1000);
   }
   drawImage(img, x, y, w=undefined, h=undefined) {
     if (w && h) {
       [x, y] = this.toScreen(new Vector(x,y));
-      [w, h] = this.plane.units.position.dot(new Vector(w,h));
+      [w, h] = this.plane.units.position.tdot(new Vector(w,h));
       this.context.drawImage(img, x, y, w, h);
     } else {
       [x, y] = this.toScreen(new Vector(x,y));
@@ -121,12 +119,13 @@ class ContextAdapter {
     this.context.font = value;
   }
   get textSize() {
-    return Number(this.context.font.split(this.textSeparator)[0]);
+    return Number(this.context.font.split(this.textSeparator)[0])/Math.max(...this.plane.units.position);
   }
   get textFont() {
     return this.context.font.split(this.textSeparator)[1];
   }
   set textSize(value) {
+    value *= Math.max(...this.plane.units.position);
     this.context.font = String(value) + this.textSeparator + this.textFont;
   }
   set textFont(value) {

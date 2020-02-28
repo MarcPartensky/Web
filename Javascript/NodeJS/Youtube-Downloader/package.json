@@ -1,0 +1,28 @@
+{
+  "name": "youtube-downloader",
+  "version": "1.0.0",
+  "description": "Downloads videos from youtube.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarcPartensky/Web.git"
+  },
+  "keywords": [
+    "youtube",
+    "downloader"
+  ],
+  "author": "Marc Partensky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MarcPartensky/Web/issues"
+  },
+  "homepage": "https://github.com/MarcPartensky/Web#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "ytdl-core": "^1.0.9"
+  }
+}

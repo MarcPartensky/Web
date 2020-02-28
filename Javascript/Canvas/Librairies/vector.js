@@ -5,26 +5,24 @@ class Vector extends Tensor {
   static distance(v1, v2) {
     return (v1.sub(v2)).norm;
   }
-  static copy(vector) {
-    return new Vector(...vector);
-  }
+  static copy = this.from;
   static empty(n=0) {
-    return new Vector(...Array(n));
+    return this.from(Array(n));
   }
   static get zero() {
-    return Vector.fill(0);
+    return this.fill(0);
   }
   static get one() {
-    return Vector.fill(1);
+    return this.fill(1);
   }
   static get zero2D() {
-    return new Vector(0, 0);
+    return new this(0, 0);
   }
   static get zero3D() {
-    return new Vector(0, 0, 0);
+    return new this(0, 0, 0);
   }
   static random(dim = this.dim) {
-    let v = new Vector(dim);
+    let v = new this(dim);
     for (let i = 0; i < dim; i++) {
       v[i] = Math.random();
     }
@@ -33,17 +31,17 @@ class Vector extends Tensor {
   static randoms(n, dim = this.dim) {
     let vs = [];
     for (let i = 0; i < n; i++) {
-      vs.push(Vector.random());
+      vs.push(this.random(dim));
     }
     return vs;
   }
   static polar(norm, angle) {
     let x = norm * Math.cos(angle);
     let y = norm * Math.sin(angle);
-    return new Vector(x, y);
+    return new this(x, y);
   }
   static fill(value, dim = this.dim) {
-    let v = new Vector(dim);
+    let v = new this(dim);
     for (let i = 0; i < dim; i++) {
       v[i] = value;
     }
@@ -55,21 +53,6 @@ class Vector extends Tensor {
       vectors[i].push(...Array(dim - vectors[i].dim).fill(0));
     }
   }
-  static sum(...vectors) {
-    Vector.adapt(...vectors);
-    let v = new Vector(vectors[0].dim);
-    v.fill(0);
-    for (const vi of vectors) {
-      v.iadd(vi);
-    }
-    return v;
-  }
-  static average(...vectors) {
-    return Vector.sum(...vectors).div(vectors.length);
-  }
-  // constructor(...components) {
-  //   super(...components);
-  // }
   get x() {
     return this[0];
   }
@@ -113,7 +96,7 @@ class Vector extends Tensor {
     return this.length;
   }
   set dim(value) {
-    throw "The dimension cannot be changed directly, however you can change it by setting new components."
+    this.length = value;
   }
   get inv() {
     return this.map(x => 1 / x);
@@ -121,6 +104,26 @@ class Vector extends Tensor {
   get unit() {
     let m = Math.max(...this);
     return this.map(x => x / m);
+  }
+  tdot(other) {
+    const v = new Vector(this.length);
+    for (let i=0; i<this.length; i++) {
+      v[i] = this[i]*other[i];
+    }
+    return v;
+  }
+  dot(other) {
+    let r = 0;
+    for (const [r1, r2] of zip(this, other)) {
+      r += r1*r2;
+    }
+    return r;
+  }
+  project(other) {
+    return other.rmul(this.dot(other)/other.norm)
+  }
+  iproject(other) {
+    this.set(this.project(other));
   }
   towards(vector) {
     return Vector.polar(this.norm, vector.sub(this).angle);
@@ -143,6 +146,9 @@ class Vector extends Tensor {
     return this.mul(vector).norm < error;
   }
   fill(value) {
+    return new Vector(...super.fill(value));
+  }
+  ifill(value) {
     for (let i = 0; i < this.dim; i++) {
       this[i] = value;
     }
@@ -271,5 +277,42 @@ class Vector extends Tensor {
       i++;
     }
     return j;
+  }
+  get directionCosines() {
+    for (let i=0; i<this.length; i++) {
+
+    }
+  }
+}
+
+
+class Vector2 extends Vector {
+  static dim = 2;
+  constructor(x, y) {
+    super(x, y);
+  }
+  get angle() {
+    return Math.atan2(this[1],this[0]);
+  }
+  set angle(value) {
+    this[0] = this.norm*Math.cos(value);
+    this[1] = this.norm*Math.sin(value);
+  }
+
+
+
+
+}
+
+class Vector3 extends Vector {
+  static dim = 3;
+  constructor(x, y, z) {
+    super(x, y, z);
+  }
+  cross(vector) {
+    let x = this[2]*vector[3]-this[3]*vector[2];
+    let y = this[3]*vector[1]-this[1]*vector[3];
+    let z = this[1]*vector[2]-this[2]*vector[1];
+    return new Vector(x, y, z);
   }
 }

@@ -3,10 +3,9 @@
 */
 class Figure extends Matrix {
   static lineWidth = 1;
-  static color = "#ffffff";
-  constructor(...points) {
-    super(...points);
-    this.lineWidth = super.lineWidth;
-    this.color = super.color;
+  static borderColor = "#ffffff";
+  static conversion = true;
+  constructor(...vectors) {
+    super(...vectors);
   }
 }

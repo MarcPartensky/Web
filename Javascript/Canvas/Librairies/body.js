@@ -1,9 +1,24 @@
-class Body {
-  static random() {
-    return new Body(Motion.random());
+class Body extends Tensor {
+  static length = 1;
+  static format = [2,2];
+  static random(length=this.length, format=this.format) {
+    let motions = Array(length);
+    for (let i=0; i<length; i++) {
+      motions[i] = Motion.random(...format);
+    }
+    return this.from(motions);
   }
-  constructor(motion) {
-    this.motion = motion;
+  get motion() {
+    return this[0];
+  }
+  set motion(value) {
+    this[0] = value;
+  }
+  get moment() {
+    return this[1];
+  }
+  set moment(value) {
+    this[1] = value;
   }
   get x() {
     return this.motion.x;
@@ -76,5 +91,23 @@ class Body {
   }
   set acceleration(v) {
     this.motion.acceleration;
+  }
+  update(dt) {
+    for (const motion of this) {
+      motion.update(dt);
+    }
+  }
+  updateFriction(friction) {
+    for (const motion of this) {
+      motion.updateFriction(0.1);
+    }
+  }
+  follow(vector) {
+    let norm = vector.sub(this.position).norm;
+    let angle = vector.sub(this.position).angle;
+    this.motion.velocity = Vector.polar(norm, angle);
+  }
+  limit(vmin, vmax) {
+    this.motion[0].limit(vmin, vmax);
   }
 }

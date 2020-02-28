@@ -98,10 +98,10 @@ class Plane {
     this.units[2][1] = value;
   }
   toScreen(position) {
-    return position.sub(this.location.position).dot(this.units.position);
+    return position.sub(this.location.position).tdot(this.units.position);
   }
   fromScreen(position) {
-    return position.dot(this.units.position.map(x => 1/x)).add(this.location.position);
+    return position.tdot(this.units.position.map(x => 1/x)).add(this.location.position);
   }
   zoom(value) {
     this.units[0].irmul(value);
