@@ -1,6 +1,5 @@
 class GameManager {
-    constructor(game, socket) {
+    constructor(game) {
         this.game = game;
-        this.socket = socket;
     }
 }

@@ -4,7 +4,7 @@ const express = require('express'),
     io = require('socket.io').listen(server),
     ent = require('ent'), // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP)
     os = require('os');
-var state = 0, 
+var state = 0,
     pseudos = [],
     clients = 0;
 

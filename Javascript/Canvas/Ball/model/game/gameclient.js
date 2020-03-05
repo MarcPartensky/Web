@@ -1,6 +1,9 @@
 class GameClient extends GameManager {
     static movement = {up: false, down: false, right: false, left: false, zoomin: false, zoomout: false};
     static backgroundColor = "#000000";
+    static notconnected = 0;
+    static choosingmap = 1;
+    static playing = 2;
 
     static addEventListeners(gameClient) {
         window.addEventListener("keydown", evt => gameClient.onKeyDown(evt));
@@ -24,26 +27,35 @@ class GameClient extends GameManager {
         game,
         socket,
         context,
+        state=0,
         movement=GameClient.movement,
         backgroundColor=GameClient.backgroundColor
     ) {
-        super(game, socket);
+        super(game);
+        this.socket = socket;
         this.context = context;
         this.movement = movement;
         this.backgroundColor = backgroundColor;
     }
-    sendRequest() {
-        // this.socket.emit("request")
-    }
     on() {
         this.socket.on("id", function(id) {
             this.id = id;
+            console.log("id", this.id);
+        }.bind(this));
+        this.socket.on("game", function(game) {
+            this.game = game;
+            console.log("game sent")
         }.bind(this));
         this.socket.on("map", function(map) {
             this.game.map = map;
+            console.log("map");
         }.bind(this));
         this.socket.on("group", function(group) {
             this.game.map.group = group;
+            console.log("group");
+        }.bind(this));
+        this.socket.on("test", function(message) {
+            console.log(message);
         }.bind(this));
     }
     resize(window) {
@@ -90,6 +102,9 @@ class GameClient extends GameManager {
                     this.movement.zoomin = true;
                 }
                 break;
+            case 32:
+                this.socket.emit("control-split", this.mouse);
+                break;
             }
     }
     onKeyUp(evt) {
@@ -117,6 +132,7 @@ class GameClient extends GameManager {
     }
     onMouseMotion(evt) {
         this.mouse = new Vector(evt.x, evt.y);
+        this.socket.emit("control-mousemove", this.context.fromScreen(this.mouse));
     }
 
     move() {
@@ -141,11 +157,19 @@ class GameClient extends GameManager {
     }
     loop() {
         this.update();
-        this.communicate();
         this.show();
+        // const gameStream = getGameStream();
+        // gameStream.on('data', (game) => {
+        //     this.game = game;
+        // }.bind(this));
         requestAnimationFrame(this.loop.bind(this));
     }
+    start() {
+        this.name = prompt("name");
+        this.socket.emit("new-player", name);
+    }
     main() {
+        this.start();
         this.loop();
     }
 }

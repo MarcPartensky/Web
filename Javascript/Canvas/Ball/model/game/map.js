@@ -1,12 +1,12 @@
-class Map {
+class GameMap {
   static size = 1000;
   static lineWidth = 1;
   static borderColor = "#ffffff";
-  static random() {
-    let group = UpperBallGroup.random();
+  static random(n=10) {
+    let group = GameGroup.random(n);
     return new this(group);
   }
-  constructor(group, size=Map.size, lineWidth=Map.lineWidth, borderColor=Map.borderColor) {
+  constructor(group=new GameGroup(), size=GameMap.size, lineWidth=GameMap.lineWidth, borderColor=Map.borderColor) {
     this.group = group;
     this.size = size;
     this.lineWidth = lineWidth;

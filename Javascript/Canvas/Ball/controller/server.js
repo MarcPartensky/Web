@@ -4,38 +4,43 @@ const express = require('express'), // for easier syntax;
     ent = require('ent'), // html url security
     os = require('os'), // os access
     fs = require('fs'), // file system
-    vm = require('vm'); // to execute scripts
+    vm = require('vm'), // to execute scripts
+    ss = require('socket.io-stream'); // to stream data
 
 const app = express();
 const server = http.createServer(app);
 const io = socket.listen(server);
 
-const files = [
-  "../Librairies/test.js",
-  "../Librairies/iterator.js",
-  "../Librairies/group.js",
-  "../Librairies/tensor.js",
-  "../Librairies/vector.js",
-  "../Librairies/matrix.js",
-  "../Librairies/color.js",
-  "../Librairies/point.js",
-  "../Librairies/figure.js",
-  "../Librairies/form.js",
-  "../Librairies/polygon.js",
-  "../Librairies/rectangle.js",
-  "../Librairies/circle.js",
-  "../Librairies/motion.js",
-  "../Librairies/body.js",
-  "../Librairies/plane.js",
-  "../Librairies/context.js",
-  "../Librairies/manager.js",
+// server.maxConnections = 10;
 
-  "model/game/map.js",
+const files = [
+  "../Libraries/tools.js",
+  "../Libraries/test.js",
+  "../Libraries/iterator.js",
+  "../Libraries/group.js",
+  "../Libraries/tensor.js",
+  "../Libraries/vector.js",
+  "../Libraries/matrix.js",
+  "../Libraries/color.js",
+  "../Libraries/point.js",
+  "../Libraries/figure.js",
+  "../Libraries/form.js",
+  "../Libraries/polygon.js",
+  "../Libraries/rectangle.js",
+  "../Libraries/circle.js",
+  "../Libraries/motion.js",
+  "../Libraries/body.js",
+  "../Libraries/plane.js",
+  "../Libraries/context.js",
+  "../Libraries/manager.js",
+
   "model/game/ball.js",
   "model/game/ballgroup.js",
   "model/game/ballsupergroup.js",
+  "model/game/gamegroup.js",
   "model/game/player.js",
   "model/game/food.js",
+  "model/game/map.js",
   "model/game/game.js",
   "model/game/gamemanager.js",
   "model/game/gameclient.js",
@@ -48,7 +53,7 @@ for (const file of files) {
   script.runInThisContext();
 }
 
-app.use('/libs', express.static('../Librairies'));
+app.use('/libs', express.static('../Libraries'));
 app.use('/public', express.static('model/game'));
 app.use('/view/home/', express.static('../view'));
 
@@ -56,7 +61,10 @@ var path = __dirname.split("/");
 path = path.slice(0,-1).join("/");
 
 app.get('/', function (req, res) {
-  res.redirect("/home");
+  res.sendFile(path + "/view/game/index.html");
+  // no redirection
+  // res.redirect("/game");
+  // res.redirect("/home");
 });
 
 app.get('/home', function (req, res) {
@@ -75,10 +83,11 @@ app.get('/game', function (req, res) {
   res.sendFile(path + "/view/game/index.html");
 });
 
-io.sockets.on('connection', function (socket, name) {
-  socket.on('connect', function() {
-    console.log('connected');
-  });
+
+io.on('connection', function (socket, name) {
+  socket.send("this is a test from the server");
+  console.log("the test from the server has been made")
+
   socket.on('play-button', function(name) {
     console.log("play button pressed");
     res.redirect('/game?name=${name}');
@@ -86,6 +95,10 @@ io.sockets.on('connection', function (socket, name) {
   socket.on('disconnect', function() {
     console.log('disconnected');
   });
+  socket.on("message", function(message) {
+    console.log(message);
+  })
+
 });
 
 
@@ -93,6 +106,10 @@ server.listen(8000);
 
 
 var game = Game.random(1);
-var gameServer= new GameServer(game, socket);
-gameServer.main();
+game.updateMap();
+// console.log(game.map);
+var gameServer= new GameServer(game);
+gameServer.on(io);
+// console.log(io.sockets.broadcast);
+// gameServer.main(io, ss);
 
