@@ -1,11 +1,11 @@
 {
-  "name": "agario.js",
+  "name": "agario",
   "version": "1.0.0",
   "description": "Agario clone.",
   "main": "server.js",
   "scripts": {
     "test": "test",
-    "start": "node server.js"
+    "start": "node controller/server.js"
   },
   "repository": {
     "type": "git",
@@ -31,5 +31,6 @@
     "os": "^0.1.1",
     "socket.io": "^2.3.0",
     "socket.io-stream": "^0.9.1"
-  }
+  },
+  "devDependencies": {}
 }

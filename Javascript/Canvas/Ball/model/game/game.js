@@ -4,8 +4,8 @@ class Game {
   static index = 0;
   static maps = [];
   static precision = 5;
-  static random() {
-    return new this([GameMap.random()]);
+  static random(n=10) {
+    return new this([GameMap.random(n)]);
   }
   constructor(
     maps=Game.maps,
@@ -26,24 +26,34 @@ class Game {
   updateMap() {
     this.map = this.maps[this.index];
   }
-  update(dt) {
-    this.map.update(dt);
+  update() {
+    this.map.update(this.dt);
   }
   show(context) {
     this.map.show(context);
   }
   getStream() {
-    let stream = [];
-    let playerStream;
-    for (const [id, player] of this.map.group.players) {
-      playerStream = id + " ";
+    return JSON.stringify(Array.from(this.map.group.players));
+  }
+  setStream(stream) {
+    let balls;
+    let position, velocity;
+    let motion;
+    let direction;
+    this.map.group.players = new Map();
+    const players = new Map(JSON.parse(stream));
+    for (const [id, player] of players) {
+      balls = [];
       for (const ball of player.balls) {
-        playerStream += String(ball.position.round(this.precision));
-        playerStream += + " ";
-        playerStream += String(ball.radius).slice(0, this.precision);
+        position = Vector.from(ball.motion[0]);
+        velocity = Vector.from(ball.motion[1]);
+        motion = new Motion(position, velocity);
+        balls.push(new Ball(motion, Math.PI * ball.radius**2));
       }
-      stream.push(playerStream);
+      direction = Vector.from(player.direction);
+      this.map.group.players.set(
+        id, 
+        new Player(player.name, player.color, balls, direction));
     }
-    return stream.join("|");
   }
 }

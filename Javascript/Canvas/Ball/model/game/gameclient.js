@@ -27,6 +27,7 @@ class GameClient extends GameManager {
         game,
         socket,
         context,
+        name,
         state=0,
         movement=GameClient.movement,
         backgroundColor=GameClient.backgroundColor
@@ -34,6 +35,7 @@ class GameClient extends GameManager {
         super(game);
         this.socket = socket;
         this.context = context;
+        this.name = name;
         this.movement = movement;
         this.backgroundColor = backgroundColor;
     }
@@ -44,7 +46,7 @@ class GameClient extends GameManager {
         }.bind(this));
         this.socket.on("game", function(game) {
             this.game = game;
-            console.log("game sent")
+            console.log("game sent", game);
         }.bind(this));
         this.socket.on("map", function(map) {
             this.game.map = map;
@@ -56,6 +58,9 @@ class GameClient extends GameManager {
         }.bind(this));
         this.socket.on("test", function(message) {
             console.log(message);
+        }.bind(this));
+        this.socket.on("game-stream", function(stream) {
+            this.game.setStream(stream);
         }.bind(this));
     }
     resize(window) {
@@ -69,6 +74,10 @@ class GameClient extends GameManager {
     }
     show() {
         this.clear();
+        let player = this.game.map.group.players.get(this.id);
+        if (player) {
+            this.context.plane.position = player.position;
+        }
         this.game.show(this.context);
     }
     clear() {
@@ -80,6 +89,13 @@ class GameClient extends GameManager {
         this.context.plane.units.update();
         this.move();
         this.game.update(this.dt);
+        let player = this.game.map.group.players.get(this.id);
+        if (player) {
+            if (!player.alive) {
+                console.log("you are dead");
+                this.socket.emit("player-respawn");
+            }
+        }
     }
     onKeyDown(evt) {
         switch(evt.keyCode){
@@ -158,18 +174,15 @@ class GameClient extends GameManager {
     loop() {
         this.update();
         this.show();
-        // const gameStream = getGameStream();
-        // gameStream.on('data', (game) => {
-        //     this.game = game;
-        // }.bind(this));
-        requestAnimationFrame(this.loop.bind(this));
+        // requestAnimationFrame(this.loop.bind(this));
     }
     start() {
-        this.name = prompt("name");
-        this.socket.emit("new-player", name);
+        this.socket.emit("player-spawn", {});
     }
+    
     main() {
         this.start();
+        setInterval(this.loop.bind(this), this.dt*1000);
         this.loop();
     }
 }

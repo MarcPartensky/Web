@@ -37,6 +37,7 @@ const files = [
   "model/game/ball.js",
   "model/game/ballgroup.js",
   "model/game/ballsupergroup.js",
+  "model/game/collider.js",
   "model/game/gamegroup.js",
   "model/game/player.js",
   "model/game/food.js",
@@ -85,9 +86,6 @@ app.get('/game', function (req, res) {
 
 
 io.on('connection', function (socket, name) {
-  socket.send("this is a test from the server");
-  console.log("the test from the server has been made")
-
   socket.on('play-button', function(name) {
     console.log("play button pressed");
     res.redirect('/game?name=${name}');
@@ -105,11 +103,15 @@ io.on('connection', function (socket, name) {
 server.listen(8000);
 
 
-var game = Game.random(1);
+var game = Game.random(0);
+console.log(game.map.group.players);
+console.log(game.getStream());
 game.updateMap();
 // console.log(game.map);
 var gameServer= new GameServer(game);
-gameServer.on(io);
+// gameServer.on(io;)
 // console.log(io.sockets.broadcast);
-// gameServer.main(io, ss);
+
+
+gameServer.main(io, ss);
 

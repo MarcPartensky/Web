@@ -2,7 +2,7 @@ class GameMap {
   static size = 1000;
   static lineWidth = 1;
   static borderColor = "#ffffff";
-  static random(n=10) {
+  static random(n=0) {
     let group = GameGroup.random(n);
     return new this(group);
   }
