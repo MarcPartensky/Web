@@ -67,12 +67,12 @@ function zipped(...iterables) {
 function last(array) { return array[array.length - 1]; }
 
 function* numericCombinations(n, r, loc = []) {
-  const idx = loc.length;
-  if (idx === r) {
-    yield loc;
-    return;
-  }
-  for (let next of range(idx ? last(loc) + 1 : 0, n - r + idx)) { yield* numericCombinations(n, r, loc.concat(next)); }
+    const idx = loc.length;
+    if (idx === r) {
+        yield loc;
+        return;
+    }
+    for (let next of range(idx ? last(loc) + 1 : 0, n - r + 1 + idx)) { yield* numericCombinations(n, r, loc.concat(next)); }
 }
 
 function numericCombinated(n, r) {

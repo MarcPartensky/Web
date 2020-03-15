@@ -254,10 +254,10 @@ class Tensor extends Array {
     this.irmap(x => x ** k);
   }
   round(k) {
-    this.rmap(x => Math.round(x, k));
+    return this.rmap(x => Math.round(x*10**k)/10**k);
   }
   iround(k) {
-    this.irmap(x => Math.round(x, k));
+    this.irmap(x => Math.round(x*10**k)/10**k);
   }
   fill(k) {
     return this.rmap(t => k);

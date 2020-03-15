@@ -104,6 +104,8 @@ class Body extends Tensor {
   }
   follow(vector) {
     let norm = vector.sub(this.position).norm;
+    // norm = sigmoid(norm);
+    norm = Math.min(Math.max(0, norm),1);
     let angle = vector.sub(this.position).angle;
     this.motion.velocity = Vector.polar(norm, angle);
   }

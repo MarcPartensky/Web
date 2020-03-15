@@ -113,3 +113,10 @@ class CombiningCollider extends Collider {
         }
     }
 }
+
+// class VirusPlayer
+/*
+player/player: resist, eat, combine
+player/food: eat
+player/virus: eat
+*/

@@ -174,7 +174,7 @@ class GameClient extends GameManager {
     loop() {
         this.update();
         this.show();
-        // requestAnimationFrame(this.loop.bind(this));
+        requestAnimationFrame(this.loop.bind(this));
     }
     start() {
         this.socket.emit("player-spawn", {});
@@ -182,7 +182,8 @@ class GameClient extends GameManager {
     
     main() {
         this.start();
-        setInterval(this.loop.bind(this), this.dt*1000);
+        // setInterval(this.loop.bind(this), this.dt*1000);
+        // setInterval(this.show.bind(this), this.dt)
         this.loop();
     }
 }
