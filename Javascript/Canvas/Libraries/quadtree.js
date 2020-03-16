@@ -26,16 +26,14 @@ class Quadtree {
         n += 1;
         sx /= 2;
         sy /= 2;
-        hx += sx;
-        hy += sy;
         const xmin = this.borders[0];
         const ymin = this.borders[1];
         const tree = new Map([
             [0, []], [1, []], [2, []], [3, []]
         ]);
         for (const [x, y] of points) {
-            if (y<hy+ymin) {
-                if (x<hx+xmin) {
+            if (y<hy+sx+ymin) {
+                if (x<hx+sy+xmin) {
                     tree.get(0).push([x, y]);
                 } else {
                     tree.get(1).push([x, y]);
@@ -48,7 +46,7 @@ class Quadtree {
                 }
             }
         }
-        console.log(points.length, n, sx, hx);
+        // console.log(points.length, n, sx, hx);
         let x, y;
         for (let i=0; i<4; i++) {
             if (tree.get(i).length==0) {
@@ -57,7 +55,11 @@ class Quadtree {
                 x = i%2;
                 y = Math.floor(i/2);
                 console.log(i, x, y);
-                tree.set(i, this.divide(tree.get(i), sx, sy, hx+sx*x, hy+sx*y, n));
+                tree.set(i, 
+                    this.divide(
+                        tree.get(i), sx, sy, hx+sx*x, hy+sx*y, n
+                    )
+                );
             }
         }
         return tree;

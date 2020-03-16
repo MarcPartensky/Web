@@ -75,3 +75,11 @@ class Player {
     this.balls.sort(b => b.mass);
   }
 }
+
+class PlayerGroup extends Group {
+  constructor(players=new Map(), collider) {
+    this.players = players;
+    this.collider = collider;
+  }
+
+}
