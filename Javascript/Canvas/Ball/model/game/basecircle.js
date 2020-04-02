@@ -16,5 +16,6 @@ class BaseCircle {
     }
 }
 
-class BaseCircleGroup extends BaseGroup {
+class BaseCircleGroup {
+    
 }

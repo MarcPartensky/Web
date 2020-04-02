@@ -3,10 +3,15 @@ class GameMap {
   static lineWidth = 1;
   static borderColor = "#ffffff";
   static random(n=0) {
-    let group = GameGroup.random(n);
+    let group = SuperGroup.random(n);
     return new this(group);
   }
-  constructor(group=new GameGroup(), size=GameMap.size, lineWidth=GameMap.lineWidth, borderColor=Map.borderColor) {
+  constructor(
+    group=new SuperGroup(),
+    size=GameMap.size,
+    lineWidth=GameMap.lineWidth,
+    borderColor=Map.borderColor
+  ) {
     this.group = group;
     this.size = size;
     this.lineWidth = lineWidth;

@@ -1,4 +1,4 @@
-class GameGroup {
+class SuperGroup {
     static random(n=0) {
         let players = new Map();
         let name;
@@ -9,13 +9,15 @@ class GameGroup {
         return new this(players);
     }
     constructor(
-        players=new Map(),
+        players=new PlayerGroup(),
+        food=FoodGroup.random(1000),
+        viruses=Virus.random(10),
         eatingCollider=new EatingCollider(),
         rigidCollider=new RigidCollider(),
-        food=[]
     ) {
         this.players = players;
         this.food = food;
+        this.viruses = viruses;
         this.eatingCollider = eatingCollider;
         this.rigidCollider = rigidCollider;
     }
@@ -44,3 +46,4 @@ class GameGroup {
         this.eatingCollider.handleEating([...this.players.values()]);
     }
 }
+

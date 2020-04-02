@@ -77,9 +77,17 @@ class Player {
 }
 
 class PlayerGroup extends Group {
-  constructor(players=new Map(), collider) {
-    this.players = players;
+  constructor(
+    playerMap=new Map(),
+    collider=new EatingCollider()
+  ) {
+    this.playerMap = playerMap;
     this.collider = collider;
   }
-
+  show(context) {
+    this.playerMap.forEach(p => p.show(context));
+  }
+  update(context) {
+    this.playerMap.forEach(p => p.update(context));
+  }
 }

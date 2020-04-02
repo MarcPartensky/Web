@@ -34,16 +34,16 @@ const files = [
   "../Libraries/context.js",
   "../Libraries/manager.js",
 
+  "model/game/basecircle.js",
   "model/game/ball.js",
   "model/game/ballgroup.js",
   "model/game/ballsupergroup.js",
   "model/game/collider.js",
-  "model/game/gamegroup.js",
+  "model/game/supergroup.js",
   "model/game/player.js",
   "model/game/food.js",
-  "model/game/map.js",
+  "model/game/gamemap.js",
   "model/game/game.js",
-  "model/game/gamemanager.js",
   "model/game/gameclient.js",
   "model/game/gameserver.js",
 ];
@@ -109,7 +109,6 @@ console.log(game.getStream());
 game.updateMap();
 // console.log(game.map);
 var gameServer= new GameServer(game);
-// gameServer.on(io;)
 // console.log(io.sockets.broadcast);
 
 

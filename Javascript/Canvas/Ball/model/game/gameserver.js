@@ -1,6 +1,6 @@
-class GameServer extends GameManager {
+class GameServer {
     constructor(game, dt=0.01) {
-        super(game);
+        this.game = game;
         this.dt = dt;
     }
     on(io) {

@@ -1,4 +1,4 @@
-class GameClient extends GameManager {
+class GameClient {
     static movement = {up: false, down: false, right: false, left: false, zoomin: false, zoomout: false};
     static backgroundColor = "#000000";
     static notconnected = 0;
@@ -32,7 +32,7 @@ class GameClient extends GameManager {
         movement=GameClient.movement,
         backgroundColor=GameClient.backgroundColor
     ) {
-        super(game);
+        this.game = game;
         this.socket = socket;
         this.context = context;
         this.name = name;

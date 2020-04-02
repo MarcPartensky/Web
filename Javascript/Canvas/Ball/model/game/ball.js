@@ -101,6 +101,23 @@ class Ball {
         this.mass = this.mass + ball.mass;
         ball.mass = 0;
     }
+    explode(n) {
+        const balls=[];
+        let velocity = this.velocity.copy();
+        velocity -= Math.PI/2;
+        mass = this.mass/n
+        for (let i=0; i<n; i++) {
+            velocity.angle += Math.PI*i/n;
+            balls.push(
+                new Ball(
+                    new Motion(this.position.copy(), velocity.copy()),
+                    mass, 
+                    Date.now()
+                )
+            );
+        }
+        return balls;
+    }
     show(context, name, color, textColor=Ball.textColor) {
         this.showCircle(context, color);
         this.showText(context, name, textColor);

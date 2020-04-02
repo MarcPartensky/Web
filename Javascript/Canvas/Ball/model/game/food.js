@@ -1,5 +1,8 @@
 class Food extends BaseCircle {
   static radius = 5;
+  static random() {
+    return new this(Vector.random());
+  }
   constructor(
     position=Vector.zero2D,
     radius=Food.radius,
@@ -19,10 +22,21 @@ class Food extends BaseCircle {
 }
 
 
-
 class FoodGroup extends BaseCircleGroup {
-  get matrix() {
-    return this.map(f => [f.position]);
+  static random(n) {
+    const map = new Map();
+    for (let i=0; i<n; i+=1) {
+      map.set(String(i), Food.random())
+    }
+    return new this(map);
   }
-  get fullMatrix()
+  constructor(map = new Map()) {
+    this.map = map;
+  }
+  show(context) {
+    this.map.forEach(f => f.show(context));
+  }
+  update(dt) {
+    this.map.forEach(f => f.update(dt))
+  }
 }

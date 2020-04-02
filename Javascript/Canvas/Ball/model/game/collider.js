@@ -30,11 +30,8 @@ class Collider {
             }
         }
     }
-    recHandle(balls, n2) {
-
-    }
     sort(balls) {
-
+        return balls.sort(b=>b.radius);
     }
 }
 
@@ -111,6 +108,30 @@ class CombiningCollider extends Collider {
             b1.mass += b2.mass;
             b2.mass = 0;
         }
+    }
+}
+
+class PlayerViruses extends Collider {
+    handle(players, viruses) {
+        for (const player of players) {
+            for (const virus of viruses) {
+                this.handlePlayerVirus(player, virus);
+            }
+        }
+    }
+    handlePlayerVirus(player, virus) {
+        const newBalls = [];
+        let n, mass;
+        for (const ball of player.balls) {
+            if (ball.canEat(virus)) {
+                mass = Math.max(Ball.mass, ball.mass/player.balls.length)
+                n = Math.max()
+                newBalls.push(...ball.explode(n));
+            } else {
+                newBalls.push(ball);
+            }
+        }
+        player.balls = newBalls;
     }
 }
 
