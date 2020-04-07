@@ -26,6 +26,11 @@ class "SuperGroup" as SuperGroup{
   playerGroup : PlayerGroup
   virusGroup: VirusGroup
   foodGroup: FoodGroup
+  eatingPlayerVirus: function
+  eatingPlayerFood: function
+  eatingPlayerPlayer: function
+  rigidPlayerPlayer: function
+  combiningPlayerPlayer: function
   update()
   show()
   collide()
@@ -35,6 +40,8 @@ class "SuperGroup" as SuperGroup{
 
 class "PlayerGroup" as PlayerGroup {
   playerMap : Map
+  ' rigidColliderPlayerPlayer : RigidColliderPlayerPlayer
+  ' combiningColliderPlayerPlayer: CombiningColliderPlayerPlayer
   update()
   show()
 }
@@ -50,6 +57,7 @@ class "Player" as Player {
 
 class "BallGroup" as BallGroup {
   ballMap : Map
+  ' eatingColliderBallBall : EatingColliderBallBall
 }
 
   ' combiningCollider : CombiningCollider
@@ -84,10 +92,10 @@ class "Food" as Food {
   position: Vector
 }
 
-class "Circle" as Circle {
-  radius : float
-  position: Vector
-}
+' class "Circle" as Circle {
+'   radius : float
+'   position: Vector
+' }
 
 GameServer "1" *-- "1" Game
 GameClient "1" *-- "1" Game
@@ -113,8 +121,8 @@ BallGroup "1" *-- "*" Ball
 VirusGroup "1" *-- "*" Virus
 FoodGroup "1" *-- "*" Food
 
-Circle <|-- Ball
-Circle <|-- Virus
-Circle <|-- Food
+' Circle <|-- Ball
+' Circle <|-- Virus
+' Circle <|-- Food
 
 @enduml

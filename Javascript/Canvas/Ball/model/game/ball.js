@@ -66,12 +66,6 @@ class Ball {
     get strength() {
         return this.radius;
     }
-    get alive() {
-        return this.balls.length > 0;
-    }
-    get dead() {
-        return this.balls.length == 0;
-    }
     update(dt) {
         this.updateMotion(dt);
         this.updateMass(dt);
@@ -173,5 +167,15 @@ class Ball {
         let angle = vector.sub(this.position).angle;
         this.motion.velocity = Vector.polar(norm, angle).add(this.motion.velocity.rmul(8/10));
       }
+}
 
+
+class BallGroup extends BaseCircleGroup {
+    random(n) {
+        const map = new Map();
+        for (let i=0; i<n; i++) {
+            map.set("ball"+String(i), Ball.random());
+        }
+        return new this(map);
+    }
 }

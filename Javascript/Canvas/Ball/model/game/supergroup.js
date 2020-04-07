@@ -1,49 +1,30 @@
 class SuperGroup {
     static random(n=0) {
-        let players = new Map();
-        let name;
-        for (let i=0; i<n; i++) {
-            name = "unnamed"+String(i);
-            players.set(name, Player.random(name));
-        }
-        return new this(players);
+        return new this(PlayerGroup.random(n));
     }
     constructor(
-        players=new PlayerGroup(),
-        food=FoodGroup.random(1000),
-        viruses=Virus.random(10),
-        eatingCollider=new EatingCollider(),
-        rigidCollider=new RigidCollider(),
+        playerGroup=new PlayerGroup(),
+        foodGroup=FoodGroup.random(1000),
+        virusGroup=VirusGroup.random(10),        
     ) {
-        this.players = players;
-        this.food = food;
-        this.viruses = viruses;
-        this.eatingCollider = eatingCollider;
-        this.rigidCollider = rigidCollider;
+        this.playerGroup = playerGroup;
+        this.foodGroup = foodGroup;
+        this.virusGroup = virusGroup;
     }
     update(dt) {
-        for (const player of this.players.values()) {
-            player.update(dt);
-        }
-        this.handleCollisions();
+        this.playerGroup.update(dt);
     }
     show(context) {
-        for (const player of this.players.values()) {
-            player.show(context);
-        }
+        this.foodGroup.show(context)
+        this.playerGroup.show(context);
+        this.virusGroup.show(context);
     }
-    handleCollisions() {
-        this.handleRigidCollisions();
-        this.handleEatingCollisions();
-    }
-    handleRigidCollisions() {
-        for (const player of this.players.values()) {
-            this.rigidCollider.handle(player.balls);
-        }
-        // console.log("collisions have been handled");
-    }
-    handleEatingCollisions() {
-        this.eatingCollider.handleEating([...this.players.values()]);
+    collide() {
+        eatingPlayerVirus(this.playerGroup.map, this.virusGroup.map)
+        eatingPlayerFood(this.playerGroup.map, this.foodGroup.map);
+        eatingPlayerPlayer(this.playerGroup.map);
+        rigidPlayerPlayer(this.playerGroup.map);
+        combiningPlayerPlayer(this.playerGroup.map);
     }
 }
 

@@ -10,23 +10,23 @@ class GameServer {
             // let id = hash(name+":"+socket.conn.id);
             let id = hash(name);
             let player = new Player(name);
-            this.game.map.group.players.set(id, player);
+            this.game.map.group.playerGroup.map.set(id, player);
             socket.emit("id", id);
             socket.on("player-spawn", function() {
-                this.game.map.group.players.get(id).spawn(this.game.map.vmin, this.game.map.vmax);
+                this.game.map.group.playerGroup.map.get(id).spawn(this.game.map.vmin, this.game.map.vmax);
                 console.log("player spawned")
             }.bind(this));
             socket.on("player-respawn", function() {
-                this.game.map.group.players.get(id).spawn(this.game.map.vmin, this.game.map.vmax);
+                this.game.map.group.playerGroup.map.get(id).spawn(this.game.map.vmin, this.game.map.vmax);
                 console.log("player respawned")
             }.bind(this));
             socket.on("control-mousemove", function(position) {
                 const direction = Vector.from(position);
                 direction.limit(this.game.map.vmin, this.game.map.vmax);
-                this.game.map.group.players.get(id).direction = direction;
+                this.game.map.group.playerGroup.map.get(id).direction = direction;
             }.bind(this));
             socket.on("control-split", function(position) {
-                player = this.game.map.group.players.get(id)
+                player = this.game.map.group.playerGroup.map.get(id)
                 player.split(Vector.from(position || player.direction));
             }.bind(this));
             socket.on("message", function(message) {

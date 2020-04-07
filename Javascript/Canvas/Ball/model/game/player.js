@@ -1,18 +1,14 @@
 class Player {
-  static splitLimit = 2**4;
+  static maxBalls = 2**4;
   static refreshing = false;
   static alive = true;
   static random(name="unnamed", color=Color.random(), n=1) {
-    let balls = [];
-    for (let i=0; i<n; i++) {
-      balls.push(Ball.random());
-    }
-    return new this(name, color, balls);
+    return new this(name, color, BallGroup.random(n));
   }
   constructor(
     name,
     color=Color.random(),
-    balls=[],
+    ballGroup=new BallGroup(),
     direction=Vector.zero2D,
     position=Vector.zero2D,
     refreshing = Player.refreshing,
@@ -20,17 +16,17 @@ class Player {
   ) {
     this.name = name;
     this.color = color;
-    this.balls = balls;
+    this.ballGroup = ballGroup;
     this.direction = direction;
     this.position = position;
     this.refreshing = refreshing;
     this.alive = alive;
   }
   show(context) {
-    this.balls.forEach(b => b.show(context, this.name, this.color));
+    this.ballGroup.forEach(b => b.show(context, this.name, this.color));
   }
   update(dt) { // lazy way to do it.
-    this.balls.forEach(b => b.update(dt));
+    this.ballGroup.forEach(b => b.update(dt));
     this.follow(this.direction);
     this.updatePosition();
     this.refreshing = true;
@@ -42,25 +38,26 @@ class Player {
     }
   }
   updateAlive() {
-    this.alive = (this.balls.length > 0);
+    this.alive = (this.ballGroup.map.length > 0);
   }
   updatePosition() {
-    if (this.balls.length!=0) {
-      let position = Vector.average(...this.balls.map(b => b.position));
+    if (this.ballGroup.length!=0) {
+      let position = this.ballGroup.position;
       if (position) {
         this.position = position;
       }
     }
   }
   follow(position) {
-    this.balls.forEach(b => b.follow(position));
+    this.ballGroup.map.forEach(b => b.follow(position));
   }
   split(position) {
     position.norm = Math.max(position.norm, 1);
     let balls = [];
-    for (const ball of this.balls) {
-      if (this.balls.length < Player.splitLimit) {
-        balls.push(ball.split(position));
+    let i = 0;
+    for (const ball of this.ballGroup.values()) {
+      if (this.ballGroup.map.length < Player.maxBalls) {
+        balls.set(ball.split(position));
       }
     }
     this.balls.push(...balls);
@@ -76,18 +73,25 @@ class Player {
   }
 }
 
-class PlayerGroup extends Group {
-  constructor(
-    playerMap=new Map(),
-    collider=new EatingCollider()
-  ) {
-    this.playerMap = playerMap;
-    this.collider = collider;
+class PlayerGroup {
+  static random(n) {
+    const map  = new Map();
+    for (let i=0; i<n; i+=1) {
+      map.set("player"+String(i), Player.random());
+    }
+    return new this(map);
+  }
+  constructor(map) {
+    this.map = map;
   }
   show(context) {
-    this.playerMap.forEach(p => p.show(context));
+    this.map.forEach(p => p.show(context));
   }
   update(context) {
-    this.playerMap.forEach(p => p.update(context));
+    console.log(this);
+    this.map.forEach(p => p.update(context));
+  }
+  collide() {
+    this.collider.handle(this.map);
   }
 }

@@ -29,9 +29,6 @@ class VirusGroup extends BaseCircleGroup {
         }
         return new this(map);
     }
-    constructor(map = new Map()) {
-        this.map = map;
-    }
     show(context) {
         this.map.forEach(f => f.show(context));
     }

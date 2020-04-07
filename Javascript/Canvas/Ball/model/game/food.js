@@ -24,14 +24,11 @@ class Food extends BaseCircle {
 
 class FoodGroup extends BaseCircleGroup {
   static random(n) {
-    const map = new Map();
+    let map = new Map();
     for (let i=0; i<n; i+=1) {
-      map.set(String(i), Food.random())
+      map.set("food"+String(i), Food.random());
     }
     return new this(map);
-  }
-  constructor(map = new Map()) {
-    this.map = map;
   }
   show(context) {
     this.map.forEach(f => f.show(context));

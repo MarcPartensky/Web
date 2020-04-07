@@ -3,6 +3,7 @@ class BallGroup extends Group {
     static colliding = true;
     static eating = false;
     static refreshing = false;
+    static maxLength = 2**4;
 
     static init(
         balls,

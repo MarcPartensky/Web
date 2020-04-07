@@ -10,7 +10,7 @@ class GameMap {
     group=new SuperGroup(),
     size=GameMap.size,
     lineWidth=GameMap.lineWidth,
-    borderColor=Map.borderColor
+    borderColor=GameMap.borderColor
   ) {
     this.group = group;
     this.size = size;

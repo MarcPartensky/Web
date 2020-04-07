@@ -74,7 +74,7 @@ class GameClient {
     }
     show() {
         this.clear();
-        let player = this.game.map.group.players.get(this.id);
+        let player = this.game.map.group.playerGroup.map.get(this.id);
         if (player) {
             this.context.plane.position = player.position;
         }
@@ -89,7 +89,7 @@ class GameClient {
         this.context.plane.units.update();
         this.move();
         this.game.update(this.dt);
-        let player = this.game.map.group.players.get(this.id);
+        let player = this.game.map.group.playerGroup.map.get(this.id);
         if (player) {
             if (!player.alive) {
                 console.log("you are dead");

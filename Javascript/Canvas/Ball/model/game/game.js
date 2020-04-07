@@ -33,27 +33,70 @@ class Game {
     this.map.show(context);
   }
   getStream() {
-    return JSON.stringify(Array.from(this.map.group.players));
-  }
-  setStream(stream) {
-    let balls;
-    let position, velocity;
-    let motion;
-    let direction;
-    this.map.group.players = new Map();
-    const players = new Map(JSON.parse(stream));
-    for (const [id, player] of players) {
-      balls = [];
-      for (const ball of player.balls) {
-        position = Vector.from(ball.motion[0]);
-        velocity = Vector.from(ball.motion[1]);
-        motion = new Motion(position, velocity);
-        balls.push(new Ball(motion, Math.PI * ball.radius**2));
+    function replacer(key, value) {
+      const originalObject = this[key];
+      if(originalObject instanceof Map) {
+        return {
+          type: 'Map',
+          value: Array.from(originalObject.entries()), // or with spread: value: [...originalObject]
+        };
+      } else if (originalObject instanceof Vector) {
+        return {
+          type: 'Vector',
+          value: Array.from(originalObject.round(2))
+        };
+      } else if (originalObject instanceof Motion) {
+        return {
+          type: 'Motion',
+          value: Array.from(originalObject.round(2))
+        };
+      } else {
+        return value;
       }
-      direction = Vector.from(player.direction);
-      this.map.group.players.set(
-        id, 
-        new Player(player.name, player.color, balls, direction));
     }
+    return JSON.stringify(this.map, replacer);
+  }
+  // setStream(stream) {
+  //   this.map = JSON.parse(stream);
+  // }
+  setStream(stream) {
+    function reviver(key, value) {
+      if(typeof value === 'object' && value !== null) {
+        if (value.type === 'Map') {
+          return new Map(value.value);
+        }
+        if (value.type === 'Vector') {
+          return new Vector(...value.value);
+        }
+        if (value.type === 'Motion') {
+          return new Motion(...value.value);
+        }
+      }
+      return value;
+    }
+    // let balls;
+    // let position, velocity;
+    // let motion;
+    // let direction;
+    // console.log(stream);
+    // this.map.group.playerGroup.map = new Map();
+    // this.map.group.foodGroup.map = new Map();
+    // this.map.group.virusGroup.map = new Map();
+
+    this.map = JSON.parse(stream, reviver);
+  //   const players = new Map(JSON.parse(stream));
+  //   for (const [id, player] of players) {
+  //     balls = [];
+  //     for (const ball of player.balls) {
+  //       position = Vector.from(ball.motion[0]);
+  //       velocity = Vector.from(ball.motion[1]);
+  //       motion = new Motion(position, velocity);
+  //       balls.push(new Ball(motion, Math.PI * ball.radius**2));
+  //     }
+  //     direction = Vector.from(player.direction);
+  //     this.map.group.players.set(
+  //       id, 
+  //       new Player(player.name, player.color, balls, direction));
+  //   }
   }
 }

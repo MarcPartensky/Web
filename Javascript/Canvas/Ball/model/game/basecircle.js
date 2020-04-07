@@ -17,5 +17,19 @@ class BaseCircle {
 }
 
 class BaseCircleGroup {
-    
+    constructor(map=new Map()) {
+        this.map = map;
+    }
+    show(context) {
+        this.map.forEach(e => e.show(context))
+    }
+    update(dt) {
+        this.map.forEach(e => e.update(dt));
+    }
+    get position() {
+        return Vector.average(...Array.from(this.map.values()).map(e => e.position));
+    }
+    get velocity() {
+        return Vector.average(...Array.from(this.map.values()).map(e => e.velocity));
+    }
 }

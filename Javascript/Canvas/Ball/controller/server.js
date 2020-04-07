@@ -36,12 +36,12 @@ const files = [
 
   "model/game/basecircle.js",
   "model/game/ball.js",
+  "model/game/food.js",
+  "model/game/virus.js",
   "model/game/ballgroup.js",
-  "model/game/ballsupergroup.js",
   "model/game/collider.js",
   "model/game/supergroup.js",
   "model/game/player.js",
-  "model/game/food.js",
   "model/game/gamemap.js",
   "model/game/game.js",
   "model/game/gameclient.js",
@@ -103,7 +103,7 @@ io.on('connection', function (socket, name) {
 server.listen(8000);
 
 
-var game = Game.random(0);
+var game = Game.random(5);
 console.log(game.map.group.players);
 console.log(game.getStream());
 game.updateMap();
