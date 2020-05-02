@@ -1,5 +1,4 @@
 class Player {
-  static maxBalls = 2**4;
   static refreshing = false;
   static alive = true;
   static random(name="unnamed", color=Color.random(), n=1) {
@@ -8,7 +7,7 @@ class Player {
   constructor(
     name,
     color=Color.random(),
-    ballGroup=new BallGroup(),
+    ballGroup=new BallGroup(new Map([["Ball:0", Ball.random()]])),
     direction=Vector.zero2D,
     position=Vector.zero2D,
     refreshing = Player.refreshing,
@@ -22,11 +21,14 @@ class Player {
     this.refreshing = refreshing;
     this.alive = alive;
   }
+  get mass() {
+    return this.ballGroup.mass;
+  }
   show(context) {
-    this.ballGroup.forEach(b => b.show(context, this.name, this.color));
+    this.ballGroup.show(context, this.name, this.color);
   }
   update(dt) { // lazy way to do it.
-    this.ballGroup.forEach(b => b.update(dt));
+    this.ballGroup.update(dt);
     this.follow(this.direction);
     this.updatePosition();
     this.refreshing = true;
@@ -38,10 +40,10 @@ class Player {
     }
   }
   updateAlive() {
-    this.alive = (this.ballGroup.map.length > 0);
+    this.alive = (this.ballGroup.map.size > 0);
   }
   updatePosition() {
-    if (this.ballGroup.length!=0) {
+    if (this.ballGroup.map.size!=0) {
       let position = this.ballGroup.position;
       if (position) {
         this.position = position;
@@ -49,27 +51,34 @@ class Player {
     }
   }
   follow(position) {
-    this.ballGroup.map.forEach(b => b.follow(position));
+    for (const b of this.ballGroup.map.values()) {
+      b.follow(position);
+    }
   }
   split(position) {
     position.norm = Math.max(position.norm, 1);
-    let balls = [];
+    const splits = [];
     let i = 0;
-    for (const ball of this.ballGroup.values()) {
-      if (this.ballGroup.map.length < Player.maxBalls) {
-        balls.set(ball.split(position));
+    for (const ball of this.ballGroup.map.values()) {
+      while (this.ballGroup.map.has("Ball:"+String(i)) && i<BallGroup.maxNumber) {
+        i+=1;
+      }
+      splits.push([i,ball]);
+    }
+    for (const [i,ball] of splits) {
+      if (ball.mass>=2*Ball.mass) {
+        this.ballGroup.map.set("Ball:"+String(i), ball.split(position));
       }
     }
-    this.balls.push(...balls);
   }
-  spawn(vmin, vmax) {
-    this.balls = [Ball.random(vmin, vmax)];
+  spawn() {
+    this.balls = [Ball.random()];
   }
   clear() {
-    this.balls = this.balls.filter(b => b.mass>0);
+    this.ballGroup.clear();
   }
-  sort() {
-    this.balls.sort(b => b.mass);
+  sort(f) {
+    this.ballGroup.sort(f);
   }
 }
 
@@ -77,7 +86,7 @@ class PlayerGroup {
   static random(n) {
     const map  = new Map();
     for (let i=0; i<n; i+=1) {
-      map.set("player"+String(i), Player.random());
+      map.set("Player:"+String(i), Player.random());
     }
     return new this(map);
   }
@@ -87,11 +96,10 @@ class PlayerGroup {
   show(context) {
     this.map.forEach(p => p.show(context));
   }
-  update(context) {
-    console.log(this);
-    this.map.forEach(p => p.update(context));
+  update(dt) {
+    this.map.forEach(p => p.update(dt));
   }
-  collide() {
-    this.collider.handle(this.map);
+  get mass() {
+    return this.map.reduce(p => p.mass);
   }
 }

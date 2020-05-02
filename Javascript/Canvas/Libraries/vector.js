@@ -165,7 +165,7 @@ class Vector extends Tensor {
     }
   }
   slice(a, b) {
-    return new Vector(...this.slice(a, b));
+    return new Vector(...super.slice(a, b));
   }
   map2(vector, f) {
     let m = Math.max(this.dim, vector.dim);

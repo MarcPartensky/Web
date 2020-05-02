@@ -196,47 +196,47 @@
 //     }
 // }
 
-function rigidPlayer(playerMap) { // Can be enhanced
-    for (const [[playerKey1, player1],[playerKey2, player2]] of combinations(playerMap,2)) {
-        for (const [ballKey1, ball1] of player1.ballGroup.map) {
-            for (const [ballKey2, ball2] of player2.ballGroup.map) {
-                let v = ball1.motion[0].sub(ball2.motion[0]);
-                const n = v.norm;
-                const r1 = ball1.radius;
-                const r2 = ball2.radius;
-                if (v.norm == 0) {v = new Vector.random();}
-                if (v.norm < r1+r2) {
-                    const d = r1+r2-v.norm;
-                    // v.norm = d/2;
-                    v.norm = d*r2/(r1+r2);
-                    ball1.motion[0].iadd(v);
-                    v.norm = d*r1/(r1+r2);
-                    ball2.motion[0].isub(v);
-                }
-
+function rigidPlayerPlayer(playerMap, cache) { // Can be enhanced
+    let ballArray;
+    for (const player of playerMap.values()) {
+        ballArray =  Array.from(player.ballGroup.map.entries());
+        for (const [[ballKey1, ball1], [ballKey2, ball2]] of combinations(ballArray,2)) {
+            let v = ball1.motion[0].sub(ball2.motion[0]);
+            const n = v.norm;
+            const r1 = ball1.radius;
+            const r2 = ball2.radius;
+            if (v.norm == 0) {v = Vector.random();}
+            if (v.norm < r1+r2) {
+                const d = r1+r2-v.norm;
+                // v.norm = d/2;
+                v.norm = d*r2/(r1+r2);
+                ball1.motion[0].iadd(v);
+                v.norm = d*r1/(r1+r2);
+                ball2.motion[0].isub(v);
             }
         }
     }
 }
 
-function eatingPlayerPlayer(playerMap) { // Can be enhanced
-    for (const [[playerKey1, player1],[playerKey2, player2]] of combinations(playerMap,2)) {
+function eatingPlayerPlayer(playerMap, cache) { // Can be enhanced
+    const playerArray =  Array.from(playerMap.entries());
+    for (const [[playerKey1, player1],[playerKey2, player2]] of combinations(playerArray,2)) {
         for (const [ballKey1, ball1] of player1.ballGroup.map) {
             for (const [ballKey2, ball2] of player2.ballGroup.map) {
                 if (ball1.canEat(ball2)) {
                     ball1.mass += ball2.mass;
-                    player2.ballGroup.map.delete(keyBall1);
+                    player2.ballGroup.map.delete(ballKey1);
                 }
                 if (ball2.canEat(ball1)) {
                     ball2.mass += ball1.mass;
-                    player1.ballGroup.map.delete(keyBall2);
+                    player1.ballGroup.map.delete(ballKey2);
                 }
             }
         }
     }
 }
 
-function combiningBallBall(playerMap) {
+function combiningBallBall(playerMap, cache) {
     for (const [playerKey, player] of playerMap) {
         for (const [[ballKey1, ball1], [ballKey2, ball2]] of combinations(player.ballGroup.map, 2)) {
             if (ball1.canCombineWith(ball2)) {
@@ -248,32 +248,41 @@ function combiningBallBall(playerMap) {
 }
 
 
-function eatingPlayerVirus(playerMap, virusMap) {
-    for (const [playerKey, player] of player) {
-        for (const [virusKey, virus] of virus) {
+function eatingPlayerVirus(playerMap, virusMap, cache) {
+    for (const [playerKey, player] of playerMap) {
+        for (const [virusKey, virus] of virusMap) {
+            // console.log(player, virus);
             const newBalls = [];
-            let n, m;
+            let n;
             for (const [ballKey, ball] of player.ballGroup.map) {
                 if (ball.canEat(virus)) {
-                    m = Math.floor(ball.mass/Ball.mass)
-                    n = Math.min(m, player.ballGroup.map.length-m);
+                    n = Math.floor(ball.mass/Ball.mass)
+                    if (n>BallGroup.maxNumber-player.ballGroup.map.size) {
+                        n = BallGroup.maxNumber-player.ballGroup.map.size;
+                    }
                     i = 0;
                     for (const b of ball.explode(n)) {
-                        while ("ball"+String(i) in player.ballGroup) {
+                        while (player.ballGroup.map.has("Ball:"+String(i))) {
                             i+=1;
+                            console.log(i);
                         }
-                        player.ballGroup.map.set("ball"+String(i), b)
+                        newBalls.push(["Ball:"+String(i), b])
+                        i+=1;
                     }
                     virusMap.delete(virusKey);
+                    player.ballGroup.map.delete(ballKey);
                 }
             }
-            player.ballGroup.map = newBalls;
+            // console.log(Array.from(player.ballGroup.map.entries()));
+            if (n>0) {
+                player.ballGroup.map = new Map(Array.from(player.ballGroup.map.entries()).concat(newBalls));
+            }
         }
     }
     
 }
 
-function eatingPlayerFood(playerMap, foodMap) {
+function eatingPlayerFood(playerMap, foodMap, cache) {
     for (const [playerKey,player] of playerMap) {
         for (const [ballKey, ball] of player.ballGroup.map) {
             for (const [foodKey, food] of foodMap) {

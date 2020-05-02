@@ -2,6 +2,7 @@ class GameMap {
   static size = 1000;
   static lineWidth = 1;
   static borderColor = "#ffffff";
+  static cache = []
   static random(n=0) {
     let group = SuperGroup.random(n);
     return new this(group);
@@ -10,13 +11,15 @@ class GameMap {
     group=new SuperGroup(),
     size=GameMap.size,
     lineWidth=GameMap.lineWidth,
-    borderColor=GameMap.borderColor
+    borderColor=GameMap.borderColor,
+    cache=GameMap.cache,
   ) {
     this.group = group;
     this.size = size;
     this.lineWidth = lineWidth;
     this.borderColor = borderColor;
     this.updateSize();
+    this.cache = cache;
   }
   show(context) {
     this.group.show(context);

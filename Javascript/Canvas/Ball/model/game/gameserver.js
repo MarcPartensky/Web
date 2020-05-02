@@ -1,3 +1,5 @@
+ping = 0;
+
 class GameServer {
     constructor(game, dt=0.01) {
         this.game = game;
@@ -13,11 +15,16 @@ class GameServer {
             this.game.map.group.playerGroup.map.set(id, player);
             socket.emit("id", id);
             socket.on("player-spawn", function() {
-                this.game.map.group.playerGroup.map.get(id).spawn(this.game.map.vmin, this.game.map.vmax);
+                this.game.map.group.playerGroup.map.get(id).spawn();
+                io.sockets.emit(
+                    "map", 
+                    JSON.stringify(this.game.map, Game.replacer)
+                );
+                console.log("map was emitted");
                 console.log("player spawned")
             }.bind(this));
             socket.on("player-respawn", function() {
-                this.game.map.group.playerGroup.map.get(id).spawn(this.game.map.vmin, this.game.map.vmax);
+                this.game.map.group.playerGroup.map.get(id).spawn();
                 console.log("player respawned")
             }.bind(this));
             socket.on("control-mousemove", function(position) {
@@ -32,17 +39,25 @@ class GameServer {
             socket.on("message", function(message) {
                 console.log(message);
             }.bind(this));
+            socket.on('ping1', function() {
+                ping+=1;
+                console.log("received:"+String(ping))
+                socket.emit('pong');
+            });
         }.bind(this));
     }
     update(io, ss) {
         this.game.update();
-        this.handleCollisions();
-        io.sockets.emit("game-stream", this.game.getStream());
-        // io.sockets.emit("game", this.game);
-        // io.sockets.emit("group", this.game.map.group);
-        // io.sockets.emit("map", this.game.map);
-    }
-    handleCollisions() {
+        // this.game.map.group.collide();
+        io.sockets.emit(
+            "playerGroup", 
+            JSON.stringify(this.game.map.group.playerGroup, Game.replacer)
+        );
+        // io.sockets.emit(
+        //     "map", 
+        //     JSON.stringify(this.game.map, Game.replacer)
+        // );
+
     }
     loop(io, ss) {
         this.update(io, ss);

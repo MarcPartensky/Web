@@ -38,6 +38,7 @@ class GameClient {
         this.name = name;
         this.movement = movement;
         this.backgroundColor = backgroundColor;
+        this.mouse = Vector.zero2D;
     }
     on() {
         this.socket.on("id", function(id) {
@@ -48,19 +49,18 @@ class GameClient {
             this.game = game;
             console.log("game sent", game);
         }.bind(this));
-        this.socket.on("map", function(map) {
-            this.game.map = map;
+        this.socket.on("map", function(stream) {
+            this.game.map = JSON.parse(stream, Game.reviver);;
             console.log("map");
-        }.bind(this));
-        this.socket.on("group", function(group) {
-            this.game.map.group = group;
-            console.log("group");
         }.bind(this));
         this.socket.on("test", function(message) {
             console.log(message);
         }.bind(this));
-        this.socket.on("game-stream", function(stream) {
-            this.game.setStream(stream);
+        this.socket.on("playerGroup", function(stream) {
+            this.game.map.group.playerGroup = JSON.parse(stream, Game.reviver);
+        }.bind(this));
+        this.socket.on("superGroup", function(stream) {
+            this.game.map.group = JSON.parse(stream, Game.reviver);
         }.bind(this));
     }
     resize(window) {
@@ -96,6 +96,7 @@ class GameClient {
                 this.socket.emit("player-respawn");
             }
         }
+        this.socket.emit("control-mousemove", this.context.fromScreen(this.mouse));
     }
     onKeyDown(evt) {
         switch(evt.keyCode){
@@ -148,7 +149,6 @@ class GameClient {
     }
     onMouseMotion(evt) {
         this.mouse = new Vector(evt.x, evt.y);
-        this.socket.emit("control-mousemove", this.context.fromScreen(this.mouse));
     }
 
     move() {

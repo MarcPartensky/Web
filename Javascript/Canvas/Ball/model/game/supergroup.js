@@ -4,8 +4,8 @@ class SuperGroup {
     }
     constructor(
         playerGroup=new PlayerGroup(),
-        foodGroup=FoodGroup.random(1000),
-        virusGroup=VirusGroup.random(10),        
+        foodGroup=FoodGroup.random(),
+        virusGroup=VirusGroup.random(),        
     ) {
         this.playerGroup = playerGroup;
         this.foodGroup = foodGroup;
@@ -24,7 +24,7 @@ class SuperGroup {
         eatingPlayerFood(this.playerGroup.map, this.foodGroup.map);
         eatingPlayerPlayer(this.playerGroup.map);
         rigidPlayerPlayer(this.playerGroup.map);
-        combiningPlayerPlayer(this.playerGroup.map);
+        // combiningPlayerPlayer(this.playerGroup.map);
     }
 }
 

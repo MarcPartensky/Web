@@ -20,9 +20,6 @@ class BaseCircleGroup {
     constructor(map=new Map()) {
         this.map = map;
     }
-    show(context) {
-        this.map.forEach(e => e.show(context))
-    }
     update(dt) {
         this.map.forEach(e => e.update(dt));
     }

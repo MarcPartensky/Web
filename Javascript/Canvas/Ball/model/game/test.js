@@ -1,8 +1,9 @@
-class Test {
-    f() {
-        console.log(typeof this);
-    }
-}
+new Worker()
 
-t = new Test()
-t.f()
+// https://blog.raananweber.com/2015/05/26/collisions-using-workers-for-babylonjs/
+
+/*
+Workers are a way to use multithreaded code
+*/
+
+

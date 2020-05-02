@@ -1,7 +1,7 @@
 class Ball {
+    static startMass = 500;
     static mass = 100;
     static rate = 1e-10;
-    static name = "unnamed";
     static alive = true;
     static textColor = "#ffffff";
     static splitTime = null;
@@ -16,7 +16,7 @@ class Ball {
         motion[1].irmul(0.1);
         return new this(motion);
     }
-    constructor(motion, mass=Ball.mass, splitTime=Ball.splitTime) {
+    constructor(motion, mass=Ball.startMass, splitTime=Ball.splitTime) {
         this.motion = motion;
         this.radius = Math.sqrt(mass/Math.PI);
         this.splitTime = splitTime;
@@ -67,6 +67,7 @@ class Ball {
         return this.radius;
     }
     update(dt) {
+        this.velocity.irmul(Ball.startMass/this.mass);
         this.updateMotion(dt);
         this.updateMass(dt);
         this.updateSplitTime();
@@ -85,11 +86,10 @@ class Ball {
             }
         }
     }
-    canEat(ball, quotient=Ball.quotient) {
-        if (this.motion[0].sub(ball.motion[0]).norm > this.radius) {return false};
-        if (this.radius/ball.radius < quotient) {return false};
+    canEat(ball) {
+        if (this.position.sub(ball.position).norm > this.radius) {return false};
+        if (this.radius/ball.radius < Ball.quotient) {return false};
         return true;
-        // return true;
     }
     eat(ball) {
         this.mass = this.mass + ball.mass;
@@ -98,18 +98,15 @@ class Ball {
     explode(n) {
         const balls=[];
         let velocity = this.velocity.copy();
-        velocity -= Math.PI/2;
-        mass = this.mass/n
+        velocity.angle -= Math.PI/2;
+        let mass = this.mass/n;
+        let motion;
         for (let i=0; i<n; i++) {
             velocity.angle += Math.PI*i/n;
-            balls.push(
-                new Ball(
-                    new Motion(this.position.copy(), velocity.copy()),
-                    mass, 
-                    Date.now()
-                )
-            );
+            motion = new Motion(this.position.copy(), velocity.copy());
+            balls.push(new Ball(motion, mass, Date.now()));
         }
+        this.mass = 0;
         return balls;
     }
     show(context, name, color, textColor=Ball.textColor) {
@@ -131,7 +128,7 @@ class Ball {
         context.textSize = size;
         context.fillStyle = color;
         context.fillText(name, this.x-k*size*name.length, this.y);
-        const mass = String(this.mass).split(".")[0];
+        const mass = String(Math.floor(this.mass));
         context.fillText(mass, this.x-k*size*mass.length, this.y+k*size*mg);
     }
     contains(position) {
@@ -171,11 +168,30 @@ class Ball {
 
 
 class BallGroup extends BaseCircleGroup {
-    random(n) {
+    static maxNumber = 16;
+    static random(n) {
         const map = new Map();
         for (let i=0; i<n; i++) {
-            map.set("ball"+String(i), Ball.random());
+            map.set("Ball:"+String(i), Ball.random());
         }
         return new this(map);
     }
+    clear() {
+        for (const [key, ball] of this.map) {
+            if (ball.mass <= 0) {
+              this.map.delete(key);
+            }
+        }
+    }
+    sort(f = (b)=>b.mass) {
+        this.map = new Map([...this.map.entries()].sort(f));
+    }
+    show(context, name, color) {
+        for (const ball of this.map.values()) {
+            ball.show(context, name, color);
+        }
+    }
+    get mass() {
+        return Array.from(this.map.values()).map(p => p.mass).reduce((x,y)=>x+y);
+      }
 }

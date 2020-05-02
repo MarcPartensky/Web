@@ -15,9 +15,23 @@ var name = prompt("name");
 var socket = io.connect(host, {query: "name="+name});
 
 
+setInterval(function() {
+    startTime = Date.now();
+    socket.emit('ping1');
+    console.log('emiting')
+  }, 2000);
+  
+  socket.on('pong', function() {
+    latency = Date.now() - startTime;
+    console.log("latency:", latency);
+  });
+  
+
+
 var dt = 0.1;
-var map = new GameMap();
-var game = new Game([map], dt);
+// var map = new GameMap();
+// var game = new Game([map], dt);
+var game = Game.random(5);
 var gameClient = new GameClient(game, socket, context, name);
 
 GameClient.addEventListeners(gameClient);
