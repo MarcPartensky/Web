@@ -72,7 +72,7 @@ class Player {
     }
   }
   spawn() {
-    this.balls = [Ball.random()];
+    this.ballGroup.map.set("Ball:"+String(0), Ball.random());
   }
   clear() {
     this.ballGroup.clear();

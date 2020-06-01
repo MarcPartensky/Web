@@ -1,5 +1,5 @@
 class Food extends BaseCircle {
-  static radius = 1;
+  static radius = 2;
   static random() {
     return new this(Vector.random().rsub(0.5).rmul(GameMap.size));
   }
@@ -23,7 +23,7 @@ class Food extends BaseCircle {
 
 
 class FoodGroup extends BaseCircleGroup {
-  static number = 1000;
+  static number = 300;
   static random(n=FoodGroup.number) {
     const map = new Map();
     for (let i=0; i<n; i+=1) {

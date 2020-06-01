@@ -50,7 +50,7 @@ class GameClient {
             console.log("game sent", game);
         }.bind(this));
         this.socket.on("map", function(stream) {
-            this.game.map = JSON.parse(stream, Game.reviver);;
+            this.game.map = JSON.parse(stream, Game.reviver);
             console.log("map");
         }.bind(this));
         this.socket.on("test", function(message) {
@@ -61,6 +61,11 @@ class GameClient {
         }.bind(this));
         this.socket.on("superGroup", function(stream) {
             this.game.map.group = JSON.parse(stream, Game.reviver);
+        }.bind(this));
+        this.socket.on("cache", function (cache) {
+            console.log("cache detected")
+            cache = JSON.parse(cache, Game.reviver);
+            this.game.map.group.handleCache(cache);
         }.bind(this));
     }
     resize(window) {
@@ -95,6 +100,17 @@ class GameClient {
                 console.log("you are dead");
                 this.socket.emit("player-respawn");
             }
+        }
+        
+        if ('id' in this) {
+            this.game.map.group.collideClient(this.id);
+        }
+        if (this.game.map.group.cache.size>0) { // could overrun the server
+            this.socket.emit(
+                "cache",
+                JSON.stringify(this.game.map.group.cache, Game.replacer)
+            );
+            this.game.map.group.cache.clear();
         }
         this.socket.emit("control-mousemove", this.context.fromScreen(this.mouse));
     }

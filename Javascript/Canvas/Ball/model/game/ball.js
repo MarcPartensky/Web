@@ -67,7 +67,10 @@ class Ball {
         return this.radius;
     }
     update(dt) {
-        this.velocity.irmul(Ball.startMass/this.mass);
+        // console.log("before:", this.velocity);
+        // console.log(Ball.startMass/this.radius);
+        this.velocity.norm = Ball.startMass/this.radius;
+        // console.log("after:", this.velocity);
         this.updateMotion(dt);
         this.updateMass(dt);
         this.updateSplitTime();
@@ -81,10 +84,18 @@ class Ball {
     updateSplitTime() {
         if (this.splitTime!=null) {
             if (Date.now()-this.splitTime > Ball.splitDuration) {
-                console.log("split time is over");
-                this.splitTime = Ball.splitTime;
+                // this.splitTime = Ball.splitTime;
             }
         }
+    }
+    canCombine(ball) {
+        if (this.splitTime!=null) {
+            const d = Date.now() - Ball.splitDuration;
+            if (d > this.splitTime) {
+                return true;
+            }
+        }
+        return false;
     }
     canEat(ball) {
         if (this.position.sub(ball.position).norm > this.radius) {return false};

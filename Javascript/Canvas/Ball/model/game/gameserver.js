@@ -36,19 +36,29 @@ class GameServer {
                 player = this.game.map.group.playerGroup.map.get(id)
                 player.split(Vector.from(position || player.direction));
             }.bind(this));
+            socket.on('cache', function(cache) {
+                cache = JSON.parse(cache, Game.reviver);
+                this.game.map.group.handleCache(cache);
+            }.bind(this));
             socket.on("message", function(message) {
                 console.log(message);
-            }.bind(this));
+            });
             socket.on('ping1', function() {
                 ping+=1;
-                console.log("received:"+String(ping))
                 socket.emit('pong');
             });
         }.bind(this));
     }
     update(io, ss) {
         this.game.update();
-        // this.game.map.group.collide();
+        this.game.map.group.collide();
+        if (this.game.map.group.cache.size > 0) {
+            io.sockets.emit(
+                "cache",
+                JSON.stringify(this.game.map.group.cache, Game.replacer)
+            );
+            this.game.map.group.cache.clear();
+        }
         io.sockets.emit(
             "playerGroup", 
             JSON.stringify(this.game.map.group.playerGroup, Game.replacer)

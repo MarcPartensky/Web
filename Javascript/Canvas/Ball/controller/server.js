@@ -14,25 +14,25 @@ const io = socket.listen(server);
 // server.maxConnections = 10;
 
 const files = [
-  "../Libraries/tools.js",
-  "../Libraries/test.js",
-  "../Libraries/iterator.js",
-  "../Libraries/group.js",
-  "../Libraries/tensor.js",
-  "../Libraries/vector.js",
-  "../Libraries/matrix.js",
-  "../Libraries/color.js",
-  "../Libraries/point.js",
-  "../Libraries/figure.js",
-  "../Libraries/form.js",
-  "../Libraries/polygon.js",
-  "../Libraries/rectangle.js",
-  "../Libraries/circle.js",
-  "../Libraries/motion.js",
-  "../Libraries/body.js",
-  "../Libraries/plane.js",
-  "../Libraries/context.js",
-  "../Libraries/manager.js",
+  "libs/tools.js",
+  "libs/test.js",
+  "libs/iterator.js",
+  "libs/group.js",
+  "libs/tensor.js",
+  "libs/vector.js",
+  "libs/matrix.js",
+  "libs/color.js",
+  "libs/point.js",
+  "libs/figure.js",
+  "libs/form.js",
+  "libs/polygon.js",
+  "libs/rectangle.js",
+  "libs/circle.js",
+  "libs/motion.js",
+  "libs/body.js",
+  "libs/plane.js",
+  "libs/context.js",
+  "libs/manager.js",
 
   "model/game/basecircle.js",
   "model/game/ball.js",
@@ -53,7 +53,7 @@ for (const file of files) {
   script.runInThisContext();
 }
 
-app.use('/libs', express.static('../Libraries'));
+app.use('/libs', express.static('libs'));
 app.use('/public', express.static('model/game'));
 app.use('/view/home/', express.static('../view'));
 
@@ -98,8 +98,7 @@ io.on('connection', function (socket, name) {
 
 });
 
-
-server.listen(8000);
+server.listen(process.env.PORT || 8000)
 
 
 var game = Game.random(5);

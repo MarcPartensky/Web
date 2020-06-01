@@ -198,21 +198,25 @@
 
 function rigidPlayerPlayer(playerMap, cache) { // Can be enhanced
     let ballArray;
-    for (const player of playerMap.values()) {
+    for (const [playerKey, player] of playerMap) {
         ballArray =  Array.from(player.ballGroup.map.entries());
         for (const [[ballKey1, ball1], [ballKey2, ball2]] of combinations(ballArray,2)) {
             let v = ball1.motion[0].sub(ball2.motion[0]);
             const n = v.norm;
             const r1 = ball1.radius;
             const r2 = ball2.radius;
-            if (v.norm == 0) {v = Vector.random();}
             if (v.norm < r1+r2) {
-                const d = r1+r2-v.norm;
-                // v.norm = d/2;
-                v.norm = d*r2/(r1+r2);
-                ball1.motion[0].iadd(v);
-                v.norm = d*r1/(r1+r2);
-                ball2.motion[0].isub(v);
+                if (ball1.canCombine(ball2)) {
+                    ball1.splitTime = Ball.splitTime;
+                    ball1.mass += ball2.mass;
+                    player.ballGroup.map.delete(ballKey2);
+                    cache.set("eatingPlayerFood", [ballKey1, ballKey2, playerKey]);
+                } else {
+                    const d = r1+r2-v.norm;
+                    v.norm = d/2;
+                    ball1.motion[0].iadd(v);
+                    ball2.motion[0].isub(v);
+                }
             }
         }
     }
@@ -225,23 +229,26 @@ function eatingPlayerPlayer(playerMap, cache) { // Can be enhanced
             for (const [ballKey2, ball2] of player2.ballGroup.map) {
                 if (ball1.canEat(ball2)) {
                     ball1.mass += ball2.mass;
-                    player2.ballGroup.map.delete(ballKey1);
+                    player2.ballGroup.map.delete(ballKey2);
                 }
                 if (ball2.canEat(ball1)) {
                     ball2.mass += ball1.mass;
-                    player1.ballGroup.map.delete(ballKey2);
+                    player1.ballGroup.map.delete(ballKey1);
                 }
             }
         }
     }
 }
 
-function combiningBallBall(playerMap, cache) {
+function combiningPlayer(playerMap, cache) {
+    let ballArray;
     for (const [playerKey, player] of playerMap) {
-        for (const [[ballKey1, ball1], [ballKey2, ball2]] of combinations(player.ballGroup.map, 2)) {
-            if (ball1.canCombineWith(ball2)) {
+        ballArray =  Array.from(player.ballGroup.map.entries());
+        for (const [[ballKey1, ball1], [ballKey2, ball2]] of combinations(ballArray, 2)) {
+            if (ball1.canCombine(ball2)) {
                 ball1.mass += ball2.mass;
-                player.ballGroup.map.delete(keyBall2);
+                player.ballGroup.map.delete(ballKey2);
+                cache.set("eatingPlayerFood", [ballKey1, ballKey2, playerKey]);
             }
         }
     }
@@ -251,7 +258,6 @@ function combiningBallBall(playerMap, cache) {
 function eatingPlayerVirus(playerMap, virusMap, cache) {
     for (const [playerKey, player] of playerMap) {
         for (const [virusKey, virus] of virusMap) {
-            // console.log(player, virus);
             const newBalls = [];
             let n;
             for (const [ballKey, ball] of player.ballGroup.map) {
@@ -270,10 +276,11 @@ function eatingPlayerVirus(playerMap, virusMap, cache) {
                         i+=1;
                     }
                     virusMap.delete(virusKey);
+                    cache.set("eatingPlayerVirus", [playerKey, virusKey, player]);
+                    // cache.push(virusKey); // add the virus to the cache for client deletion since the virus states are not streamed.
                     player.ballGroup.map.delete(ballKey);
                 }
             }
-            // console.log(Array.from(player.ballGroup.map.entries()));
             if (n>0) {
                 player.ballGroup.map = new Map(Array.from(player.ballGroup.map.entries()).concat(newBalls));
             }
@@ -289,11 +296,12 @@ function eatingPlayerFood(playerMap, foodMap, cache) {
                 if (ball.canEat(food)) {
                     ball.mass += food.mass;
                     foodMap.delete(foodKey);
+                    cache.set("eatingPlayerFood", [ballKey, foodKey, playerKey]);
                 }
             }
         }
     }
-
+    return cache;
 }
 
 // class VirusPlayer

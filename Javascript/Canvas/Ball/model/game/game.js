@@ -1,5 +1,5 @@
 class Game {
-  static dt = 0.005;
+  static dt = 0.01;
   static font = "Arial";
   static index = 0;
   static maps = [];

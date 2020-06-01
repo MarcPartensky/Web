@@ -18,7 +18,6 @@ var socket = io.connect(host, {query: "name="+name});
 setInterval(function() {
     startTime = Date.now();
     socket.emit('ping1');
-    console.log('emiting')
   }, 2000);
   
   socket.on('pong', function() {
