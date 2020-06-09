@@ -3,5 +3,8 @@ from . import views
 
 urlpatterns = [
     path('',views.home,name='oldsite-home'),
-    path('dummy/',views.dummy,name="oldsite-dummy"),
+    path('circle/',views.circle,name="circle"),
+    path('geometry/',views.geometry,name="geometry"),
+    path('intersection/',views.intersection,name="intersection"),
+    path('physics/',views.physics,name="physics"),
 ]
