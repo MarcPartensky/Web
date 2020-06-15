@@ -1,0 +1,25 @@
+{
+  "name": "asteroids",
+  "version": "1.0.0",
+  "description": "A game with asteroids and spaceships",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Marc Partensky",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "exports": {
+    "./libs": "./libs",
+    "./models": "./models",
+    "node": {
+      "import": "./libs",
+      "require": "./libs"
+    }
+  },
+  "type": "module"
+}

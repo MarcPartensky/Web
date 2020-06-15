@@ -1,5 +1,5 @@
 const express = require('express'), // for easier syntax;
-    http = require('http'), // for connexion
+    http = require('http'),
     socket = require('socket.io'), // for easier connexion
     ent = require('ent'), // html url security
     os = require('os'), // os access

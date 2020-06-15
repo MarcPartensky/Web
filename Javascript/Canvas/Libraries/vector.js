@@ -81,8 +81,9 @@ class Vector extends Tensor {
     return Math.atan2(this.y,this.x);
   }
   set angle(value) {
-    this.x = this.norm*Math.cos(value);
-    this.y = this.norm*Math.sin(value);
+    const n = this.norm;
+    this.x = n*Math.cos(value);
+    this.y = n*Math.sin(value);
   }
   get components() {
     return Array(...this);
@@ -131,11 +132,14 @@ class Vector extends Tensor {
   itowards(vector) {
     this.angle = vector.sub(this).angle;
   }
-  rotate(angle, point=undefined) {
-    point = super.zero(this.length);
-    this.isub(point)
+  translate(vector) {
+    this.iadd(vector);
+  }
+  rotate(angle, vector=undefined) {
+    vector = vector ?? Vector.zero.copy();
+    this.isub(vector)
     this.angle += angle;
-    this.iadd(point);
+    this.iadd(vector);
   }
   equals(vector) {
     for (let i = 0; i < Math.max(vector.dim, this.dim); i++) {

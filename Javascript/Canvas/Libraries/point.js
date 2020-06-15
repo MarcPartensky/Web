@@ -2,6 +2,9 @@ class Point extends Vector {
   static radius = 1;
   static color = "#ffffff";
   static conversion = false;
+  static average(...points) {
+    return new Point(...Vector.average(...points));
+  }
   static random(n=2) {
     return new Point(...Vector.random(n));
   }
