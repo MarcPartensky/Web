@@ -1,35 +1,36 @@
 // import Tensor from 'tensor.js'
 
 class Vector extends Tensor {
-  static dim = 2;
-  static length = Vector.dim;
+  static length = 2;
+  // Mathematically a vector doesn't have a dimension
+  // only a length we abuse of this term to qualify
+  // the length, same goes for size.
+  static get dim() {return this.length;}
+  static set dim(v) {this.length = v;}
+  static get size() {return this.length;}
+  static set size(v) {this.length = v;}
   static color = "#ffffff";
-  static norm = 2;
+  static norm = 2; // euclidan norm
   static lineWidth = 2; // in pixels
   static zero(...format) {
-    let v = Tensor.zero(...format)
-    v = v.map(x => Vector.from(x))
-    return v;
+    return this.from(Tensor.zero(...format));
+  }
+  static one(n) {
+    return this.fill(1, length);
   }
   static distance(v1, v2) {
     return (v1.sub(v2)).norm;
   }
-  // static copy = this.from;
-  // static empty(n=0) {
-  //   return this.from(Array(n));
-  // }
-  // // static get zero() {
-  // //   return this.fill(0);
-  // // }
-  // static get one() {
-  //   return this.fill(1);
-  // }
-  // static get zero2D() {
-  //   return new this(0, 0);
-  // }
-  // static get zero3D() {
-  //   return new this(0, 0, 0);
-  // }
+  static copy = this.from; // Abusive
+  static empty(n=0) {
+    return this.from(Array(n));
+  }
+  static get zero2() {
+    return new this(0, 0);
+  }
+  static get zero3() {
+    return new this(0, 0, 0);
+  }
   static random(dim = this.dim, min=-1, max=1) {
     let v = new this(dim);
     for (let i = 0; i < dim; i++) {
@@ -84,13 +85,16 @@ class Vector extends Tensor {
   get sum() {
     return this.reduce((x, y) => x+y);
   }
-
   get norm() {
     return (this.map(x => x ** Vector.norm).reduce((x, y) => x + y))**(1/Vector.norm);
   }
   set norm(value) {
     this.irmul(value/this.norm);
   }
+  // The angle of a vector can only make sense
+  // when applied on 2d vectors.
+  // This is an abusive way to generalize for
+  // simple usage.
   get angle() {
     return Math.atan2(this.y,this.x);
   }
@@ -103,9 +107,10 @@ class Vector extends Tensor {
     return Array(...this);
   }
   set components(values) {
-    for (let i = 0; i < Math.max(this.length, values.length); i++) {
-      this[i] = values[i];
-    }
+    this.set(values);
+    // for (let i = 0; i < Math.max(this.length, values.length); i++) {
+    //   this[i] = values[i];
+    // }
   }
   get dim() {
     return this.length;
@@ -212,10 +217,10 @@ class Vector extends Tensor {
     }
     return v;
   }
-  prod(vector) {
-    // Vectorial product
-    throw "Not implemented error";
-  }
+  // prod(vector) {
+  //   // Vectorial product
+  //   throw "Not implemented error";
+  // }
   div(k) {
     return this.rmul(1 / k);
   }
@@ -235,6 +240,9 @@ class Vector extends Tensor {
       this[i] = Math.min(this[i], vmax[i]);
     }
   }
+  /** 
+   * Shows an arrow.
+  */
   show(
     ctx,
     position=Vector.zero(this.dim),
@@ -278,7 +286,6 @@ class Vector extends Tensor {
     for (const vi of vectors) {
       b = this.sub(vi).norm;
       if (a > b) {
-        // console.log(a, b);
         a = b;
         j = i;
       }
@@ -306,7 +313,6 @@ class Vector extends Tensor {
     for (const vi of vectors) {
       b = this.sub(vi).norm;
       if (a < b) {
-        // console.log(a, b);
         a = b;
         j = i;
       }
@@ -325,6 +331,12 @@ class Vector extends Tensor {
 class Vector2 extends Vector {
   // force the dimension to be 2
   static get dim() {return 2;}
+  static polar(norm, angle) {
+    return new this(
+      norm * Math.cos(angle), 
+      norm * Math.sin(angle)
+    );
+  }
   constructor(x, y) {
     super(x, y);
   }

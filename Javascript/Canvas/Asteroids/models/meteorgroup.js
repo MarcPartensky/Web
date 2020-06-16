@@ -1,5 +1,4 @@
-class MeteorGroup extends Group {
-    
+class MeteorGroup extends Grouper(Meteor) {
     static meteorShower(n) {
         let wtf = [];
         for (let pas = 0; pas < n; pas++) {

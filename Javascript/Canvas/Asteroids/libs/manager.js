@@ -1,13 +1,19 @@
 class Manager {
+  static zoomDelta = 0.1;
+  static scrollZoomFactor = 0.5;
   static entities = [];
   static dt = 0.1;
   static movement = {up: false, down: false, right: false, left: false, zoomin: false, zoomout: false};
   static backgroundColor = "#000000";
 
   addEventListeners() {
+    // using window as a global
     window.addEventListener("keydown", this.onKeyDown.bind(this));
     window.addEventListener("keyup", this.onKeyUp.bind(this));
     window.addEventListener("mousemove", this.onMouseMotion.bind(this));
+    window.addEventListener("scroll", this.onScroll.bind(this));
+    window.addEventListener("mousewheel", this.onScroll.bind(this));
+    window.addEventListener("resize", this.resize.bind(this));
   }
   deactivate() {
     // prevent default actions from space and arrow keys
@@ -96,6 +102,13 @@ class Manager {
         break;
       }
   }
+  onScroll(evt) {
+    if (evt.wheelDeltaY>0) {
+        this.context.plane.units[0].irmul(1+Manager.scrollZoomFactor*Manager.zoomDelta);
+    } else {
+        this.context.plane.units[0].irmul(1-Manager.scrollZoomFactor*Manager.zoomDelta);
+    }
+  }
   onMouseMotion(evt) {
     this.mouse = new Vector(evt.x, evt.y);
   }
@@ -114,10 +127,10 @@ class Manager {
       this.context.plane.x += this.context.plane.speed/this.context.plane.uy;
     }
     if (this.movement.zoomin) {
-      this.context.plane.units[0].irmul(1.1);
+      this.context.plane.units[0].irmul(1+Manager.zoomDelta);
     }
     if (this.movement.zoomout) {
-      this.context.plane.units[0].irmul(0.9);
+      this.context.plane.units[0].irmul(1-Manager.zoomDelta);
     }
   }
   loop() {
@@ -126,9 +139,9 @@ class Manager {
     requestAnimationFrame(this.loop.bind(this));
   }
   start() {
-    // this.resize();
+    // this.resize(); // resize has its own event listener to call it
     this.addEventListeners();
-    this.deactivate();
+    // this.deactivate(); // no need to deactivate anything after all
   }
   main() {
     this.start();

@@ -12,8 +12,9 @@ context.plane.units.position = new Vector(0.2, 0.2);
 var host = String(document.location);
 var socket = io.connect(host) //, {query: "name="+name});
 
-var group = new SuperGroup();
-var game = new Game(group);
+// var group = SuperGroup.random();
+// var game = new Game(group);
+var game = Game.random();
 
 gameClient = new GameClient(canvas, game, socket)
 gameClient.main();

@@ -1,21 +1,11 @@
-class SpaceshipGroup extends Group {
-
+class SpaceshipGroup extends Grouper(Spaceship) {
+    static type = Spaceship;
     static readyOnePlayer(){
         const s = Spaceship.random()
         return new this([["spaceship:0",s]]);
     }
-
-    constructor(g){
-        super(g);
-    }
-    
     addSpaceship(idSpaceship, spaceshipObject) {
        //Ajoute le spaceship spaceshipObject dans le groupe this avec l'id idSpaceship
-                this.push([[`spaceship:${idSpaceship}`,spaceshipObject]])
+        this.push([[`spaceship:${idSpaceship}`,spaceshipObject]])
     }
-
-    
-
-    
 }
-

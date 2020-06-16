@@ -23,8 +23,7 @@ class Rectangle extends BasePolygon {
     this.size = new Vector(...size);
   }
   translate(vector) {
-    this.position
-
+    this.position.iadd(vector);
   }
   get x() {
     return this.position[0]

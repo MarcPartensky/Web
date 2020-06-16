@@ -22,14 +22,19 @@ class Spaceship extends Entity {
         const body = Body.random(1, 3, 2);
         const form = new Polygon([[4,0],[-2,2],[-1,0],[-2,-2]]);//triangle regardant vers la droite
         form.center = Vector.zero(2);
-        const follower = new Follower();
-        return new this(form, body, follower);
+        return new this(form, body);
     }
 
-    constructor(form, body, follower) {
+    constructor(
+        form,
+        body,
+        life = new Life(),
+        follower = new Follower(),
+    ) {
         super(form, body);
         form.fill=true;
         form.color=Spaceship.color;
+        this.life = life
         this.follower = follower;
         this.fuel=Spaceship.initFuel;
         this.isDashing=false;
@@ -71,6 +76,7 @@ class Spaceship extends Entity {
     }
     show(ctx) {
         super.show(ctx);
+        this.life.show(ctx, this.position);
         this.body.motion.show(ctx);
     }
 }

@@ -14,12 +14,7 @@ class Line extends Figure {
 
 
   }
-  get angle() {
-    return this[1].angle;
-  }
-  set angle(value) {
-    this[1].angle = value;
-  }
+  
   show(context) {
     context.lineWidth = this.lineWidth;
     context.strokeStyle = this.color;

@@ -54,7 +54,7 @@ class Square extends BasePolygon {
   set components(cps) {
     this.x = cps[0];
     this.y = cps[1];
-    this.z = cps[2];
+    this.s = cps[2];
   }
   show(ctx) {
     if (this.lineWidth) {
@@ -67,5 +67,10 @@ class Square extends BasePolygon {
       ctx.strokeStyle = this.color;
       ctx.strokeRect(this.x, this.y, this.s, this.s);
     }
+  }
+  contains(p) {
+    return this.x <= p[0] <= this.x+this.s &&
+          this.y <=  p[1] <= this.y+this.s;
+    
   }
 }

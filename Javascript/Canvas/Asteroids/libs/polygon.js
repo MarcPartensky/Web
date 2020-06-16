@@ -43,9 +43,10 @@ class Polygon extends BasePolygon {
     }
     get segments() {
         const segments = [];
-        const p = this.matrix[0];
+        let p = this.matrix[this.matrix.length-1];
         for (const pi of this.matrix) {
             segments.push(new Segment(p, pi));
+            p = pi;
         }
         return segments;
       }
@@ -98,9 +99,28 @@ class Polygon extends BasePolygon {
      * Determine if the polygon contains a point
      * @param {*} point 
      */
-    contains(point) {
-        const s = new Segment(point, point.radd(0, ))
-
-
+    contains(p) {
+        const points = this.matrix;
+        var isInside = false;
+        var minX = points[0].x, maxX = points[0].x;
+        var minY = points[0].y, maxY = points[0].y;
+        for (let n = 1; n < points.length; n++) {
+            let q = points[n];
+            minX = Math.min(q.x, minX);
+            maxX = Math.max(q.x, maxX);
+            minY = Math.min(q.y, minY);
+            maxY = Math.max(q.y, maxY);
+        }
+        if (p.x < minX || p.x > maxX || p.y < minY || p.y > maxY) {
+            return false;
+        }
+        let i = 0, j = points.length - 1;
+        for (i, j; i < points.length; j = i++) {
+            if ( (points[i].y > p.y) != (points[j].y > p.y) &&
+                    p.x < (points[j].x - points[i].x) * (p.y - points[i].y) / (points[j].y - points[i].y) + points[i].x ) {
+                isInside = !isInside;
+            }
+        }
+        return isInside;
     }
 }

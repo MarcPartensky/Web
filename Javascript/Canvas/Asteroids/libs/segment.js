@@ -2,9 +2,11 @@ class Segment extends Figure {
   static lineWidth = 1;
   static color = "#ffffff";
   static random(lineWidth=super.width, color=super.color) {
-    p1 = Point.random();
-    p2 = Point.random();
-    return new Segment(p1, p2, lineWidth, color)
+    return new Segment(
+      Point.random(),
+      Point.random(),
+      lineWidth,
+      color)
   }
   constructor(p1, p2, lineWidth, color) {
     super();

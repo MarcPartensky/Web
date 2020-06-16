@@ -33,6 +33,9 @@ const files = [
     "libs/manager.js",
 
     "models/gameentity.js",
+    "models/missile.js",
+    "models/missilegroup.js",
+    "models/life.js",
     "models/asteroid.js",
     "models/asteroidgroup.js",
     "models/spaceship.js",
@@ -40,8 +43,6 @@ const files = [
     "models/meteor.js",
     "models/meteorgroup.js",
     // "model/gameplayer.js",
-    "models/life.js",
-    "models/missile.js",
     "models/gamemap.js",
     "models/supergroup.js",
     "models/game.js",
