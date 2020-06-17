@@ -54,6 +54,15 @@ class GameClient extends Manager {
         player.follow(this.context.fromScreen(this.mouse))
         super.update()
     }
+    onKeyDown(e) {
+        super.onKeyDown(e);
+        if (e.code=='Space') {
+            const player = this.player;
+            const missile = player.shoot();
+            console.log(missile);
+            this.game.group.get('missileGroup').set('missile', missile);
+        }
+    }
     //     let player = this.game.map.group.playerGroup.map.get(this.id);
     //     if (player) {
     //         if (!player.alive) {

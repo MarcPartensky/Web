@@ -28,7 +28,7 @@ class Spaceship extends Entity {
     ) {
         super(form, body);
         this.life = life
-        this.shooter = shooter || new Shooter(this, Missile);
+        this.shooter = shooter || new Shooter(this, [Missile]);
         this.follower = follower;
         this.dashing = dashing;
         this.dashTime = 0;

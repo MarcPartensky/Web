@@ -16,6 +16,6 @@ class Shooter {
     shoot() {
         this.last_shooting = Date.now();
         this.shooted += 1;
-        return new this.type(this.entity);
+        return this.type.make(this.entity);
     }
 }

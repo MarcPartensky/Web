@@ -15,7 +15,7 @@ class AsteroidForm extends Polygon {
 class Asteroid extends Entity {
     static color = "#3f87a6";
     static w = 5;
-    static riskOfSelfDestruction  = 0.000005;
+    static riskOfSelfDestruction  = 0.00005;
     static rotation = 0.1;
     static movement = 0.1;
     static random() {
@@ -33,7 +33,7 @@ class Asteroid extends Entity {
         super.update(dt);
         this.form.angle = this.body[1][0][0]; // setting form angle
         // the form position is already dealt with
-        if (Math.random() * dt <= Asteroid.riskOfSelfDestruction) {
+        if (Math.random() <= Asteroid.riskOfSelfDestruction) {
             console.log("Explosion imminente !!!!");
             this.selfDestruction();
         }

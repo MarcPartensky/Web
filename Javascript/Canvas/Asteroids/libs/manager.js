@@ -77,6 +77,12 @@ class Manager {
           this.movement.zoomin = true;
         }
         break;
+      case 18:
+        if (this.dt) {
+          this.dt = 0;
+        } else {
+          this.dt = Manager.dt;
+        }
       }
   }
   onKeyUp(evt) {
