@@ -1,13 +1,12 @@
-/*
-
-*/
+/**
+ * A figure is basically a base class
+ * for any visual object.
+ */
 class Figure {
   static lineWidth = 1;
   static color = "#ffffff";
-  static borderColor = this.color;
-  static areaColor = this.color;
   static conversion = true;
   static random(...args) {
-    throw "Figure: Static function not implemented."
+    throw "Static function random is not implemented."
   }
 }

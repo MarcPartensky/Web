@@ -1,4 +1,4 @@
-// Making use of strategy pattern for spaceships
+// Using strategy pattern for spaceships
 class Shooter {
     constructor(entity, types, selection=0) {
         this.entity = entity; // reference loop btw

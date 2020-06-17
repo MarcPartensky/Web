@@ -1,4 +1,4 @@
-class BasePolygon extends Figure {
+class BasePolygon extends Form {
     constructor(color, lineWidth, fill) {
         super();
         this.color = color;

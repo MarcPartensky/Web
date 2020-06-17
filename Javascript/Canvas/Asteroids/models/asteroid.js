@@ -1,22 +1,13 @@
 class AsteroidForm extends Polygon {
     static color = "#3f87a6";
-    static w=2;
-    static fill=true;
+    static w = 2;
+    static fill = true;
     static maxPoints = 8;
     static minPoints = 3;
     static size = 1;
     static random(color=AsteroidForm.color, fill=Asteroid.fill) {
         const n = Math.floor((AsteroidForm.maxPoints-AsteroidForm.minPoints)*Math.random())+AsteroidForm.minPoints;
-        console.log('polygon.random')
         const p = Polygon.random(n, 2, 10);
-        // const p = new Polygon(
-        //     new Matrix(
-        //         new Vector(0, 1),
-        //         new Vector(1, 0),
-        //         new Vector(-1, 0)
-        //     )
-        // )
-        // console.log('polygon:', p)
         return new this(p.matrix, color, p.width, fill);
     }
 }
@@ -48,8 +39,7 @@ class Asteroid extends Entity {
         }
     }
     selfDestruction() {
-            //détruit l'Asteroid
+        //silly way of destroying an asteroid
         return this.removing=true;
     }
-
 }

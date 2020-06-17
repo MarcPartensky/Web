@@ -6,4 +6,11 @@ class SuperGroup extends Group {
         g.set("spaceshipGroup", SpaceshipGroup.readyOnePlayer());
         return g;
     }
+    constructor(...args) {
+        super(...args);
+        this.setDefault("asteroidGroup", new AsteroidGroup());
+        this.setDefault("meteorGroup", new MeteorGroup());
+        this.setDefault("spaceshipGroup", new SpaceshipGroup());
+        this.setDefault("missileGroup", new MissileGroup());
+    }
 }

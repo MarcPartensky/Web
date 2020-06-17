@@ -104,13 +104,10 @@ class Vector extends Tensor {
     this.y = n*Math.sin(value);
   }
   get components() {
-    return Array(...this);
+    return Array.from(this);
   }
   set components(values) {
     this.set(values);
-    // for (let i = 0; i < Math.max(this.length, values.length); i++) {
-    //   this[i] = values[i];
-    // }
   }
   get dim() {
     return this.length;
@@ -159,6 +156,16 @@ class Vector extends Tensor {
     this.isub(vector)
     this.angle += angle;
     this.iadd(vector);
+  }
+  irot(angle, vector=undefined) {
+    this.rotate(angle, vector);
+  }
+  rot(angle, vector=undefined) {
+    vector = vector || Vector.zero(Vector.length);
+    const v = this.sub(vector)
+    v.angle += angle;
+    v.iadd(vector);
+    return v;
   }
   equals(vector) {
     for (let i = 0; i < Math.max(vector.dim, this.dim); i++) {

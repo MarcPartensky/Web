@@ -10,7 +10,7 @@ class Segment extends Figure {
   }
   constructor(p1, p2, lineWidth, color) {
     super();
-    this.points = [Point.from(p1), Point.from(p2)];
+    this.points = new Matrix(Point.from(p1), Point.from(p2));
     this.lineWidth = lineWidth || super.lineWidth;
     this.color = color || super.color;
   }

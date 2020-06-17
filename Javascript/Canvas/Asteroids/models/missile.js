@@ -1,18 +1,49 @@
 class Missile extends GameEntity {
     static size = 1;
-    static random() {
-
+    static duration = 3; // seconds
+    static random(source=undefined, target=undefined)
+    {
+        new Segment([0, 0], [0, Missile.size]),
+        Body.random(1, 2);
+        source,
+        target
     }
-    static make(body) {
+    static make(source, target=undefined, duration=Missile.duration) {
         return new this(
             new Segment([0, 0], [0, Missile.size]),
-            body.slice(0, 2)
+            source.body.slice(0, 2),
+            source,
+            target,
+            duration
         );
         
     }
-    //just here to emphasize the fact that the form
-    // must be a segment
-    // constructor(segment, body) {
-    //     super(segment, body);
-    // }
+    constructor(
+        form,
+        body,
+        source=undefined,
+        target=undefined,
+        duration=Missile.duration,
+    ) {
+        super(form, body);
+        this.source = source;
+        this.target = target;
+        this.duration = duration;
+        this.time = undefined;
+    }
+    update(dt) {
+        if (!this.time) {
+            this.time = Date.now()
+        }
+        if (!this.alive) {
+            this.removing = true;
+        }
+        super.update(dt);
+    }
+    get left() {
+        return Date.now() - this.time;
+    }
+    get alive() {
+        return this.left>=this.duration;
+    }
 }
