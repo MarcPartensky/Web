@@ -57,10 +57,7 @@ class GameClient extends Manager {
     onKeyDown(e) {
         super.onKeyDown(e);
         if (e.code=='Space') {
-            const player = this.player;
-            const missile = player.shoot();
-            console.log(missile);
-            this.game.group.get('missileGroup').set('missile', missile);
+            this.game.group.get('missileGroup').add(this.player.shoot());
         }
     }
     //     let player = this.game.map.group.playerGroup.map.get(this.id);

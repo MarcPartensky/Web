@@ -1,3 +1,10 @@
+// GameClient   => Game => SuperGroup => ...
+//                      => GameMap
+//              => Context
+
+// GameServer   => Game => SuperGroup => ...
+//                      => GameMap
+
 class Game {
     // Making a getter is memory friendly
     // and it doesn't matter that we can't

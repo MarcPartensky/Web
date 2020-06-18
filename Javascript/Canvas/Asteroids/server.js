@@ -4,6 +4,8 @@ const express = require('express'),
     fs = require('fs'), // file system
     vm = require('vm'); // to execute scripts
 
+//import { SocketClient } from "models/gameserver.js";
+
 const app = express();
 const server = http.createServer(app);
 const io = socket.listen(server);
@@ -53,7 +55,12 @@ const files = [
     "models/game.js",
     // Entry point
     "models/gameserver.js",
-  ];
+];
+
+// const game = Game.random();
+//const gameServer = new GameServer(game, io);
+//gameServer.setUp();
+
 
 server.listen(process.env.PORT || 8000)
 

@@ -1,9 +1,11 @@
 class Missile extends GameEntity {
     static size = 3;
-    static duration = 3; // seconds
+    static duration = 1000/10; // mili-seconds
     static velocityBoost = 5;
-    static random(source=undefined, target=undefined)
-    {
+    static random(
+        source=undefined,
+        target=undefined
+    ) {
         return new this(
             new Segment([0, 0], [0, Missile.size]),
             Body.random(1, 2),
@@ -11,7 +13,11 @@ class Missile extends GameEntity {
             target
         );
     }
-    static make(source, target=undefined, duration=Missile.duration) {
+    static make(
+        source,
+        target=undefined,
+        duration=Missile.duration
+    ) {
         const body = new Body(source.body[0].slice(0, 2).copy());
         body[0][1].norm += this.velocityBoost;
         return new this(
@@ -40,7 +46,7 @@ class Missile extends GameEntity {
         if (!this.time) {
             this.time = Date.now()
         }
-        if (!this.alive) {
+        if (!this.isAlive(dt)) {
             this.removing = true;
         }
         this.form.angle = this.body[0][1].angle;
@@ -49,7 +55,7 @@ class Missile extends GameEntity {
     get left() {
         return Date.now() - this.time;
     }
-    get alive() {
-        return this.left>=this.duration;
+    isAlive(dt) {
+        return this.left*dt<this.duration;
     }
 }

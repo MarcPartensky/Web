@@ -33,7 +33,7 @@ class Asteroid extends Entity {
         super.update(dt);
         this.form.angle = this.body[1][0][0]; // setting form angle
         // the form position is already dealt with
-        if (Math.random() <= Asteroid.riskOfSelfDestruction) {
+        if (Math.random() <= dt * Asteroid.riskOfSelfDestruction) {
             console.log("Explosion imminente !!!!");
             this.selfDestruction();
         }

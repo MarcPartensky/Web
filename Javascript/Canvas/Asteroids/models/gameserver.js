@@ -1,52 +1,99 @@
 ping = 0;
 
+
+class Player_ {
+    constructor(id) {
+            this.id  =  id;
+    }
+    
+    join() {
+                //ajoute le vaisseau de this dans le jeu
+    }
+    
+    left() {
+                //retire le vaisseau du joueur
+    }
+}
+
+
+
 class socketClient {
         //se trouve côté server. Une instance de socketClient par onglet du jeu
-    constructor(socket) {
+    constructor(socket,gameServer) {
         this.socket = socket;
-        this.player  =  "Todo";//fabrication d'une instance Player pour notre client
+        this.player  = new Player(this.socket.id);//fabrication d'une instance Player pour notre client
+        this.gameServer = gameServer;
     }
 
-    connection() {
+    connect() {
         //lancée quand l'objet se connecte au serveur
+        this.player.join();
+        this.registerPlayerEvent(this.player)
+
     }
 
-    initSocketAPI() {
+    
 
+    disconnect() { 
+                //quand l'objet se déconnecte au serveur
+        this.player.left();
+    }
+    
+    initSocketAPI() {
+        //permet de recevoir les commandes envoyée par le joueur
         if (this.player === undefined || this.player === null) {
             console.log("on essai de iniSocketAPI alors que le joueur est pas co :/");
         }
-        const player = this.player;
+        // const player = this.player;
         this.socket.on("message", function (message) {
             console.log(message);
             this.socket.emit("message", message);
         });
     }
 
-    registerPlayerEvent() {
-        let socket = this.socket;
-        const player = this.player;
-
+    registerPlayerEvent(player) {
+        //permet d'annnoncer à tous les joueurs des updates
+        const socket = this.socket;
+        // const player = this.player;
+        const myGameServer = this.gameServer;
         player.update.on("coordinatesUpdate", function (data) {
             //console.log("coordinatesUpdate event", data);
-            SocketCom.SendAll("coordinatesUpdate", { uuid: player.id, coordinates: data.coordinates });
+            myGameServer.sendAll("coordinatesUpdate", { uuid: player.id, coordinates: data.coordinates });
         });
 
         player.update.on("directionUpdate", function (data) {
             //console.log("directionUpdate event", data);
-            SocketCom.SendAll("directionUpdate", { uuid: player.id, direction: data.direction });
+            myGameServer.sendAll("directionUpdate", { uuid: player.id, direction: data.direction });
         });
 
         player.update.on("unsummonPlayer", function (data) {
-            SocketCom.SendAll("unsummonPlayer", { uuid: data.uuid });
+            myGameServer.sendAll("unsummonPlayer", { uuid: data.uuid });
         });
 
         player.update.on("summonPlayer", function (data) {
-            SocketCom.SendAll("summonPlayer", { name: data.name, uuid: data.uuid, coordinates: data.coordinates });
+            myGameServer.sendAll("summonPlayer", { name: data.name, uuid: data.uuid, coordinates: data.coordinates });
         });
 
 
     }
+    
+    
+    initInformPlayers() {
+        //Permet d'informer le client quel est son vaisseau et informe touts les autres joueurs en ligne
+        //qu'un nouveau joueur est connecté
+
+        this.socket.emit("I choose you !", { your_uuid: this.player.id });
+        
+        for (let player of this.map.listPlayers) {
+            console.log(`${player.id}`);
+            if (player.id !== this.socket.id) {
+                this.socket.emit("summonPlayer", { name: player.name, uuid: player.id, coordinates: player.coordinates })//todo
+            }
+
+        }
+    }
+    
+    
 
 }
 
@@ -77,14 +124,13 @@ class GameServer {
         //demande au seveur d'accepter les connexions des clients
         this.io.sockets.on("connection", function (socket) {
             const id = socket.id;
-            this.socketList[id] = new socketClient();
+            this.socketList[id] = new socketClient(socket, this);
             this.socketList[id].connection();
             socket.on("disconnect", function () {
                 this.socketList[id].disconnect();
                 delete this.socketList[id];
-
             });
-        });
+        }.bind(this));
     }
 
     initUpdate() {

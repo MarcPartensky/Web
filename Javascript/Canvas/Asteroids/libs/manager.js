@@ -58,26 +58,26 @@ class Manager {
   }
   onKeyDown(evt) {
     switch(evt.keyCode){
-      case 39: // Arrow Right
+      case 39: // Arrow Right for moving right
         this.movement.right = true;
         break;
-      case 37: // Arrow Left
+      case 37: // Arrow Left for moving left
         this.movement.left = true;
         break;
-      case 40: // Arrow Up
+      case 40: // Arrow Up for moving up
         this.movement.up = true;
         break;
-      case 38: // Arrow Down
+      case 38: // Arrow Down for moving down
         this.movement.down = true;
         break;
-      case 16: // Left and Right shift
+      case 16: // Left and Right shift for zooming in and out
         if (evt.location == 1) {
           this.movement.zoomout = true;
         } else {
           this.movement.zoomin = true;
         }
         break;
-      case 18:
+      case 18: // Alt for pause
         if (this.dt) {
           this.dt = 0;
         } else {

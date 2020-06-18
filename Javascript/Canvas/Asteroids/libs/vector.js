@@ -247,6 +247,9 @@ class Vector extends Tensor {
       this[i] = Math.min(this[i], vmax[i]);
     }
   }
+  call(point) {
+    return Point.from(this.vector.add(point));
+  }
   /** 
    * Shows an arrow.
   */
