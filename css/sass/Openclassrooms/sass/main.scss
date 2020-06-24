@@ -1,0 +1,136 @@
+.navbar-content { 
+  color: white;
+  background-color: white;
+}
+
+ul {
+	list-style: none;
+	text-align: right;
+	color: #00ff00;
+	li {
+		display: inline;
+		font-size: 3rem;
+		color: #d6FFF5;
+		&:hover {
+			color: #001534;
+		}
+	}
+}
+
+.parent-div {
+	background-color: #15DEA5;
+	.child-div {
+		color: #fff;
+		.grandchild-div {
+			color: #D6FFF5;
+		}
+	}
+}
+
+.proj-prev {
+	background-color: #00ff00;
+	img {
+		color: #ffffff;
+	}
+}
+
+
+.block {
+	background-color: #15DEA5;
+	&__element {
+		color: #fff;
+		&--modifier {
+			background-color: #001534;
+		}
+	}
+}
+
+.btn {
+	display: inline-block;
+	margin: 0 auto;
+	background: #15dea5;
+	padding: 1rem;
+	&--disabled {
+		background: grey;
+	}
+	&--outline {
+		background: transparent;
+		border: 2px solid #15dea5;
+		&.btn--disabled {
+			border: 2px solid grey;
+		}
+	}
+}
+
+
+$color-primary: #15dea5;
+$colour-primary: $color-primary;
+
+.form {
+	width: 100%;
+	padding-bottom: 1.5rem;
+}
+
+.form__heading {
+	width: 100%;
+	color: #fff;
+	text-shadow: 0.55rem 0.55rem #11af82;
+	background: $color-primary;
+	line-height: 5rem;
+	padding: 1.5rem;
+}
+
+.form__field label {
+	color: #d6fff5;
+	display: block;
+	font-size: 2rem;
+	line-height: 2rem;
+	padding-top: 1.5rem;
+}
+
+.form__field input {
+	width: 100%;
+	background: #001534;
+	border:0.1rem solid #15dea5;
+	padding: 1.5 rem;
+	color: #d6fff5;
+}
+
+.form__field textarea {
+	width: 100%;
+	color: #15dea5;
+	background: #001534;
+	border: 0.1rem solid #15dea5;
+	outline: none;
+	padding: 1.5rem;
+	margin-bottom: 0.75rem;
+}
+
+
+@mixin heading-shadow($colour: $colour-primary) {
+	text-shadow: .55rem .55rem $colour;
+}
+
+.heading{
+	&__header {
+		@include heading-shadow(#fff);
+	}
+}
+
+.form{
+	&__heading {
+		@include heading-shadow(#faa);
+	}
+}
+
+.about {
+	&__heading {
+		@include heading-shadow(#ffaaaa);
+	}
+}
+
+.project {
+	&__heading {
+		@include heading-shadow(#aaffff);
+	}
+}
