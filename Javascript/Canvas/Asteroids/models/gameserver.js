@@ -1,11 +1,11 @@
 ping = 0;
 
-
-class Player_ {
+class Player {
     constructor(id) {
-            this.id  =  id;
+        this.id = id;
+        this.update = new EventEmitter();//Utilise par SockCom/SockClient pour les socket
+        this.mouse = Vector.zero2;
     }
-    
     join() {
                 //ajoute le vaisseau de this dans le jeu
     }
@@ -19,7 +19,7 @@ class Player_ {
 
 class socketClient {
         //se trouve côté server. Une instance de socketClient par onglet du jeu
-    constructor(socket,gameServer) {
+    constructor(socket, gameServer) {
         this.socket = socket;
         this.player  = new Player(this.socket.id);//fabrication d'une instance Player pour notre client
         this.gameServer = gameServer;
@@ -27,19 +27,42 @@ class socketClient {
 
     connect() {
         //lancée quand l'objet se connecte au serveur
+        const spaceshipGroup = this.gameServer.game.group.get('spaceshipGroup');
+        spaceshipGroup.add(this.socket.id, Spaceship.random());
+        this.socket.emit("spaceshipID", { spaceshipID: this.socket.id });
         this.player.join();
-        this.registerPlayerEvent(this.player)
+        this.registerPlayerEvent(this.player);
+        this.on(); 
+        const superGroup = this.gameServer.game.group;
+        //hipGroup  = this.gam erver.game.group.get("spaceshipGroup")
+        //const asteroidGroup = this.gameServer.game.group.get("asteroidGroup");
 
+        //const str = JSON.stringify(group, Game.replacer);
+        //console.log(`On envoie à ${this.socket.id} le groupe de ${str.length} caractère.`); //superGroup : ${str}`);
+        //this.socket.emit("superGroup", str);
+        const data = JSON.stringify(superGroup, Game.replacer)
+        this.socket.emit("superGroup", data);//le nouveau joueur reçois son spaceship ici
+
+        for (let so_id in this.gameServer.socketList) {//todo faire un truc async et utiliser broadcast
+            if (so_id != this.socket.id) {
+                this.gameServer.socketList[so_id].socket.emit("summonSpaceship", {uuid: this.socket.id, coordinates: [0,0]})//todo
+
+            } 
+        }
     }
-
-    
-
+    get spaceship() {
+        return this.gameServer.game.group.get('spaceshipGroup').take(this.socket.id);
+    }
     disconnect() { 
-                //quand l'objet se déconnecte au serveur
+        //quand l'objet se déconnecte du serveur
         this.player.left();
+        const spaceshipGroup = this.gameServer.game.group.get("spaceshipGroup")
+        spaceshipGroup.remove(this.socket.id);
+        this.gameServer.sendAll("unsummonSpaceship", {uuid:this.socket.id});
+        
     }
     
-    initSocketAPI() {
+    on() {
         //permet de recevoir les commandes envoyée par le joueur
         if (this.player === undefined || this.player === null) {
             console.log("on essai de iniSocketAPI alors que le joueur est pas co :/");
@@ -49,6 +72,31 @@ class socketClient {
             console.log(message);
             this.socket.emit("message", message);
         });
+        this.socket.on("mouseMove", function (data) {
+            this.player.mouse.set(data.mouse);
+            // this.socket.broadcast.emit("oneMouseMove", {uuid:this.socket.id, mouse:data.mouse});
+            // console.log(data.mouse)
+            // const spaceship = this.gameServer.game.group.get('spaceshipGroup').take(this.socket.id);
+            // if (spaceship) {
+            //     spaceship.follow(Vector.from(data.mouse));
+            //     this.gameServer.sendAll("oneSpaceshipBody", {body: spaceship.body, uuid: this.socket.id});
+            // }
+        }.bind(this));
+
+        this.socket.on("spaceshipBody", function(data) {
+            this.spaceship.body.rset(data.body);
+        }.bind(this));
+
+        this.socket.on("missile", function (data) {
+                        //le client a envoyé un missile
+                        //todo : vérif que le client respecte les cooldown
+            // console.log(`le client envoi un missile`);
+            const missile = JSON.parse(data.missile, Game.reviver);
+            // console.log(missile);
+            this.gameServer.game.group.get('missileGroup').add(missile);    
+            // console.log(this.gameServer.game.group.get('missileGroup'));
+            this.socket.broadcast.emit("newMissile", data);
+        }.bind(this));
     }
 
     registerPlayerEvent(player) {
@@ -73,25 +121,9 @@ class socketClient {
         player.update.on("summonPlayer", function (data) {
             myGameServer.sendAll("summonPlayer", { name: data.name, uuid: data.uuid, coordinates: data.coordinates });
         });
-
-
     }
     
-    
-    initInformPlayers() {
-        //Permet d'informer le client quel est son vaisseau et informe touts les autres joueurs en ligne
-        //qu'un nouveau joueur est connecté
-
-        this.socket.emit("I choose you !", { your_uuid: this.player.id });
-        
-        for (let player of this.map.listPlayers) {
-            console.log(`${player.id}`);
-            if (player.id !== this.socket.id) {
-                this.socket.emit("summonPlayer", { name: player.name, uuid: player.id, coordinates: player.coordinates })//todo
-            }
-
-        }
-    }
+   
     
     
 
@@ -99,9 +131,8 @@ class socketClient {
 
 
 class GameServer {
-    constructor(game, io, dt=0.01) {
+    constructor(game, io) {
         this.game = game;
-        this.dt = dt;
         this.socketList = {};
         this.io =  io;
     }
@@ -122,96 +153,66 @@ class GameServer {
     
     acceptConnection() {
         //demande au seveur d'accepter les connexions des clients
+        console.log(`On écoute les connexions des clients`);
         this.io.sockets.on("connection", function (socket) {
             const id = socket.id;
+                  
+            console.log(`Nouveau client d'id ${JSON.stringify(id)}`);
             this.socketList[id] = new socketClient(socket, this);
-            this.socketList[id].connection();
+            this.socketList[id].connect();
             socket.on("disconnect", function () {
-                this.socketList[id].disconnect();
+                console.log(`Deconnexion client d'id ${JSON.stringify(id)}`);
+                this.socketList[id].disconnect();  
                 delete this.socketList[id];
-            });
+            }.bind(this));
         }.bind(this));
     }
 
     initUpdate() {
         //A lancer au lancement du serveur, permet d'informer les clients des dernières news
-        this.game.on("Event Update News !!",  function (data)  {
-            console.log("event caught by GameServer !!");
-            this.sendAll("Update de la mort", { param1: "ciao les losers", param2: "toujours pour décrire l'update" });
-        });
+        //this.game.on("Event Update News !!",  function (data)  {
+        //    console.log("event caught by GameServer !!");
+        //    this.sendAll("Update de la mort", { param1: "ciao les losers", param2: "toujours pour décrire l'update" });
+        //});
     }
-    
-    on() {
-        this.io.sockets.on("connection", function (socket) {
-            const id = socket.id;
-            this.socketList[id] = new socketClient();
-            this.socketList[id].connection();
-            socket.on("disconnect", function () {
-                this.socketList[id].disconnect();
-                delete this.socketList[id];
-            });
-            let player = new Player(name);
-            this.game.map.group.playerGroup.map.set(id, player);
-            socket.emit("id", id);
-            socket.on("player-spawn", function() {
-                this.game.map.group.playerGroup.map.get(id).spawn();
-                this.io.sockets.emit(
-                    "map", 
-                    JSON.stringify(this.game.map, Game.replacer)
-                );
-                console.log("map was emitted");
-                console.log("player spawned")
-            }.bind(this));
-            socket.on("player-respawn", function() {
-                this.game.map.group.playerGroup.map.get(id).spawn();
-                console.log("player respawned")
-            }.bind(this));
-            socket.on("control-mousemove", function(position) {
-                const direction = Vector.from(position);
-                direction.limit(this.game.map.vmin, this.game.map.vmax);
-                this.game.map.group.playerGroup.map.get(id).direction = direction;
-            }.bind(this));
-            socket.on("control-split", function(position) {
-                player = this.game.map.group.playerGroup.map.get(id)
-                player.split(Vector.from(position || player.direction));
-            }.bind(this));
-            socket.on('cache', function(cache) {
-                cache = JSON.parse(cache, Game.reviver);
-                this.game.map.group.handleCache(cache);
-            }.bind(this));
-            socket.on("message", function(message) {
-                console.log(message);
-            });
-            socket.on('ping1', function() {
-                ping+=1;
-                socket.emit('pong');
-            });
-        }.bind(this));
-    }
-    update(io, ss) {
+    update() {
+        this.follow();
+        // this.sendMouses();
         this.game.update();
-        this.game.map.group.collide();
-        if (this.game.map.group.cache.size > 0) {
-            io.sockets.emit(
-                "cache",
-                JSON.stringify(this.game.map.group.cache, Game.replacer)
-            );
-            this.game.map.group.cache.clear();
+        this.game.collide();
+    }
+    sendMouses() {
+        const mouses = [];
+        for (const id in this.socketList) {//todo faire un truc async
+            mouses.push([id, this.socketList[id].player.mouse]);
         }
-        io.sockets.emit(
-            "playerGroup", 
-            JSON.stringify(this.game.map.group.playerGroup, Game.replacer)
-        );
+        this.sendAll("mouses", {mouses: mouses});
     }
-    loop(io, ss) {
-        this.update(io, ss);
+    follow() {
+        let socket, spaceship;
+        for (const id in this.socketList) {
+            socket = this.socketList[id]
+            spaceship = socket.spaceship;
+            if (spaceship) { // spaceship might die.
+                spaceship.follow(socket.player.mouse);
+            }
+        }
     }
-    start(io, ss) {
+    loop() {
+        this.update();
+    }
+    start() {
         console.log("starting the game");
-        this.on(io);
     }
-    main(io, ss) {
-        this.start(io, ss);
-        setInterval(this.loop.bind(this), this.dt*1000, io, ss);
+    main() {
+        this.start();
+        // console.log(this.game.dt*100);
+        // this.game.dt = 0.3;
+        setInterval(this.loop.bind(this), 20);
+        setInterval(this.streamSpaceshipGroupBodies.bind(this), 20);
+    }
+    streamSpaceshipGroupBodies() {
+        const spaceshipGroup = this.game.group.get('spaceshipGroup');
+        this.sendAll('spaceshipGroupBodies', {bodies: spaceshipGroup.getBodies()});
     }
 }

@@ -5,6 +5,9 @@ class Polygon extends BasePolygon {
     static w=3; // number of points (triangle)
     static h=2; // number of components (2d)
     static s=1; // size factor
+    static get matrix() {
+        return Matrix.zero(this.w, this.h);
+    }
     static random(
         w=Polygon.w,
         h=Polygon.h,
@@ -24,7 +27,7 @@ class Polygon extends BasePolygon {
         return new this(m, color, width, fill);
     }
     constructor(
-        matrix,
+        matrix=Polygon.matrix,
         color=Polygon.color,
         width=Polygon.width,
         fill=Polygon.fill,
@@ -94,6 +97,17 @@ class Polygon extends BasePolygon {
         } else {
             ctx.stroke();
         }
+    }
+    /**
+     * Determine the distance of a point to the polygon.
+     * @param {Point} point 
+     */
+    distance(point) {
+        let d = 0;
+        for (const p of this.matrix) {
+            d += Point.distance(point, p);
+        }
+        return d;
     }
     /**
      * Determine if the polygon contains a point

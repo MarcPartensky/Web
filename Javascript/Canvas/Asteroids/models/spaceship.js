@@ -20,7 +20,7 @@ class Spaceship extends Entity {
         form,
         body,
         life = new Life(),
-        shooter = undefined,
+        shooter = new Shooter([0]),
         follower = new Follower(),
         fuel = Spaceship.initFuel,
         dashing = Spaceship.dashing, // dashing should have its own class using strategy pattern (dasher.js)
@@ -28,7 +28,7 @@ class Spaceship extends Entity {
     ) {
         super(form, body);
         this.life = life
-        this.shooter = shooter || new Shooter(this, [Missile]);
+        this.shooter = shooter;
         this.follower = follower;
         this.dashing = dashing;
         this.dashTime = 0;
@@ -68,7 +68,7 @@ class Spaceship extends Entity {
         
     }
     shoot() {
-        return this.shooter.shoot();
+        return this.shooter.shoot(this);
     }
     follow(position) {
         this.body.follow(position);

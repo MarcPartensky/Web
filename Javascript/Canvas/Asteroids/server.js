@@ -1,10 +1,14 @@
+
+EventEmitter = require('events'); // to execute scripts
+
+
 const express = require('express'),
     http = require('http'),
     socket = require('socket.io'), // for easier connexion
     fs = require('fs'), // file system
-    vm = require('vm'); // to execute scripts
-
+    vm = require('vm');
 //import { SocketClient } from "models/gameserver.js";
+
 
 const app = express();
 const server = http.createServer(app);
@@ -27,10 +31,13 @@ const files = [
     "libs/color.js",
     "libs/point.js",
     "libs/figure.js",
+    // "libs/line.js",
     "libs/form.js",
     "libs/basepolygon.js",
+    "libs/segment.js",
     "libs/polygon.js",
     "libs/rectangle.js",
+    "libs/square.js",
     "libs/circle.js",
     // Physics types
     "libs/motion.js",
@@ -44,12 +51,15 @@ const files = [
     "models/missile.js",
     "models/missilegroup.js",
     "models/life.js",
+    "models/follower.js",
+    "models/shooter.js",
     "models/asteroid.js",
     "models/asteroidgroup.js",
     "models/spaceship.js",
     "models/spaceshipgroup.js",
     "models/meteor.js",
     "models/meteorgroup.js",
+    "models/collider.js",
     "models/gamemap.js",
     "models/supergroup.js",
     "models/game.js",
@@ -57,9 +67,6 @@ const files = [
     "models/gameserver.js",
 ];
 
-// const game = Game.random();
-//const gameServer = new GameServer(game, io);
-//gameServer.setUp();
 
 
 server.listen(process.env.PORT || 8000)
@@ -86,3 +93,11 @@ for (const file of files) {
 app.get('/', function (req, res) {
     res.sendFile(__dirname + "/views/index.html");
 });
+
+
+
+const game = Game.random();
+//console.log(`Le group ${game.group.get('asteroidGroup')}`);
+const gameServer = new GameServer(game, io);
+gameServer.setUp();
+gameServer.main();

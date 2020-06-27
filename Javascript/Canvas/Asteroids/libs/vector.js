@@ -18,9 +18,6 @@ class Vector extends Tensor {
   static one(n) {
     return this.fill(1, length);
   }
-  static distance(v1, v2) {
-    return (v1.sub(v2)).norm;
-  }
   static copy = this.from; // Abusive
   static empty(n=0) {
     return this.from(Array(n));
@@ -248,7 +245,10 @@ class Vector extends Tensor {
     }
   }
   call(point) {
-    return Point.from(this.vector.add(point));
+    return Point.from(this.add(point));
+  }
+  get normalized() {
+    return this.rdiv(this.norm);
   }
   /** 
    * Shows an arrow.

@@ -21,9 +21,10 @@ class Tensor extends Array {
     }
     return t;
   }
-  /*
-  Create a tensor filled with zero with given format.
-  */
+  /**
+   * Create a tensor filled with zero with given format.
+   * @param  {...Number} format 
+   */
   static zero(...format) {
     format = format || this.format;
     let t = new Tensor(format[0]);
@@ -70,23 +71,44 @@ class Tensor extends Array {
   static sum(...tensors) {
     return tensors.reduce((x, y) => x.add(y));
   }
-  /*
-  Does the average of all tensors.
-  */
+  /**
+   * Does the average of all tensors.
+   * @param  {...Tensor} Tensor 
+   */
   static average(...tensors) {
     return Tensor.sum(...tensors).rdiv(tensors.length);
   }
-  /*
-  Multiply all the tensors together.
-  */
+  /**
+   * Multiply all the tensors together.
+   * @param  {...Tensor} tensors 
+   */
   static prod(...tensors) {
     return tensors.reduce((x, y) => x.mul(y));
   }
-  /*
-  Create a copy of the given tensor.
-  */
+  /**
+   * Copy a tensor.
+   * @param {Tensor} tensor 
+   */
   static copy(tensor) {
     return tensor.slice(0);
+  }
+  /**
+   * Determine the distance between multiple tensors.
+   * @param  {...Tensor} tensors 
+   */
+  static distance(...tensors) {
+    if (tensors.length==2) {
+      return tensors[0].sub(tensors[1]).norm;
+    }
+    let d = 0;
+    let t = undefined;
+    for (const ti of tensors) {
+      if (t) {
+        d += Tensor.distance(t, ti);
+      }
+      t = ti;
+    }
+    return d;
   }
   /*
   Convert an array of arrays into a tensor of tensors using
@@ -164,7 +186,7 @@ class Tensor extends Array {
   Set the value of the tensor to the given tensor recursively.
   */
   rset(t) {
-    if (t[0] instanceof Tensor) {
+    if (t[0] instanceof Array) {
       for (let i = 0; i < this.length; i++) {
         this[i].rset(t[i]);
       }

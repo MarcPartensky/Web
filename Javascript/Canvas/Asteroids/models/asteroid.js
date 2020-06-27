@@ -1,5 +1,5 @@
 class AsteroidForm extends Polygon {
-    static color = "#3f87a6";
+    static color = "#3f87a5";
     static w = 2;
     static fill = true;
     static maxPoints = 8;
@@ -13,7 +13,7 @@ class AsteroidForm extends Polygon {
 }
 
 class Asteroid extends Entity {
-    static color = "#3f87a6";
+    static color = "#3f87a5";
     static w = 5;
     static riskOfSelfDestruction  = 0.00005;
     static rotation = 0.1;

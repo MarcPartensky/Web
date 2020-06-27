@@ -11,7 +11,7 @@ class Line extends Figure {
   Reset the point to the closest point of the line to the origin.
   */
   correct() {
-
+    this.vector.iunit();
 
   }
   show(context) {
@@ -21,11 +21,38 @@ class Line extends Figure {
     context.closePath();
     context.close();
   }
-  contains(point) {
-    return point.sub(this.point);
+  get other() {
+    return this.vector.call(this.point);
+  }
+  set other(point) {
+    this.point = this.vector.sub(point)
+  }
+  get slope() {
+    const [x1, y1] = this.point;
+    const [x2, y2] = this.other;
+    return (y2-y1)/(x2-x1);
+  }
+  get a() {
+    return this.slope;
+  }
+  get intercept() {
+    const [x, y] = this.point;
+    return y-this.a*x;
+  }
+  get b() {
+    return this.intercept;
+  }
+  get cartesianComplete() {
+    throw "Not implemented yet.";
+  }
+  get cartesianReduced() {
+    return [this.a, this.b];
   }
   get normal() {
     return this.vector.rot(Math.PI/2);
+  }
+  contains(point) {
+    return point.sub(this.point);
   }
   distance(point) {
     return Math.abs(point.sub(this.point).dot(this.normal));
@@ -36,16 +63,43 @@ class Line extends Figure {
   project(point) {
     return this.vector.rmul(point.sub(this.point).dot(this.vector)/this.vector.norm**2).add(this.point);
   }
-  cross(line) {
+  crossLine(line, precision=1e-10) { // Done the Wikipedia way
     const v1 = this.vector;
     const v2 = line.vector;
-    const p1 = this.point;
-    const p2 = line.point;
-    const p1_ = this.vector.call(this);
-    const p2_ = line.vector.call(line.point);
-    (p.x-p1.x)*v1.y = v1.x*(p.y-p1.y)
-    (p.x-p2.x)*v2.y = v2.x*(p.y-p2.y)
-    l2-l1
-    p1.x*v1.y-p2.x*v2.y = v1.x*p1.y-v2.x*p2.y
+    const [x1, y1] = this.point;
+    const [x3, y3] = line.point;
+    const [x2, y2] = this.vector.call(this);
+    const [x4, y4] = line.vector.call(line.point);
+    const d = (x1-x2)*(y3-y4)-(y1-y2)*(x3-x4);
+    if (abs(d)<precision) { // 2 lines parallels
+      return undefined;
+    }
+    const t = (x1-x3)*(y3-y4)-(y1-y3)*(x3-x4)/d;
+    const u = (x1-x2)*(y1-y3)-(y1-y2)*(x1-x3)/d;
+    return new Point(x1+t*(x2-x1),y1+t*(y2-y1))
+  }
+  crossSegment(segment) {
+    return segment.crossLine(Line);
+  }
+  cross(figure) {
+    if (figure instanceof Line) {
+      return this.crossLine(figure);
+    } else if (figure instanceof Segment) {
+      return this.crossSegment(figure);
+    } else if (figure instanceof Polygon) {
+      figure.crossSegment(this);
+    } else {
+      throw `Collisions between ${this.constructor.name} and ${figure.constructor.name} are not dealt with`;
+    }
+  }
+  crossEquations(line, precision=1e-10) { // Done the Wikipedia way
+    const a = this.slope;
+    const b = line.slope;
+    const c = this.intercept;
+    const d = line.intercept;
+    if (abs(a-b)<precision) { // 2 lines parallels
+      return undefined; 
+    }
+    return new Point((d-c)*(a-b), a*(d-c)/(a-b)+c);
   }
 }

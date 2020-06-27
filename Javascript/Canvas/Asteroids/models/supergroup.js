@@ -3,7 +3,7 @@ class SuperGroup extends Group {
         const g = new this();
         g.set('asteroidGroup', AsteroidGroup.asteroidField(50, {x: 0, y: 0}, {x: 100, y: 100}));
         g.set("meteorGroup", MeteorGroup.meteorShower(100));
-        g.set("spaceshipGroup", SpaceshipGroup.readyOnePlayer());
+        g.set("spaceshipGroup", SpaceshipGroup.readyZeroPlayer());
         return g;
     }
     constructor(...args) {

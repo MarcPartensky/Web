@@ -14,8 +14,8 @@ class Rectangle extends BasePolygon {
   constructor(
     position,
     size,
-    color=Rectangle.color,
     lineWidth=Rectangle.lineWidth,
+    color=Rectangle.color,
     fill=Rectangle.fill,
   ) {
     super(color, lineWidth, fill);

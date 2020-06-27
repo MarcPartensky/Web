@@ -9,12 +9,12 @@ class Form extends Figure {
   static random(...args) {
     throw "Static function random is not implemented."
   }
-  get center() {
-    throw "The get center method is not implemented for "+this+".";
-  }
-  set center(vector) {
-    throw "The set center method is not implemented for "+this+".";
-  }
+  // get center() {
+  //   throw "The get center method is not implemented for "+this+".";
+  // }
+  // set center(vector) {
+  //   throw "The set center method is not implemented for "+this+".";
+  // }
   get area() {
     throw "The get area method is not implemented for "+this+".";
   }

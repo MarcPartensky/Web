@@ -2,7 +2,7 @@
   "name": "youtube-downloader",
   "version": "1.0.0",
   "description": "Downloads videos from youtube.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "test"
   },
@@ -21,8 +21,10 @@
   },
   "homepage": "https://github.com/MarcPartensky/Web#readme",
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.13",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "ytdl-core": "^1.0.9"
+    "fluent-ffmpeg": "^2.1.2",
+    "ytdl-core": "^2.1.5"
   }
 }

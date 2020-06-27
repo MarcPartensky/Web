@@ -6,6 +6,7 @@ class Circle extends Form {
     color=Form.color,
     fill=Form.fill
   ) {
+    super();
     this.center = center
     this.radius = radius;
     this.lineWidth = lineWidth;
@@ -38,7 +39,7 @@ class Circle extends Form {
       context.strokeStyle = this.color;
     }
     context.beginPath();
-    context.arc(...this[0], this.radius, 0, 2*Math.PI);
+    context.arc(...this.center, this.radius, 0, 2*Math.PI);
     if (this.fill) {
       context.fill();
     } else {
@@ -47,9 +48,9 @@ class Circle extends Form {
     context.closePath();
   }
   contains(position) {
-    return this[0].sub(position).norm < this.radius;
+    return this.center.sub(position).norm < this.radius;
   }
-  collide(circle) {
-    return this[0].sub(circle[0]).norm < this.radius+other.radius;
+  crossCircle(circle) {
+    return this.center.sub(circle.center).norm < this.radius+other.radius;
   }
 }

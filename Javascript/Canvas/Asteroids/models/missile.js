@@ -1,7 +1,10 @@
-class Missile extends GameEntity {
+class Missile extends Entity {
     static size = 3;
     static duration = 1000/10; // mili-seconds
-    static velocityBoost = 5;
+    static velocityBoost = 10;
+    static damage = 0.1;
+    static margin = 1;
+    static color = "yellow";
     static random(
         source=undefined,
         target=undefined
@@ -16,15 +19,20 @@ class Missile extends GameEntity {
     static make(
         source,
         target=undefined,
+        damage=Missile.damage,
         duration=Missile.duration
     ) {
         const body = new Body(source.body[0].slice(0, 2).copy());
         body[0][1].norm += this.velocityBoost;
+        const radius = source.form.hitBubbleRadius;
+        const margin = body[0][1].normalized.rmul(radius+Missile.size/2+Missile.margin);
+        body[0][0].iadd(margin);
         return new this(
-            new Segment([0, 0], [0, Missile.size]),
+            new Segment([0, 0], [0, Missile.size], 1, Missile.color),
             body,
             source,
             target,
+            damage,
             duration
         );
         
@@ -34,11 +42,13 @@ class Missile extends GameEntity {
         body,
         source=undefined,
         target=undefined,
+        damage=Missile.damage,
         duration=Missile.duration,
     ) {
         super(form, body);
         this.source = source;
         this.target = target;
+        this.damage = damage;
         this.duration = duration;
         this.time = undefined;
     }
@@ -57,5 +67,12 @@ class Missile extends GameEntity {
     }
     isAlive(dt) {
         return this.left*dt<this.duration;
+    }
+    /**
+     * Determine whether a missile is colliding with a spaceshiop
+     * @param {Spaceship} spaceship 
+     */
+    collideWithSpaceship(spaceship) {
+        return spaceship.form.contains(this.form.p1) || spaceship.form.contains(this.form.p2);
     }
 }

@@ -22,15 +22,5 @@ var game = Game.random();
 
 gameClient = new GameClient(canvas, game, socket)
 
-socket.on("summonPlayer", function (data) {
-    //ajoute le vaisseau en 
-});
-
-
-socket.on("unsummonPlayer", function (data) {
-
-});
-
-
 gameClient.main();
 

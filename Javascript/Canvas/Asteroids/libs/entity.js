@@ -95,6 +95,12 @@ class Entity {
     set angle(angle) {
         this.body.angle = angle;
     }
+    get hitBox() {
+        return this.form.hitBox;
+    }
+    get hitBubble() {
+        return this.form.hitBubble;
+    }
 }
 
 

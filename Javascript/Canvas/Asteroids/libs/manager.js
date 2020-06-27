@@ -2,7 +2,6 @@ class Manager {
   static zoomDelta = 0.1;
   static scrollZoomFactor = 0.5;
   static entities = [];
-  static dt = 0.1;
   static movement = {up: false, down: false, right: false, left: false, zoomin: false, zoomout: false};
   static backgroundColor = "#000000";
 
@@ -26,14 +25,12 @@ class Manager {
   constructor(
     canvas,
     game,
-    dt=Manager.dt,
     movement=Manager.movement,
     backgroundColor=Manager.backgroundColor
   ) {
     this.canvas = canvas;
     this.context = new ContextAdapter(this.canvas.getContext("2d"));
     this.game = game;
-    this.dt = dt;
     this.movement = movement;
     this.backgroundColor = backgroundColor;
     this.mouse = new Vector(0, 0);
@@ -50,7 +47,7 @@ class Manager {
     this.context.plane.location.update();
     this.context.plane.units.update();
     this.move();
-    this.game.update(this.dt);
+    this.game.update();
   }
   resize() {
     this.canvas.width = this.context.width = window.innerWidth;
@@ -78,10 +75,10 @@ class Manager {
         }
         break;
       case 18: // Alt for pause
-        if (this.dt) {
-          this.dt = 0;
+        if (this.game.dt) {
+          this.game.dt = 0;
         } else {
-          this.dt = Manager.dt;
+          this.game.dt = Game.dt;
         }
       }
   }
@@ -142,16 +139,14 @@ class Manager {
   loop() {
     this.update();
     this.show();
-    requestAnimationFrame(this.loop.bind(this));
+    // requestAnimationFrame(this.loop.bind(this));
   }
   start() {
-    // this.resize(); // resize has its own event listener to call it
     this.addEventListeners();
-    // this.deactivate(); // no need to deactivate anything after all
   }
   main() {
     this.start();
-    this.loop();
+    setInterval(this.loop.bind(this), 100);
   }
 }
 

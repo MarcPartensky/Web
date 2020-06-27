@@ -1,4 +1,5 @@
 class MissileGroup extends Grouper(Missile) {
+    static n = 0;
     removeDeads() {
         const deads = []
         for (const [k,v] of this) {
@@ -15,10 +16,7 @@ class MissileGroup extends Grouper(Missile) {
         this.removeDeads()
     }
     add(missile) {
-        this.set(
-            MissileGroup.type.name+MissileGroup.separator+MissileGroup.n,
-            missile
-        );
         MissileGroup.n += 1;
+        super.add(String(MissileGroup.n), missile);
     }
 }

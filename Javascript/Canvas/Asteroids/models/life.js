@@ -34,7 +34,7 @@ class LifeBar extends Rectangle {
         lineWidth=LifeBar.lineWidth,
         fill=undefined,
     ) {
-        super(position, size, color, lineWidth, fill);
+        super(position, size, lineWidth, color, fill);
     }
     // the order of the operations is very important
     show(ctx, position, ratio, margin=LifeBar.margin) {

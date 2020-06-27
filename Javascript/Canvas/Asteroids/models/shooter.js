@@ -1,7 +1,7 @@
 // Using strategy pattern for spaceships
 class Shooter {
-    constructor(entity, types, selection=0) {
-        this.entity = entity; // reference loop btw
+    static types = [Missile];
+    constructor(types, selection=0) {
         this.types = types;
         this.selection = selection;
         this.shooted = 0; // optional
@@ -13,9 +13,9 @@ class Shooter {
     set type(v) {
         this.types[this.selection] = v;
     }
-    shoot() {
+    shoot(entity) {
         this.last_shooting = Date.now();
         this.shooted += 1;
-        return this.type.make(this.entity);
+        return this.constructor.types[this.type].make(entity);
     }
 }
