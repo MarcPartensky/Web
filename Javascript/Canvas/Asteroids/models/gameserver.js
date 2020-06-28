@@ -5,6 +5,7 @@ class Player {
         this.id = id;
         this.update = new EventEmitter();//Utilise par SockCom/SockClient pour les socket
         this.mouse = Vector.zero2;
+        //this.update.emit("lifeUpdate", this.life.value);
     }
     join() {
                 //ajoute le vaisseau de this dans le jeu
@@ -134,7 +135,8 @@ class GameServer {
     constructor(game, io) {
         this.game = game;
         this.socketList = {};
-        this.io =  io;
+        this.io = io;
+        this.eventEmitter = new EventEmitter(); // intern event emitter
     }
 
     setUp() {
@@ -169,6 +171,9 @@ class GameServer {
     }
 
     initUpdate() {
+        this.eventEmitter.on("spaceship-update", function(data) {
+            this.sendAll("spaceship-update", data);
+        }.bind(this));
         //A lancer au lancement du serveur, permet d'informer les clients des dernières news
         //this.game.on("Event Update News !!",  function (data)  {
         //    console.log("event caught by GameServer !!");
@@ -203,6 +208,7 @@ class GameServer {
     }
     start() {
         console.log("starting the game");
+        this.game.collider.initCollisionListener(this.eventEmitter);
     }
     main() {
         this.start();

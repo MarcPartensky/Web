@@ -79,4 +79,15 @@ class Spaceship extends Entity {
         this.life.show(ctx, this.position);
         this.body.motion.show(ctx);
     }
+    
+    static initCollisionListener(collisionEmitter, mainEmitter) {
+        collisionEmitter.on('spaceship/missile', function([spaceship, sid], [missile, mid]) {
+            spaceship.life.value -= missile.damage;
+            mainEmitter.emit("spaceship-update", {sid: sid, event:"life-change", life:spaceship.life.value});
+            if (spaceship.life.value<=0) {
+                spaceship.removing = true;
+                mainEmitter.emit("spaceship-update", {sid: sid, event:"removing"});
+            }
+        })
+    }    
 }

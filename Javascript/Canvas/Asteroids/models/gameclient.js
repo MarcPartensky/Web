@@ -64,8 +64,6 @@ class GameClient extends Manager {
             this.id = spaceshipID;
         }.bind(this));
 
-        
-
         this.socket.on("summonSpaceship", function (data) {
             //ajoute le vaisseau en 
             //data={uuid: this.socket.id, coordinates: [10,10]}
@@ -80,6 +78,16 @@ class GameClient extends Manager {
         this.socket.on("unsummonSpaceship", function (data) {
             const spaceshipGroup = this.game.group.get('spaceshipGroup');
             spaceshipGroup.remove(data.uuid);
+        }.bind(this));
+
+        this.socket.on("spaceship-update", function(data) {
+            const spaceshipGroup = this.game.group.get('spaceshipGroup');
+            if (data.event=='life-change') {
+                const spaceship = spaceshipGroup.get(data.sid);
+                spaceship.life.value = data.life;
+            } else if (data.event=='removing') {
+                spaceshipGroup.delete(data.sid);
+            }
         }.bind(this));
     }
     get player() {

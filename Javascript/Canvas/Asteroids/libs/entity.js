@@ -22,6 +22,8 @@ class Entity {
     }
     show(ctx) {
         this.form.show(ctx);
+        // this.hitBox.show(ctx);
+        // this.hitBubble.show(ctx);
     }
     get motion() {
         return this.body[0];

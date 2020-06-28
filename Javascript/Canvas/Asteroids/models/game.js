@@ -146,7 +146,7 @@ class Game {
         this.limit();
     }
     collide() {
-        collisions = this.collider.collide(this.group);
+        const collisions = this.collider.collide(this.group);
     }
     show(ctx) {
         this.gameMap.show(ctx);

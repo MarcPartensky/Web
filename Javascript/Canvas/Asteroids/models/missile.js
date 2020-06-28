@@ -46,6 +46,7 @@ class Missile extends Entity {
         duration=Missile.duration,
     ) {
         super(form, body);
+        Missile.initCollision(this);
         this.source = source;
         this.target = target;
         this.damage = damage;
@@ -72,7 +73,13 @@ class Missile extends Entity {
      * Determine whether a missile is colliding with a spaceshiop
      * @param {Spaceship} spaceship 
      */
-    collideWithSpaceship(spaceship) {
+    collideWithSpaceship(spaceship) {//pk c'est pas static ? parce que c'est la vie
         return spaceship.form.contains(this.form.p1) || spaceship.form.contains(this.form.p2);
     }
+
+    static initCollisionListener(collisionEmitter, mainEmitter) {
+        collisionEmitter.on('missile/spaceship', function(missile, spaceship) {
+            missile.removing = true;
+        })
+    }    
 }

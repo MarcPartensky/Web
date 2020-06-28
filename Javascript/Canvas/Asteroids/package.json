@@ -22,5 +22,8 @@
       "require": "./libs"
     }
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "webpack": "^4.43.0"
+  }
 }
