@@ -1,4 +1,9 @@
-class AsteroidForm extends Polygon {
+import Polygon from "../libs/polygon.js";
+import Entity from "../libs/entity.js";
+import Body from '../libs/body.js';
+import Motion from '../libs/motion.js';
+
+export class AsteroidForm extends Polygon {
     static color = "#3f87a5";
     static w = 2;
     static fill = true;
@@ -12,7 +17,7 @@ class AsteroidForm extends Polygon {
     }
 }
 
-class Asteroid extends Entity {
+export default class Asteroid extends Entity {
     static color = "#3f87a5";
     static w = 5;
     static riskOfSelfDestruction  = 0.00005;

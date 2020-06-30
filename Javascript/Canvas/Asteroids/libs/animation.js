@@ -1,4 +1,4 @@
-class Animation {
+export default class Animation {
     static on = false;
     static state = 0;
     constructor(object, on=Animation.on, state=Animation.state) {
@@ -25,7 +25,7 @@ class Animation {
 }
 
 
-class ColorChanger extends Animation {
+export class ColorChanger extends Animation {
     constructor(entity, state, colors) {
         super(entity, state);
         this.colors = colors;

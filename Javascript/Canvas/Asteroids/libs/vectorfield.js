@@ -3,7 +3,7 @@
  * In vector calculus and physics, a vector field is an
  * assignment of a vector to each point in a subset of space.
  */
-class TensorField {
+export class TensorField {
     constructor(f) {
         this.f = f;
     }
@@ -48,7 +48,7 @@ class TensorField {
     }
 }
 
-class VectorField extends {
+export default class VectorField extends {
 
 }
 

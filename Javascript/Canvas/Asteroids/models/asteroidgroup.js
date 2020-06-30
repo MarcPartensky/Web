@@ -1,4 +1,7 @@
-class AsteroidGroup extends Group {
+import Group, {Grouper} from "../libs/group.js";
+import Asteroid from './asteroid.js';
+
+export default class AsteroidGroup extends Group {
     static n = 50;
     static asteroidField(numberAst=AsteroidGroup.n, centerPosition, dimension) {
         let listDelist=[];

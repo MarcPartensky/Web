@@ -1,31 +1,72 @@
 
-EventEmitter = require('events'); // to execute scripts
+// EventEmitter = require('events'); // to execute scripts
 
 
-const express = require('express'),
-    http = require('http'),
-    socket = require('socket.io'), // for easier connexion
-    fs = require('fs'), // file system
-    vm = require('vm');
+// const express = require('express'),
+//     http = require('http'),
+//     socket = require('socket.io'), // for easier connexion
+//     fs = require('fs'), // file system
+//     vm = require('vm');
 //import { SocketClient } from "models/gameserver.js";
 
+import EventEmitter from 'events';
+import express from 'express';
+import http from 'http';
+import vm from 'vm';
+import fs from 'fs';
+import socket from 'socket.io';
+import GameServer from './models/gameserver.js';
+// "type": "module",
+  // "exports": {
+  //   "./libs": "./libs",
+  //   "./models": "./models",
+  //   "node": {
+  //     "import": "./libs",
+  //     "require": "./libs"
+  //   }
+  // },
 
 const app = express();
 const server = http.createServer(app);
 const io = socket.listen(server);
 
+// import './libs/tensor.js';
+import Tensor from './libs/tensor.js';
+
+// import Group from './libs/group.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+// import {Tensor} from './libs/tensor.js';
+
+import Game from './models/game.js';
+
 const files = [
     // Tools and tests
-    "libs/tools.js",
-    "libs/test.js",
+    // "libs/tools.js",
+    // "libs/test.js",
     // Base types  
     "libs/iterator.js",
     "libs/dict.js",
     "libs/tree.js",
     // Math types    
     "libs/group.js",
-    "libs/tensor.js",
-    "libs/vector.js",
+    // "libs/tensor.js",
+    // "libs/vector.js",
     "libs/matrix.js",
     // Visual types
     "libs/color.js",
@@ -75,12 +116,12 @@ app.use('/libs', express.static('libs'));
 app.use('/models', express.static('models'));
 
 
-for (const file of files) {
-    console.log(file);
-    let data = fs.readFileSync(file);
-    let script = new vm.Script(data);
-    script.runInThisContext();
-  }
+// for (const file of files) {
+//     console.log(file);
+//     let data = fs.readFileSync(file);
+//     let script = new vm.Script(data);
+//     script.runInThisContext();
+//   }
   
 // import * from "libs";
 

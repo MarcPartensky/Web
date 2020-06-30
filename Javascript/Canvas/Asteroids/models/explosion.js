@@ -1,6 +1,6 @@
 // Cool explosion when the missiles hit something.
-
-class Explosion extends ColorChanger {
+import { ColorChanger } from '../libs/animation.js';
+export default class Explosion extends ColorChanger {
     constructor() {
         
     }

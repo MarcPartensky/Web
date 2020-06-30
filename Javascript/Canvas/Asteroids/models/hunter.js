@@ -1,5 +1,5 @@
 // Using strategy pattern for spaceships
-class Hunter {
+export default class Hunter {
     constructor(spaceship, target=undefined) {
         this.spaceship = spaceship;
         this.target = target;

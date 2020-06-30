@@ -1,3 +1,6 @@
+import Point from './points.js';
+import Segment from './segment.js';
+import Polygon from './polygon.js';
 
 var p1 = new Point(1,2);
 var p2 = Point.random();

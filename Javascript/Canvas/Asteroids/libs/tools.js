@@ -1,4 +1,4 @@
-function map2str(map) {
+export function map2str(map) {
     let str = "{";
     for (const [key, value] of map) {
         str += key;
@@ -9,7 +9,7 @@ function map2str(map) {
     return str.slice(0, str.length-1)+"}";
 }
 
-function str2map(str) {
+export function str2map(str) {
     str = str.replace("{","").replace("}","");
     let m = new Map();
     let key, value;
@@ -20,7 +20,7 @@ function str2map(str) {
     return m;
 }
 
-function tree2str(tree) {
+export function tree2str(tree) {
     str = "{";
     for (const [key, value] of tree) {
         str += key;
@@ -37,7 +37,7 @@ function tree2str(tree) {
 
 
 
-function prod(...values) {
+export function prod(...values) {
     if (values.length>1) {
         return values[0] * prod(...values.slice(1, values.length));
     } else {
@@ -45,12 +45,12 @@ function prod(...values) {
     }
 }
 
-function round(r, n) {
+export function round(r, n) {
     return Math.round(r*10**n)/10**n;
 }
 
 let sigmoid = (x) => 1/(1+Math.exp(-x));
 
-function hash(s){
+export function hash(s){
     return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
 }

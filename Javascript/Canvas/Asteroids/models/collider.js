@@ -1,10 +1,14 @@
-class Collider {
+import EventEmitter from 'events';
+import Missile from './missile.js';
+import Spaceship from './spaceship.js';
+
+export default class Collider {
     collide(group) {
         throw "A Collider must have a collide method which takes a group as an argument."
     }
 }
 
-class SuperCollider extends Collider {
+export class SuperCollider extends Collider {
     constructor(...colliders) {
         super();
         this.colliders = colliders;
@@ -22,7 +26,7 @@ class SuperCollider extends Collider {
 }
 
 
-class MissileSpaceshipCollider extends Collider {
+export class MissileSpaceshipCollider extends Collider {
     collide(group, collisionEmitter) {
         const deadMissiles = [];
         const deadSpaceships = [];

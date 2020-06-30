@@ -3,7 +3,7 @@ A tensor is either an array of tensors or an array of numbers.
 Every operation done on tensors is executed recursively.
 It makes it easier to use but maybe slower to compute with.
 */
-class Tensor extends Array {
+export default class Tensor extends Array {
   /*
   Every tensor has a norm, order, format and size. Here are stored default values.
   */

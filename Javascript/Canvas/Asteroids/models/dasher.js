@@ -1,3 +1,3 @@
-class Dasher {
+export default class Dasher {
     
 }

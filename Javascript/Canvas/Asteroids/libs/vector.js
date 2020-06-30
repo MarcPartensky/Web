@@ -1,6 +1,6 @@
-// import Tensor from 'tensor.js'
+import Tensor from './tensor.js';
 
-class Vector extends Tensor {
+export default class Vector extends Tensor {
   static length = 2;
   // Mathematically a vector doesn't have a dimension
   // only a length we abuse of this term to qualify
@@ -338,7 +338,7 @@ class Vector extends Tensor {
 }
 
 
-class Vector2 extends Vector {
+export class Vector2 extends Vector {
   // force the dimension to be 2
   static get dim() {return 2;}
   static polar(norm, angle) {
@@ -359,7 +359,7 @@ class Vector2 extends Vector {
   }
 }
 
-class Vector3 extends Vector {
+export class Vector3 extends Vector {
   // force the dimension to be 3
   static get dim() {return 3;}
   constructor(x, y, z) {

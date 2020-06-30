@@ -1,4 +1,6 @@
-class Plane {
+import Motion from './motion.js';
+
+export default class Plane {
   static location = Motion.zero(3, 2)
   static units = Motion.zero(3, 2);
   static speed = 10;

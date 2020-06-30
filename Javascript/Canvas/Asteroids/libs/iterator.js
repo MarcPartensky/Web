@@ -1,4 +1,4 @@
-function permutation(array) {
+export function permutation(array) {
     const l = array.length,
         used = Array(l),
         data = Array(l);
@@ -13,12 +13,12 @@ function permutation(array) {
     }(0);
 }
 
-function permuted(array) {
+export function permuted(array) {
     return [...permutation(array)];
 }
 
 
-function* range(...args) {
+export function* range(...args) {
     let end;
     let start = 0;
     let step = 1;
@@ -36,22 +36,22 @@ function* range(...args) {
     }
 }
 
-function ranged(...args) {
+export function ranged(...args) {
     return [...range(...args)];
 }
 
-function *enumerate(array) {
+export function *enumerate(array) {
     for (let i = 0; i < array.length; i+=1) {
        yield [i, array[i]];
     }
  }
 
- function enumerated(array) {
+ export function enumerated(array) {
      return [...enumerate(array)];
  }
 
 
- function *zip (...iterables){
+ export function *zip (...iterables){
     let iterators = iterables.map(i => i[Symbol.iterator]() )
     while (true) {
         let results = iterators.map(iter => iter.next() )
@@ -60,13 +60,13 @@ function *enumerate(array) {
     }
 }
 
-function zipped(...iterables) {
+export function zipped(...iterables) {
     return [...zip(...iterables)]
 }
 
-function last(array) { return array[array.length - 1]; }
+export function last(array) { return array[array.length - 1]; }
 
-function* numericCombinations(n, r, loc = []) {
+export function* numericCombinations(n, r, loc = []) {
     const idx = loc.length;
     if (idx === r) {
         yield loc;
@@ -75,7 +75,7 @@ function* numericCombinations(n, r, loc = []) {
     for (let next of range(idx ? last(loc) + 1 : 0, n - r + 1 + idx)) { yield* numericCombinations(n, r, loc.concat(next)); }
 }
 
-function numericCombinated(n, r) {
+export function numericCombinated(n, r) {
     return [...numericCombinations(n, r)];
 }
 
@@ -84,11 +84,11 @@ function* combinations(array, r) {
 }
 
 
-function combinated(array, r) {
+export function combinated(array, r) {
     return [...combinations(array, r)];
 }
 
-function count() {
+export function count() {
     let index = 0;
     return {
         next: function(){
@@ -97,7 +97,7 @@ function count() {
     }
 }
 
-function repeat(value, n=Infinity) {
+export function repeat(value, n=Infinity) {
     let i = 0;
     return {
         next: function(){
@@ -107,7 +107,7 @@ function repeat(value, n=Infinity) {
     }
 }
 
-function cycle(array) {
+export function cycle(array) {
     let index = 0;
     return {
         next: function(){

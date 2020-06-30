@@ -1,4 +1,7 @@
-class Matrix extends Tensor {
+import Tensor from './tensor.js';
+import Vector from './vector.js';
+
+export default class Matrix extends Tensor {
   /*
   * A matrix can be built from a 2d array, a list of vectors
   */
@@ -95,7 +98,7 @@ class Matrix extends Tensor {
   }
 }
 
-class SquareMatrix extends Matrix {
+export class SquareMatrix extends Matrix {
   static length = 1;
   static random(length=Matrix.length) {
     let m = new SquareMatrix(...Matrix.fromFormat(length, length));

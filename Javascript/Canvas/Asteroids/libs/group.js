@@ -1,4 +1,6 @@
-class Group extends Tree {
+import Tree from './tree.js';
+
+export default class Group extends Tree {
     // type of the entities of the group    
     static type = undefined;
     // number of entites created (usefull for making ids)
@@ -65,7 +67,7 @@ class Group extends Tree {
 
 // A function that returns a class with a
 // predefined type
-function Grouper(type) {
+export function Grouper(type) {
     class SubGroup extends Group {} // Just here to bypass a bug
     const g = SubGroup.bind({});
     g.type = type;

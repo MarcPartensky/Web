@@ -1,5 +1,5 @@
 // Using strategy pattern for spaceships
-class Follower { 
+export default class Follower { 
     orientate(body, form) {
         //tourne le Follower vers sa vitesse
         form.angle = body.velocity.angle;

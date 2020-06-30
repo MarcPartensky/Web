@@ -8,7 +8,7 @@
  * Performs better in scenarios involving frequent additions
  * and removals of key-value pairs.
  */
-class Dict extends Map {
+export default class Dict extends Map {
     static fromIterables(iterable) {
 
 

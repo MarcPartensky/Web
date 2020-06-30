@@ -1,4 +1,10 @@
-class Polygon extends BasePolygon {
+import BasePolygon from './basepolygon.js';
+import Matrix from './matrix.js';
+import Segment from './segment.js';
+import Point from './point.js';
+import Vector from './vector.js';
+
+export default class Polygon extends BasePolygon {
     static color = "#ffffff";
     static width=null;
     static fill=false;

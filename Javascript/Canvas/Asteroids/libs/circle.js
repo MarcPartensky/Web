@@ -1,4 +1,6 @@
-class Circle extends Form {
+import Form from './form.js';
+
+export default class Circle extends Form {
   constructor(
     center,
     radius, 

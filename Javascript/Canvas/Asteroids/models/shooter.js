@@ -1,5 +1,7 @@
+import Missile from './missile.js';
+
 // Using strategy pattern for spaceships
-class Shooter {
+export default class Shooter {
     static types = [Missile];
     constructor(types, selection=0) {
         this.types = types;

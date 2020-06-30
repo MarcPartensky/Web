@@ -1,4 +1,4 @@
-class Triangle extends Polygon {
+export default class Triangle extends Polygon {
   // number of points is always 3
   static get length() {return 3;}
   static get w() {return 3;}

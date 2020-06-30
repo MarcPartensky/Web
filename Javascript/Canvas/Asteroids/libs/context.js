@@ -1,4 +1,7 @@
-class ContextAdapter {
+import Plane from './plane.js';
+import Vector from './vector.js';
+
+export default class ContextAdapter {
   constructor(context, plane=new Plane()) {
     this.context = context;
     this.plane = plane;

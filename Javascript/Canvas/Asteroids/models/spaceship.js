@@ -1,5 +1,6 @@
+import Entity from '../libs/entity.js';
 // Using strategy pattern is used
-class Spaceship extends Entity {
+export default class Spaceship extends Entity {
     static color = "#ef6c00";//du orange
     static initFuel = 1000;
     static extraDashVelocityNorm = 2;

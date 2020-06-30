@@ -1,8 +1,6 @@
-class Force extends Vector {
+import VectorField from './vectorfield.js';
 
-}
-
-class Moment extends VectorField {
+export default class Moment extends VectorField {
     constructor(force) {
         this.force = force;
         this.f = (v => v.cross(force));

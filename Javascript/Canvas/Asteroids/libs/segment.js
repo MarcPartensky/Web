@@ -1,4 +1,8 @@
-class Segment extends BasePolygon {
+import BasePolygon from './basepolygon.js';
+import Matrix from './matrix.js';
+import Point from './point.js';
+
+export default class Segment extends BasePolygon {
   static lineWidth = 3; // pixels
   static color = "#ffffff";
   static random(lineWidth=super.width, color=super.color) {

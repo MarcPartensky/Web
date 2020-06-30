@@ -2,7 +2,7 @@
  * More responsible array.
  * Inspired from python.
  */
-class List extends Array {
+export default class List extends Array {
     removeOne(item, n=undefined) {
         let i = 0;
         while (i < this.length) {

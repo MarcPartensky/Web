@@ -2,7 +2,7 @@
  * A figure is basically a base class
  * for any visual object.
  */
-class Figure {
+export default class Figure {
   static lineWidth = 1;
   static color = "#ffffff";
   static conversion = true;

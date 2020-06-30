@@ -1,4 +1,7 @@
-class Missile extends Entity {
+import Entity from '../libs/entity.js';
+import Segment from '../libs/segment.js';
+
+export default class Missile extends Entity {
     static size = 3;
     static duration = 1000/10; // mili-seconds
     static velocityBoost = 10;

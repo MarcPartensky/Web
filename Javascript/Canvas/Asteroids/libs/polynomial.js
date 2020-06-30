@@ -1,4 +1,6 @@
-class Polynomial extends Vector {
+import Vector from './vector.js';
+
+export default class Polynomial extends Vector {
   static fromRoots(roots) {
     let p = this.one;
     for (const root of roots) {

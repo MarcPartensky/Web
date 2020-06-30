@@ -1,3 +1,6 @@
+import {Tensor} from "./libs/tensor.js"
+
+
 var canvas = document.getElementById("canvas");
 
 var context = new ContextAdapter(canvas.getContext("2d"));

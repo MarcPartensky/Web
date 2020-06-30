@@ -1,4 +1,6 @@
-class GameLevel {
+import SuperGroup from './supergroup.js';
+import AsteroidGroup from './asteroidgroup.js';
+export default class GameLevel {
     constructor() {
 
     }
@@ -8,7 +10,7 @@ class GameLevel {
 }
 
 
-class AsteroidLevel extends GameLevel {
+export class AsteroidLevel extends GameLevel {
     constructor(n) {
         super();
         this.n = n;

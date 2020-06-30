@@ -1,4 +1,4 @@
-class Quadtree {
+export default class Quadtree {
     /*
     format :
         recursive case:

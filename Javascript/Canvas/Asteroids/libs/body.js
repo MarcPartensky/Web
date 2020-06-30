@@ -1,4 +1,8 @@
-class Body extends Tensor {
+import Tensor from "./tensor.js";
+import Motion from "./motion.js";
+import Vector from "./vector.js";
+
+export default class Body extends Tensor {
   static n = 1;
   static w = 2;
   static h = 2;

@@ -1,6 +1,7 @@
-ping = 0;
+import EventEmitter from 'events';
+var ping = 0;
 
-class Player {
+export class Player {
     constructor(id) {
         this.id = id;
         this.update = new EventEmitter();//Utilise par SockCom/SockClient pour les socket
@@ -18,7 +19,7 @@ class Player {
 
 
 
-class socketClient {
+export class socketClient {
         //se trouve côté server. Une instance de socketClient par onglet du jeu
     constructor(socket, gameServer) {
         this.socket = socket;
@@ -131,7 +132,7 @@ class socketClient {
 }
 
 
-class GameServer {
+export default class GameServer {
     constructor(game, io) {
         this.game = game;
         this.socketList = {};

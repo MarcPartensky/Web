@@ -1,4 +1,4 @@
-class Torsor extends VectorField {
+export default class Torsor extends VectorField {
     constructor() {
 
     }

@@ -1,4 +1,4 @@
-class Server extends Connexion {
+export default class Server extends Connexion {
     constructor() {
         
 

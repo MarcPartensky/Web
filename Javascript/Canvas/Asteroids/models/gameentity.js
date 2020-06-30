@@ -1,4 +1,5 @@
-class GameEntity extends Entity {
+import Entity from '../libs/entity.js';
+export default class GameEntity extends Entity {
     constructor(form, body) {
         super(form, body)
         this.removing = false;

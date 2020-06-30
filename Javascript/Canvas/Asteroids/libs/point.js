@@ -1,4 +1,6 @@
-class Point extends Vector {
+import Vector from './vector.js';
+
+export default class Point extends Vector {
   static radius = 1;
   static color = "#ffffff";
   static conversion = false;

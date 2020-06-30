@@ -1,4 +1,8 @@
-class Rectangle extends BasePolygon {
+import BasePolygon from './basepolygon.js';
+import Vector from './vector.js';
+import Point from './point.js';
+
+export default class Rectangle extends BasePolygon {
   static color = "#ffffff";
   static lineWidth = 1;
   static of(x, y, w, h, ...args) {

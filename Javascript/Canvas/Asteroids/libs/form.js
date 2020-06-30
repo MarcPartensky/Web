@@ -1,10 +1,12 @@
+import Figure from './figure.js';
+
 /*
 Unlike a figure, a form does have an area.
 This class is more of an interface than
 a true class or we can also see it as an
 abstract class. (reference to PHP, C#, C++, ...)
 */
-class Form extends Figure {
+export default class Form extends Figure {
   static fill = false;
   static random(...args) {
     throw "Static function random is not implemented."

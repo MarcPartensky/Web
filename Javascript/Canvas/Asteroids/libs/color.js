@@ -1,3 +1,5 @@
+import Vector from './vector.js';
+
 /*
 * Color namespace.
 */

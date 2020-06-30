@@ -1,4 +1,6 @@
-class Client extends Connexion {
+import Connexion from './connexion.js';
+
+export default class Client extends Connexion {
     constructor() {
         self.url = url;
     }

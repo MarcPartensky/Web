@@ -1,4 +1,8 @@
-class Manager {
+import ContextAdapter from 'context.js';
+import Vector from 'vector.js';
+
+
+export default class Manager {
   static zoomDelta = 0.1;
   static scrollZoomFactor = 0.5;
   static entities = [];

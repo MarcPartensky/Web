@@ -1,4 +1,4 @@
-class GameClient extends Manager {
+export default class GameClient extends Manager {
     static movement = {up: false, down: false, right: false, left: false, zoomin: false, zoomout: false};
     static backgroundColor = "#000000";
 

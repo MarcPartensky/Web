@@ -1,4 +1,6 @@
-class BasePolygon extends Form {
+import Form from './form.js'
+
+export default class BasePolygon extends Form {
     /**
      * Radius of the smallest circle containing the base polygon
      * which center is the center of the base polygon.

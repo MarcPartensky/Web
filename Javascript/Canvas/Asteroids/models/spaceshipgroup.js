@@ -1,4 +1,6 @@
-class SpaceshipGroup extends Grouper(Spaceship) {
+import Spaceship from './spaceship.js';
+import { Grouper } from '../libs/group.js';
+export default class SpaceshipGroup extends Grouper(Spaceship) {
     static type = Spaceship;
     static readyOnePlayer(){
         const s = Spaceship.random();

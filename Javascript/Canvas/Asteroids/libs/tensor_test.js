@@ -1,3 +1,4 @@
+import Tensor from './tensor.js';
 
 let t1 = new Tensor1([1,2], [3,4]);
 let t2 = new Tensor1([3,4], [5,6]);

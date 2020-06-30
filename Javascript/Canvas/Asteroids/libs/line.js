@@ -1,4 +1,7 @@
-class Line extends Figure {
+import Figure from './figure.js';
+import Point from './point.js';
+
+export default class Line extends Figure {
   static color = "#ffffff";
   static lineWidth = 1;
   constructor(point, vector, color=Line.color, lineWidth=Line.lineWidth) {

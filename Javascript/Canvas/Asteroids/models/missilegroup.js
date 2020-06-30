@@ -1,4 +1,7 @@
-class MissileGroup extends Grouper(Missile) {
+import {Grouper} from '../libs/group.js';
+import Missile from './missile.js';
+
+export default class MissileGroup extends Grouper(Missile) {
     static n = 0;
     removeDeads() {
         const deads = []

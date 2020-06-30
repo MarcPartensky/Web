@@ -1,7 +1,9 @@
+import Matrix from './matrix.js';
+import Vector from './vector.js';
 /*
 A motion is a matrix and also a list of vectors.
 */
-class Motion extends Matrix {
+export default class Motion extends Matrix {
   static width = 3;
   static height = 2;
   static get length() {return Motion.width};

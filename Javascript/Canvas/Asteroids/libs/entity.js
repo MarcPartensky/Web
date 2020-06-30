@@ -1,4 +1,7 @@
-class Entity {
+import Polygon from './polygon.js';
+import Body from './body.js';
+
+export default class Entity {
     static random(form_args=[], body_args=[]) {
         const form = Polygon.random(...form_args);
         const body = Body.random(...body_args);
@@ -104,7 +107,3 @@ class Entity {
         return this.form.hitBubble;
     }
 }
-
-
-
-

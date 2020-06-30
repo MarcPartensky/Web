@@ -1,4 +1,8 @@
-class Meteor extends GameEntity {
+import GameEntity from './gameentity.js';
+import Vector from '../libs/vector.js';
+import Square from '../libs/square.js';
+import Body from '../libs/body.js';
+export default class Meteor extends GameEntity {
     static color = "#c50000";
 
     //m = new Motion(new Vector(1, 2))

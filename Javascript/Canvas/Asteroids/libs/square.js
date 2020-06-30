@@ -1,4 +1,8 @@
-class Square extends BasePolygon {
+import BasePolygon from './basepolygon.js';
+import Point from './point.js';
+import Vector from './vector.js';
+
+export default class Square extends BasePolygon {
   static random(...args) {
     return new this(
       Math.random(-1, 1),

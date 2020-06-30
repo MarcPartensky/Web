@@ -1,4 +1,5 @@
-class Tree extends Dict {
+import Dict from './dict.js';
+export default class Tree extends Dict {
     paths(path=[]) {
         const ps = [];
         for (const [k, v] of this) {
@@ -96,4 +97,4 @@ class Tree extends Dict {
     }
 }
 
-t = new Tree([[1,2],[3,new Tree([[1,2]])]]);
+//t = new Tree([[1,2],[3,new Tree([[1,2]])]]);

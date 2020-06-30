@@ -1,4 +1,6 @@
-class Life {
+import Rectangle from '../libs/rectangle.js';
+import Vector from '../libs/vector.js';
+export default class Life {
     static value = 1;
     static max = 1;
     constructor(value=Life.value, max=Life.max) {
@@ -19,7 +21,7 @@ class Life {
     }
 }
 
-class LifeBar extends Rectangle {
+export class LifeBar extends Rectangle {
     static areaColor = "lightgreen";
     static borderColor = "white";
     static margin = 2;

@@ -1,4 +1,6 @@
-class GameMap {
+import Rectangle from '../libs/rectangle.js';
+import Vector from '../libs/vector.js';
+export default class GameMap {
     static fromSize(n,m) {
         const x=-n/2, y=-n/2, w=n, h=n;
         const r  = new Rectangle(new Vector(x, y), new Vector(w, h))
