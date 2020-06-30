@@ -1,0 +1,20 @@
+{
+  "name": "pixijs-tutorial",
+  "version": "1.0.0",
+  "description": "My tutorial for learning pixi js",
+  "main": "index.html",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "tutorial",
+    "pixijs",
+    "pixi"
+  ],
+  "author": "Marc Partensky",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

@@ -117,4 +117,29 @@ ul li:hover {
   text-shadow: 0.55rem 0.55rem #aaffff;
 }
 
+input, button, textarea, h1 {
+  color: #15dea5;
+  font-size: 2rem;
+  font-weight: 100;
+  line-height: 1.7;
+}
+
+.content-colour, textarea, h1 {
+  color: blue;
+  font-size: 2rem;
+}
+
+.article {
+  display: flex;
+  padding: 5px 10px;
+  color: black;
+  background-color: #fff;
+  border: 5px solid #4066c8;
+}
+
+.btn {
+  color: #192a56;
+  background-color: #fff;
+}
+
 /*# sourceMappingURL=style.css.map */

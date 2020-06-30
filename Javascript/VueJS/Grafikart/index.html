@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VueJS Tutorial</title>
+</head>
+<body>
+    <div class="ui main container" id="app">
+        <input type="text" v-model="message">
+        <a :href="link">{{message}}</a>
+        <br>
+        <input type="checkbox" v-model="success">
+        <div v-if="success">
+            <i class="change icon" @click="change"></i>
+            <p> bravo votre message a marché </p>
+        </div>
+        <div v-else>
+            <p> échec votre message n'a pas marché.</p>
+        </div>
+        <ul>
+            <li v-for="person in persons">{{ person }}</li>
+        </ul>
+        <p>Votre page a été crée depuis {{ seconds }} secondes.</p>
+        <input type="checkbox" v-model="success">
+        <div class="ui message" :class="cls">
+            <p>
+                Prénom: {{firstname}} <br>
+                Nom: {{ lastname }} <br>
+                Nom complet: {{ fullname }} <br>
+                <input type="text" v-model="fullname">
+            </p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

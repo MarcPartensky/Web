@@ -106,8 +106,20 @@ $colour-primary: $color-primary;
 	margin-bottom: 0.75rem;
 }
 
+@function lightness-shift($colour) {
+	@if (lightness($colour) < 25% ) {
+			@return lighten($colour, 10%);
+		} @else {
+			@return darken($colour, 10%);
+	}
+}
 
-@mixin heading-shadow($colour: $colour-primary) {
+$heading-shadow-size: 1rem;
+
+@mixin heading-shadow(
+	$colour: lightness-shift($colour-primary),
+	$size: $heading-shadow-size
+) {
 	text-shadow: .55rem .55rem $colour;
 }
 
@@ -133,4 +145,81 @@ $colour-primary: $color-primary;
 	&__heading {
 		@include heading-shadow(#aaffff);
 	}
+}
+
+
+%typography {
+	color: $color-primary;
+	font-size: 2rem;
+	font-weight: 100;
+	line-height: 1.7;
+}
+
+h1 {
+	@extend %typography;
+}
+
+textarea {
+	@extend %typography;
+}
+
+button {
+	@extend %typography;
+}
+
+input {
+	@extend %typography;
+}
+
+// $blue-border: border: solid 5px #0c2461;
+
+.content-colour {
+	color: blue;
+	font-size: 2rem;
+  }
+h1 {
+	@extend .content-colour;
+}
+textarea {
+	@extend .content-colour;
+}
+
+$white: #fff;
+$pastel-blue: #0097e6;
+$dark-blue: #192a56;
+
+@mixin border-colour($colour){
+  @if ( lightness($colour) > 25% ) {
+      $colour: darken($colour, 30%);
+  } @else {
+      $colour: lighten($colour, 30%);
+  }
+
+  border: 5px solid $colour;
+}
+
+.article {
+  display: flex;
+  padding: 5px 10px;
+  color: black;
+  background-color: $white;
+
+  @include border-colour($dark-blue);
+}
+
+$white: #fff;
+$pastel-blue: #0097e6;
+$text-color: #192a56;
+
+@function background($text-color) {
+  @if ( $text-color == $white ) {
+      @return $pastel-blue;
+  } @else {
+      @return $white;
+  }
+}
+
+.btn {
+  color: $text-color;
+  background-color: background($text-color);
 }
