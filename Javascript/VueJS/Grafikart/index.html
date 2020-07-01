@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VueJS Tutorial</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
     <div class="ui main container" id="app">
@@ -26,12 +27,28 @@
         <div class="ui message" :class="cls">
             <p>
                 Prénom: {{firstname}} <br>
-                Nom: {{ lastname }} <br>
+                Nom: {{ lastname | supercapitalize('weshp', 'weshs') }} <br> <!-- filter -->
                 Nom complet: {{ fullname }} <br>
                 <input type="text" v-model="fullname">
             </p>
         </div>
+        <div>
+            <supermessage type="alert-danger" :message="message" header="Attention" v-if="alert" @close="hideAlert"></supermessage>
+            <button @click="showAlert">Alerter</button>
+            <counter></counter>
+            <counter :start="3"></counter>
+            <form-user v-model="user">
+                <!-- {{ user }} -->
+                <div slot="header">Vive les headers</div>
+                <div slot="footer">Vive les footers</div>
+            </form-user>
+            <pre>
+                {{ user }}
+            </pre>
+            <p>&nbsp;</p>
+        </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="js/app.js"></script>
 </body>
