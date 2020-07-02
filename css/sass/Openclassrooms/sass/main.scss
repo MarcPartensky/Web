@@ -223,3 +223,84 @@ $text-color: #192a56;
   color: $text-color;
   background-color: background($text-color);
 }
+
+$padding-dimensions: 1rem 2rem 3rem 4rem;
+$syntax-01: 1rem 2rem 3rem 4rem;
+$syntax-02: 1rem, 2rem, 3rem, 4rem;
+$syntax-03: (1rem 2rem 3rem 4rem);
+$syntax-04: (1rem, 2rem, 3rem, 4rem);
+
+.syntax-01 {
+	padding: $syntax-01;
+}
+.syntax-02 {
+	padding: $syntax-02;
+}
+.syntax-03 {
+	padding: $syntax-03;
+}
+.syntax-04 {
+	padding: $syntax-04;
+}
+
+
+.block {
+	padding: $padding-dimensions;
+}
+
+$font-size: (logo:7rem, heading:5rem, project-heading:4rem, label:2rem);
+
+$colour-primary: #15DEA5;
+$colour-secondary: #001534;
+$colour-accent: #D6FFF5;
+$colour-white: #fff;
+$colour-invalid: #DB464B;
+$txt-input-palette: (
+  active: (
+      bg: $colour-primary,
+      border: $colour-primary,
+      txt: $colour-white,
+  ),
+  focus: (
+      bg: $colour-primary,
+      border: $colour-primary,
+      txt: $colour-white,
+  ),
+  invalid: (
+      bg: $colour-invalid,
+      border: $colour-white,
+      txt: $colour-white,
+  )
+);
+
+
+.machin {
+	padding: $syntax-01;
+}
+
+
+@mixin txt-input-palette($palettes) {
+	@each $state, $palette in $palettes{
+		border: .1rem solid map-get($palette, border);
+		background-color: map-get($palette, bg);
+		color: map-get($palette, txt);
+	}
+}
+
+@media (max-width: 599px) {
+	.proj-grid {
+		grid-template-columns: 1fr;
+	}
+}	
+
+.proj-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	@media (max-width: 599px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+$breakpoints: (
+	mobile: 599px
+);

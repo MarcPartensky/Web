@@ -1,11 +1,15 @@
 const path = require('path');
 
 module.exports = {
-    mode:  "development",
-    watch:  'true',
-    entry: './models/client.js',
-        output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'client.bundle.js'
-    }
+      entry: './models/client.js',
+      mode:"development",
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.js',
+  },
+  module: {
+    rules: [
+          { test: /\.js$/, use: 'raw-loader' }//new RegExp('[libs|models]*\.js')
+    ]
+  },
 };

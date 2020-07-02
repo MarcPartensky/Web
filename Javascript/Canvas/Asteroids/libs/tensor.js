@@ -8,6 +8,7 @@ export default class Tensor extends Array {
   Every tensor has a norm, order, format and size. Here are stored default values.
   */
   static norm = 2;
+  // static norm = 2;
   static order = 1;
   static format = [1];
 

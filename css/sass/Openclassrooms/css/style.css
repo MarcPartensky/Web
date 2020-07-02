@@ -142,4 +142,43 @@ input, button, textarea, h1 {
   background-color: #fff;
 }
 
+.syntax-01 {
+  padding: 1rem 2rem 3rem 4rem;
+}
+
+.syntax-02 {
+  padding: 1rem, 2rem, 3rem, 4rem;
+}
+
+.syntax-03 {
+  padding: 1rem 2rem 3rem 4rem;
+}
+
+.syntax-04 {
+  padding: 1rem, 2rem, 3rem, 4rem;
+}
+
+.block {
+  padding: 1rem 2rem 3rem 4rem;
+}
+
+.machin {
+  padding: 1rem 2rem 3rem 4rem;
+}
+
+@media (max-width: 599px) {
+  .proj-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.proj-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 599px) {
+  .proj-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */
