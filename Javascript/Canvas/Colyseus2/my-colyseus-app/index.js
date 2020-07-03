@@ -12,10 +12,16 @@ const app = express()
 
 app.use(cors());
 app.use(express.json());
+app.use('/', express.static(path.join(__dirname, "client")));
 
 const server = http.createServer(app);
 const gameServer = new colyseus.Server({
   server: server,
+  express: app,
+});
+
+gameServer.onShutdown(function(){
+  console.log(`game server is going down.`);
 });
 
 // register your room handlers
