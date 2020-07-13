@@ -33,8 +33,10 @@
 
 <script>
 import Vue from 'vue'
+import store from './TodoStore'
 
 export default {
+  store: store,
   data () {
     return {
       todos: [{
