@@ -1,15 +1,15 @@
-class Manager extends Map {
+class Manager {
   static entities = [];
   static dt = 0.1;
   static movement = {up: false, down: false, right: false, left: false, zoomin: false, zoomout: false};
   static backgroundColor = "#000000";
 
-  static addEventListeners(manager) {
-    window.addEventListener("keydown", evt => manager.onKeyDown(evt));
-    window.addEventListener("keyup", evt => manager.onKeyUp(evt));
-    window.addEventListener("mousemove", evt => manager.onMouseMotion(evt));
+  addEventListeners() {
+    window.addEventListener("keydown", this.onKeyDown.bind(this));
+    window.addEventListener("keyup", this.onKeyUp.bind(this));
+    window.addEventListener("mousemove", this.onMouseMotion.bind(this));
   }
-  static deactivate() {
+  deactivate() {
     // prevent default actions from space and arrow keys
     window.addEventListener("keydown", function(e) {
       if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
@@ -17,44 +17,34 @@ class Manager extends Map {
       }
     }, false);
   }
-  static from(
+  constructor(
     canvas,
-    entities=this.entities,
-    dt=this.dt,
-    movement=this.movement,
-    backgroundColor=this.backgroundColor
+    group,
+    dt=Manager.dt,
+    movement=Manager.movement,
+    backgroundColor=Manager.backgroundColor
   ) {
-    let m = new this(entities)
-    m.canvas = canvas;
-    m.context = new ContextAdapter(m.canvas.getContext("2d"));
-    m.dt = dt;
-    m.movement = movement;
-    m.backgroundColor = backgroundColor;
-    m.mouse = new Vector(0, 0);
-    m.resize();
-    return m
+    this.canvas = canvas;
+    this.context = new ContextAdapter(this.canvas.getContext("2d"));
+    this.group = group;
+    this.dt = dt;
+    this.movement = movement;
+    this.backgroundColor = backgroundColor;
+    this.mouse = new Vector(0, 0);
   }
   clear() {
     this.context.fillStyle = this.backgroundColor;
     this.context.clear();
   }
   show() {
-    for (const [k,v] of this) {
-      v.show(this.context);
-    }
-    // this.forEach((v,k,m) => v.show(this.context));
+    this.clear();
+    this.group.show(this.context);
   }
   update() {
     this.context.plane.location.update();
     this.context.plane.units.update();
     this.move();
-    for (const [k,v] of this) {
-      this.set(k, v);
-      v.update(this.dt);
-      // console.log(v.position);
-    }
-    // this.forEach((v,k,m) => v.update(this.dt));
-    // for (const v of this.values())
+    this.group.update(this.dt);
   }
   resize() {
     this.canvas.width = this.context.width = window.innerWidth;
@@ -135,7 +125,13 @@ class Manager extends Map {
     this.show();
     requestAnimationFrame(this.loop.bind(this));
   }
+  start() {
+    // this.resize();
+    this.addEventListeners();
+    this.deactivate();
+  }
   main() {
+    this.start();
     this.loop();
   }
 }

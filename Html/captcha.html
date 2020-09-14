@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <!-- <button class="g-recaptcha"
+            data-sitekey="6LenqaQZAAAAAC1KXdUOJC2OCZBEJ2DACeUVGEkl"
+            data-callback='onSubmit'
+            data-action='submit'>Submit</button>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <script>
+   function onSubmit(token) {
+     document.getElementById("demo-form").submit();
+   }
+
+ </script> -->
+  <script src="https://www.google.com/recaptcha/api.js?render=6LenqaQZAAAAAC1KXdUOJC2OCZBEJ2DACeUVGEkl"></script>
+  <script>
+     function onClick(e) {
+       e.preventDefault();
+       grecaptcha.ready(function() {
+         grecaptcha.execute('6LenqaQZAAAAAC1KXdUOJC2OCZBEJ2DACeUVGEkl', {action: 'submit'}).then(function(token) {
+             // Add your logic to submit to your backend server here.
+         });
+       });
+     }
+ </script></body>
+</html>
+
+
+<!-- clé du site -->
+<!-- 6LenqaQZAAAAAC1KXdUOJC2OCZBEJ2DACeUVGEkl -->
+
+<!-- clé secrète -->
+<!-- 6LenqaQZAAAAAA_Y_Sx9i3Vh1q-TRSqZUUnmJzFV -->

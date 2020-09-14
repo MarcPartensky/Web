@@ -9,5 +9,14 @@ class Form extends Figure {
   static areaColor = this.color;
   static borderColor = Color.darken(this.areaColor);
   static fill = true;
-
+  static random(w, h, areaColor=Form.areaColor, borderColor=Form.borderColor) {
+    var f = Figure.random(w, h);
+    f.areaColor = areaColor;
+    f.borderColor = borderColor;
+  }
+  constructor(vectors, areaColor=Form.areaColor, borderColor=Form.borderColor) {
+    super(vectors);
+    this.areaColor = areaColor;
+    this.borderColor = borderColor;
+  }
 }

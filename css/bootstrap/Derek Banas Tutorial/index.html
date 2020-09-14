@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<!-- If IE use the latest rendering engine -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Set the page to the width of the device and set the zoon level -->
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+<title>Bootstrap Tutorial</title>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<style>
+.jumbotron{
+    background-color:#2E2D88;
+    color:white;
+}
+/* Adds borders for tabs */
+.tab-content {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+.nav-tabs {
+    margin-bottom: 0;
+}
+/* Carousel Styling */
+.slide1{
+  background-image: url('bkgrnd1.png');
+  height: 500px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.slide2{
+  background-image: url('bkgrnd2.png');
+  height: 500px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.slide3{
+  background-image: url('bkgrnd3.png');
+  height: 500px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.carousel-caption h1{
+  font-size: 5.4em;
+  font-family: 'Pacifico', cursive;
+  padding-bottom: .4em;
+}
+.carousel-caption p{
+  font-size: 2em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1> Boostrap Tutorial </h1>
+        </div>
+    </div>
+    <div class="jumbotron">
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur voluptatibus explicabo numquam quas, ea a eos distinctio dolorum velit sint sequi. Nihil magnam aut similique ducimus beatae aperiam amet eaque.</p>
+        <a href="#" class="btn btn-default btn-lg" role="button">More Info</a>
+        <button type="submit" class="btn btn-danger" role="button">Danger</button>
+        <input type="button" value="Info" class="btn btn-info">
+        <button type="submit" class="btn btn-primary btn-sm">Primary</button>
+        <button type="submit" class="btn btn-success btn-xs">Success</button>
+        <button type="submit" class="btn btn-warning btn-lg">Warning</button>
+        <button type="submit" class="btn btn-link btn-lg">Link</button>
+
+        <button type="button" class="btn btn-lg btn-primary" disabled="disabled">Primary disabled</button>
+        <a href="#" class="btn btn-default btn-lg disabled" role="button">Link</a>
+
+        <div class="btn-group btn-group-lg" role="group">
+            <button type="submit" class="btn btn-success btn-xs">Success</button>
+            <button type="submit" class="btn btn-warning btn-lg">Warning</button>
+            <button type="submit" class="btn btn-link btn-lg">Link</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs">
+                <h4>Column1</h4>
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque similique debitis fuga sapiente hic aut illum perferendis placeat molestiae laudantium adipisci distinctio itaque cumque, eum temporibus officia. Cupiditate, dolorem itaque.
+                <div class="clearfix visible-sm"></div>
+                <h4>Column2</h4>
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque similique debitis fuga sapiente hic aut illum perferendis placeat molestiae laudantium adipisci distinctio itaque cumque, eum temporibus officia. Cupiditate, dolorem itaque.
+                <div class="clearfix visible-sm"></div>
+                <h4>Column3</h4>
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque similique debitis fuga sapiente hic aut illum perferendis placeat molestiae laudantium adipisci distinctio itaque cumque, eum temporibus officia. Cupiditate, dolorem itaque.
+                <div class="clearfix visible-sm"></div>
+                <h4>Column3</h4>
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque similique debitis fuga sapiente hic aut illum perferendis placeat molestiae laudantium adipisci distinctio itaque cumque, eum temporibus officia. Cupiditate, dolorem itaque.
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <h4>
+                    <a href="#col1Content" data-toggle="collapse">Column1</a>
+                </h4>
+                <div id="col1Content" class="collapse in">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea, nobis. Velit, fuga! Nesciunt dolores voluptates quas magnam. Vel numquam ratione voluptatum officiis nulla harum ut nostrum laborum. Corporis, ad quaerat?</div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <h4>
+                    <a href="#col2Content" data-toggle="collapse">Column2</a>
+                </h4>
+                <div id="col2Content" class="collapse in">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea, nobis. Velit, fuga! Nesciunt dolores voluptates quas magnam. Vel numquam ratione voluptatum officiis nulla harum ut nostrum laborum. Corporis, ad quaerat?</div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <h4>
+                    <a href="#col3Content" data-toggle="collapse">Column3</a>
+                </h4>
+                <div id="col3Content" class="collapse">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea, nobis. Velit, fuga! Nesciunt dolores voluptates quas magnam. Vel numquam ratione voluptatum officiis nulla harum ut nostrum laborum. Corporis, ad quaerat?</div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <h4>
+                    <a href="#col4Content" data-toggle="collapse">Column4</a>
+                </h4>
+                <div id="col4Content" class="collapse">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea, nobis. Velit, fuga! Nesciunt dolores voluptates quas magnam. Vel numquam ratione voluptatum officiis nulla harum ut nostrum laborum. Corporis, ad quaerat?</div>
+            </div>
+        </div>
+        <div class='container'>
+            <div class='row'>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Lines -->
+    <div class="container">
+        <div class="well hidden-sm hidden-md hidden-lg">
+            <p>Screen &lt; 768px</p>
+        </div>
+        <div class="well hidden-md hidden-lg">
+            <p>Screen &gt; 768px and &lt; 992px</p>
+        </div>
+        <div class="well hidden-lg">
+            <p>Screen &gt; 992px and &lt; 1200px</p>
+        </div>
+        <div class="well">
+            <p>Screen &gt; 1200pxpx</p>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset"></div>
+            <table class="table table-bordered table-striped table-hover">
+                <thread>
+                    <tr>
+                        <td colspan="4">Best Baseball Players </td>
+                    </tr>
+                </thread>
+                <tobdy>
+                    <tr>
+                        <th class="col-md-2"></th>
+                        <th class="text-center">Average</th>
+                        <th class="text-center">RBIs</th>
+                        <th class="text-center">Homeruns</th>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Hank Aaron*</a></td>
+                        <td>.005</td>
+                        <td>.005</td>
+                        <td>.005</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Wesh*</a></td>
+                        <td>.123</td>
+                        <td>324.035</td>
+                        <td>.5</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Yo*</a></td>
+                        <td>5</td>
+                        <td>305</td>
+                        <td>505</td>
+                    </tr>
+                </tobdy>
+            </table>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="jumbotron">
+            <img href="https://i.imgur.com/rfAa0Jv.png">
+        </div>
+    </div>
+
+    <div id="theCarousel" class="carousel slide" data-ride="carouself">
+        <ol class="carousel-indicators">
+            <li data-target="#theCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#theCarousel" data-slide-to="1"></li>
+            <li data-target="#theCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="slide1"></div>
+                <div class="carousel-caption">
+                    <h1>Amazing Backgrounds</h1>
+                    <p> Thousands of Backgrounds for Free</p>
+                    <p><a href="#" class="btn btn-primary btn-sm">Get them now</a></p>
+                </div>"
+            </div>
+            <div class="item">
+                <div class="slide2"></div>
+                <div class="carousel-caption">
+                    <h1>Thousands of colors</h1>
+                    <p> More colors that you could ever think of.</p>
+                </div>"
+            </div>
+            <div class="item">
+                <div class="slide3"></div>
+                <div class="carousel-caption">
+                    <h1>Amazing Illustrations</h1>
+                    <p> All for free.</p>
+                </div>"
+            </div>
+        </div>
+        <a class="left carousel-control" href="#theCarousel" data-slide="prev"></a>
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        <a class="right carousel-control" href="#theCarousel" data-slide="next"></a>
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </div>
+
+
+    <div class="container">
+        <div class=jumbotron>
+            <p>
+                <span class="glyphicon glyphicon-film"></span>
+                <a href="#" class="btn btn-primary btn-lg">Trash
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+                <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="well well-sm">
+            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda est ratione eaque a consequatur voluptatum sint! Accusamus id blanditiis, quae quis, eum repellat, ipsa officia voluptatem quod provident ullam dolorum! </p>
+        </div>
+        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab officiis vitae reprehenderit alias ex suscipit fuga, illum ullam inventore praesentium quae. Praesentium illo alias optio, quidem incidunt quisquam impedit odio!</p>
+    </div>
+
+    <div class="container">
+        <img src="asteroids.png" id="asteroids" class="img-responsive img-thumbnail pull-left" alt="Responsive Image">
+    </div>
+
+    <div class="container">
+        <span class="text-muted">Muted</span>
+        <span class="text-primary">Primary</span>
+        <span class="text-success">Success</span>
+        <span class="text-info">Info</span>
+        <span class="text-warning">Warning</span>
+        <span class="text-danger">Danger</span>
+    </div>
+
+    <div class="container">
+        <span class="bg-muted">Muted</span>
+        <span class="bg-primary">Primary</span>
+        <span class="bg-success">Success</span>
+        <span class="bg-info">Info</span>
+        <span class="bg-warning">Warning</span>
+        <span class="bg-danger">Danger</span>
+    </div>
+
+    <div class="container">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle btn-lg" type="button" id="dropdownMenu1" data-toggle="dropdown" ar-a-haspopup="true" aria-expanded="true">Favorite Hero
+            <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="dropdown-header">Marvel</li>
+                <li><a href="#">Spiderman</a></li>
+                <li><a href="#">Captain America</a></li>
+                <li><a href="#">Iron man</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">DC</li>
+
+                <li class="disabled"><a href="#">Superman</a></li>
+                <li><a href="#">Batman</a></li>
+                <li><a href="#">Flash</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon">Your name</span>
+            <input type="text" class="form-control" placeholder="Full Name">
+        </div><br>
+
+        <div class="input-group input-group-sm">
+            <span class="input-group-btn">
+                <button class="btn btn-default">Enter</button>
+            </span>
+        </div><br>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="input-group">
+
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-defautl dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User ID<span class="caret"></span></button>"
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Google</a></li>
+                    </ul>
+                </div>
+                <input type="text" class="form-control" aria-label="...">
+            </div>
+        </div><br>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <input type="checkbox">
+                </span>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <ul class="list-inline">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact
+                    <span class="caret"></span>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Phone</a></li>
+                        <li><a href="#">Email</a></li>
+                        <li><a href="#">Schedule an appointment</a></li>
+                    </ul>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a href="#">About</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="">Contact
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Phone</a></li>
+                    <li><a href="#">Email</a></li>
+                    <li><a href="#">Schedule an appointment</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <ul class="nav nav-pills">
+            <li class="active"><a href="#superman">Superman</a></li>
+            <li><a href="#batman">Batman</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Flash
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="disabled"><a href="#flash">The Flash</a></li>
+                    <li><a data-toggle="tab" href="#kidflash">Kid Flash</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="superman" class="tab-pane fade in active">
+                <p>Superman is a fictional superhero appearing in American cmoic books published by DC Comics.</p>
+            </div>
+            <div id="batman" class="tab-pane fade">
+                <p>Batman is a fictional superhero appearing in American cmoic books published by DC Comics.</p>
+            </div>
+            <div id="flash" class="tab-pane fade">
+                <p>Flash is a fictional superhero appearing in American cmoic books published by DC Comics.</p>
+            </div>
+            <div id="kidflash" class="tab-pane fade">
+                <p>Kid Flash is a fictional superhero appearing in American cmoic books published by DC Comics.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Collapsible Navigation Bar -->
+<div class="container">
+
+    <!-- .navbar-fixed-top, or .navbar-fixed-bottom can be added to keep the nav bar fixed on the screen -->
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+
+          <!-- Button that toggles the navbar on and off on small screens -->
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+
+          <!-- Hides information from screen readers -->
+            <span class="sr-only"></span>
+
+            <!-- Draws 3 bars in navbar button when in small mode -->
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <!-- You'll have to add padding in your image on the top and right of a few pixels (CSS Styling will break the navbar) -->
+          <a class="pull-left" href="#"><img src="asteroids-mini.png"></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">About</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Contact Us <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Email</a></li>
+                <li><a href="#">Phone</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Set Appointment</a></li>
+              </ul>
+            </li>
+          </ul>
+          <!-- navbar-left will move the search to the left -->
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    </div>
+    <br>
+
+    <div class="container">
+        <nav>
+            <ul class="pagination">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">6</a></li>
+                <li><a href="#">7</a></li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                <div class="thumbnail">
+                    <img src="asteroids.png" alt="...">
+                    <div class="caption">
+                        <h3>Hamburguer</h3>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam accusantium voluptate sed hic unde ad sint nobis, dignissimos voluptates fugiat sit quod non, reiciendis fuga laborum nulla atque facilis incidunt!</p>
+                        <p><a href="#" class="btn btn-primary" role="button">Add to cart</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                <div class="thumbnail">
+                    <img src="asteroids.png" alt="...">
+                    <div class="caption">
+                        <h3>Hamburguer</h3>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam accusantium voluptate sed hic unde ad sint nobis, dignissimos voluptates fugiat sit quod non, reiciendis fuga laborum nulla atque facilis incidunt!</p>
+                        <p><a href="#" class="btn btn-primary" role="button">Add to cart</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-1 col-xs-4">
+                <div class="thumbnail">
+                    <img src="asteroids.png" alt="...">
+                    <div class="caption">
+                        <h3>Hamburguer</h3>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam accusantium voluptate sed hic unde ad sint nobis, dignissimos voluptates fugiat sit quod non, reiciendis fuga laborum nulla atque facilis incidunt!</p>
+                        <p><a href="#" class="btn btn-primary" role="button">Add to cart</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                <div class="thumbnail">
+                    <img src="asteroids.png" alt="...">
+                    <div class="caption">
+                        <h3>Hamburguer</h3>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam accusantium voluptate sed hic unde ad sint nobis, dignissimos voluptates fugiat sit quod non, reiciendis fuga laborum nulla atque facilis incidunt!</p>
+                        <p><a href="#" class="btn btn-primary" role="button">Add to cart</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemax="100" style="width: 60%;">
+                <span class="sr-only">60% Completed</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="media">
+            <div class="media-left media-top">
+                <a href="#">
+                    <img class="media-object" src="asteroids-mini.png" alt="...">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">Awesome Veggie Burger</h4>
+                <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus tempore numquam, vero eligendi accusamus fuga eveniet consectetur quos, placeat aperiam magni suscipit sint quae earum labore laborum cumque? Est, sit.</p>
+                <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium consectetur ipsam dolorem tenetur nemo sed ex perferendis quae at delectus, id quo placeat, odio tempora, consequatur sequi! Accusantium, eum adipisci!</p>
+            </div>
+        </div>
+        <div class="media">
+            <div class="media-left media-top">
+                <a href="#">
+                    <img class="media-object" src="asteroids-mini.png" alt="...">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">Awesome Veggie Burger</h4>
+                <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus tempore numquam, vero eligendi accusamus fuga eveniet consectetur quos, placeat aperiam magni suscipit sint quae earum labore laborum cumque? Est, sit.</p>
+                <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium consectetur ipsam dolorem tenetur nemo sed ex perferendis quae at delectus, id quo placeat, odio tempora, consequatur sequi! Accusantium, eum adipisci!</p>
+            </div>
+        </div>
+        <div class="media">
+            <div class="media-left media-top">
+                <a href="#">
+                    <img class="media-object" src="asteroids-mini.png" alt="...">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">Awesome Veggie Burger</h4>
+                <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus tempore numquam, vero eligendi accusamus fuga eveniet consectetur quos, placeat aperiam magni suscipit sint quae earum labore laborum cumque? Est, sit.</p>
+                <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium consectetur ipsam dolorem tenetur nemo sed ex perferendis quae at delectus, id quo placeat, odio tempora, consequatur sequi! Accusantium, eum adipisci!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <ul class="list-group">
+            <li class="list-group-item disabled">Verizon Email</li>
+            <li class="list-group-item">
+                <span class="badge">123</span>Gmail
+            </li>
+            <li class="list-group-item list-group-item-warning">Junk</li>
+        </ul>
+        <a href="#" class="list-group-item">Add Account</a>
+        <a href="#" class="list-group-item">
+            <h4 class="list-group-item-heading">Delete Account</h4>
+            <p class="list-group-item-text">The account will be permanently deleted.</p>
+        </a>
+        <a href="#" class="list-group-item">Check for gmail</a>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</body>
+</html>

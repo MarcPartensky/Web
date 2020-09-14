@@ -1,0 +1,306 @@
+.navbar-content { 
+  color: white;
+  background-color: white;
+}
+
+ul {
+	list-style: none;
+	text-align: right;
+	color: #00ff00;
+	li {
+		display: inline;
+		font-size: 3rem;
+		color: #d6FFF5;
+		&:hover {
+			color: #001534;
+		}
+	}
+}
+
+.parent-div {
+	background-color: #15DEA5;
+	.child-div {
+		color: #fff;
+		.grandchild-div {
+			color: #D6FFF5;
+		}
+	}
+}
+
+.proj-prev {
+	background-color: #00ff00;
+	img {
+		color: #ffffff;
+	}
+}
+
+
+.block {
+	background-color: #15DEA5;
+	&__element {
+		color: #fff;
+		&--modifier {
+			background-color: #001534;
+		}
+	}
+}
+
+.btn {
+	display: inline-block;
+	margin: 0 auto;
+	background: #15dea5;
+	padding: 1rem;
+	&--disabled {
+		background: grey;
+	}
+	&--outline {
+		background: transparent;
+		border: 2px solid #15dea5;
+		&.btn--disabled {
+			border: 2px solid grey;
+		}
+	}
+}
+
+
+$color-primary: #15dea5;
+$colour-primary: $color-primary;
+
+.form {
+	width: 100%;
+	padding-bottom: 1.5rem;
+}
+
+.form__heading {
+	width: 100%;
+	color: #fff;
+	text-shadow: 0.55rem 0.55rem #11af82;
+	background: $color-primary;
+	line-height: 5rem;
+	padding: 1.5rem;
+}
+
+.form__field label {
+	color: #d6fff5;
+	display: block;
+	font-size: 2rem;
+	line-height: 2rem;
+	padding-top: 1.5rem;
+}
+
+.form__field input {
+	width: 100%;
+	background: #001534;
+	border:0.1rem solid #15dea5;
+	padding: 1.5 rem;
+	color: #d6fff5;
+}
+
+.form__field textarea {
+	width: 100%;
+	color: #15dea5;
+	background: #001534;
+	border: 0.1rem solid #15dea5;
+	outline: none;
+	padding: 1.5rem;
+	margin-bottom: 0.75rem;
+}
+
+@function lightness-shift($colour) {
+	@if (lightness($colour) < 25% ) {
+			@return lighten($colour, 10%);
+		} @else {
+			@return darken($colour, 10%);
+	}
+}
+
+$heading-shadow-size: 1rem;
+
+@mixin heading-shadow(
+	$colour: lightness-shift($colour-primary),
+	$size: $heading-shadow-size
+) {
+	text-shadow: .55rem .55rem $colour;
+}
+
+.heading{
+	&__header {
+		@include heading-shadow(#fff);
+	}
+}
+
+.form{
+	&__heading {
+		@include heading-shadow(#faa);
+	}
+}
+
+.about {
+	&__heading {
+		@include heading-shadow(#ffaaaa);
+	}
+}
+
+.project {
+	&__heading {
+		@include heading-shadow(#aaffff);
+	}
+}
+
+
+%typography {
+	color: $color-primary;
+	font-size: 2rem;
+	font-weight: 100;
+	line-height: 1.7;
+}
+
+h1 {
+	@extend %typography;
+}
+
+textarea {
+	@extend %typography;
+}
+
+button {
+	@extend %typography;
+}
+
+input {
+	@extend %typography;
+}
+
+// $blue-border: border: solid 5px #0c2461;
+
+.content-colour {
+	color: blue;
+	font-size: 2rem;
+  }
+h1 {
+	@extend .content-colour;
+}
+textarea {
+	@extend .content-colour;
+}
+
+$white: #fff;
+$pastel-blue: #0097e6;
+$dark-blue: #192a56;
+
+@mixin border-colour($colour){
+  @if ( lightness($colour) > 25% ) {
+      $colour: darken($colour, 30%);
+  } @else {
+      $colour: lighten($colour, 30%);
+  }
+
+  border: 5px solid $colour;
+}
+
+.article {
+  display: flex;
+  padding: 5px 10px;
+  color: black;
+  background-color: $white;
+
+  @include border-colour($dark-blue);
+}
+
+$white: #fff;
+$pastel-blue: #0097e6;
+$text-color: #192a56;
+
+@function background($text-color) {
+  @if ( $text-color == $white ) {
+      @return $pastel-blue;
+  } @else {
+      @return $white;
+  }
+}
+
+.btn {
+  color: $text-color;
+  background-color: background($text-color);
+}
+
+$padding-dimensions: 1rem 2rem 3rem 4rem;
+$syntax-01: 1rem 2rem 3rem 4rem;
+$syntax-02: 1rem, 2rem, 3rem, 4rem;
+$syntax-03: (1rem 2rem 3rem 4rem);
+$syntax-04: (1rem, 2rem, 3rem, 4rem);
+
+.syntax-01 {
+	padding: $syntax-01;
+}
+.syntax-02 {
+	padding: $syntax-02;
+}
+.syntax-03 {
+	padding: $syntax-03;
+}
+.syntax-04 {
+	padding: $syntax-04;
+}
+
+
+.block {
+	padding: $padding-dimensions;
+}
+
+$font-size: (logo:7rem, heading:5rem, project-heading:4rem, label:2rem);
+
+$colour-primary: #15DEA5;
+$colour-secondary: #001534;
+$colour-accent: #D6FFF5;
+$colour-white: #fff;
+$colour-invalid: #DB464B;
+$txt-input-palette: (
+  active: (
+      bg: $colour-primary,
+      border: $colour-primary,
+      txt: $colour-white,
+  ),
+  focus: (
+      bg: $colour-primary,
+      border: $colour-primary,
+      txt: $colour-white,
+  ),
+  invalid: (
+      bg: $colour-invalid,
+      border: $colour-white,
+      txt: $colour-white,
+  )
+);
+
+
+.machin {
+	padding: $syntax-01;
+}
+
+
+@mixin txt-input-palette($palettes) {
+	@each $state, $palette in $palettes{
+		border: .1rem solid map-get($palette, border);
+		background-color: map-get($palette, bg);
+		color: map-get($palette, txt);
+	}
+}
+
+@media (max-width: 599px) {
+	.proj-grid {
+		grid-template-columns: 1fr;
+	}
+}	
+
+.proj-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	@media (max-width: 599px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+$breakpoints: (
+	mobile: 599px
+);

@@ -93,9 +93,7 @@ class Body extends Tensor {
     this.motion.acceleration;
   }
   update(dt) {
-    for (const motion of this) {
-      motion.update(dt);
-    }
+    this.map(motion => motion.update(dt));
   }
   updateFriction(friction) {
     for (const motion of this) {

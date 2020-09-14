@@ -1,0 +1,7 @@
+{
+  "name": "tutorial - design course",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

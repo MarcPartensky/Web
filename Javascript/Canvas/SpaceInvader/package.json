@@ -1,0 +1,26 @@
+{
+  "name": "spaceinvader",
+  "version": "1.0.0",
+  "description": "My Space Invader game.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/marcpartensky/web.git"
+  },
+  "keywords": [
+    "space",
+    "invader",
+    "game"
+  ],
+  "author": "Marc Partensky",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcpartensky/web/issues"
+  },
+  "homepage": "https://github.com/marcpartensky/web#readme"
+}

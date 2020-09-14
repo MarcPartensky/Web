@@ -1,0 +1,16 @@
+{
+  "name": "sass-tutorial",
+  "version": "1.0.0",
+  "description": "A tutorial for sass",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "sass --watch ./sass/main.scss:./css/style.css",
+    "prefix": "postcss ./css/style.css --use autoprefixer -d ./css/prefixed/"
+  },
+  "author": "Marc Partensky",
+  "license": "MIT",
+  "dependencies": {
+    "sass": "^1.26.8"
+  }
+}
