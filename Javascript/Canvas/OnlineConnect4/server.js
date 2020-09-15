@@ -4,8 +4,10 @@ const express = require('express'),
     io = require('socket.io').listen(server),
     ent = require('ent'), // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP)
     os = require('os');
+
+const PORT = process.env.PORT || 8080;
+
 var state = 0,
-    pseudos = [],
     clients = 0;
 
 server.maxConnections = 2;
@@ -29,7 +31,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         if (clients==2) {
           socket.broadcast.emit('turn', "1");
         }
-        console.log('connection:', "clients:", clients);
+        console.log("clients:", clients);
     });
 
     // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
@@ -44,7 +46,7 @@ io.sockets.on('connection', function (socket, pseudo) {
         socket.broadcast.emit('joue', choice);
         state++;
       } else if (clients!=2){
-        socket.broadcast.emit('erreur', "Il y a "+client+" joueurs au lieu de 2.");
+        socket.broadcast.emit('erreur', `There are only ${clients} players.`)
       } else if (state%2!=socket.client_id-1) {
         console.log(state, socket.client_id)
         socket.broadcast.emit('erreur', "Ce n'est pas votre tour!");
@@ -57,12 +59,11 @@ io.sockets.on('connection', function (socket, pseudo) {
       socket.broadcast.emit("restart", _);
     })
 
-    // socket.on('disconnect', function() {
-    //   clients--;
-    //   console.log('disconnection');
-    // });
+    socket.on('disconnect', function() {
+        clients--;
+        console.log("clients:", clients);
+    });
 });
 
-
-
-server.listen(8080);
+console.log(`Listening on port: ${PORT}`)
+server.listen(PORT);
