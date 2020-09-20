@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
+
 var app = express();
 app.use(logger('dev'));
 app.use(express.json());
@@ -22,9 +23,8 @@ import EventEmitter from 'events';
 import vm from 'vm';
 import fs from 'fs';
 import socket from 'socket.io';
-import GameServer from '../libs/gameserver.js';
+import AsteroidServer from '../models/asteroidserver.js';
 
-const app = express();
 const server = http.createServer(app);
 const io = socket.listen(server);
 
@@ -98,7 +98,6 @@ app.use('/models', express.static('models'));
 app.use('/dist', express.static('dist'));
 
 
-import path from 'path';
 const __dirname = path.resolve();
   
 console.log(__dirname)
