@@ -1,0 +1,3 @@
+class EnemyGroup extends Group {
+
+}
