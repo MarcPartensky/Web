@@ -1,4 +1,4 @@
-class Level1 extends Level {
+class Level2 extends Level {
     constructor() {
         super()
         this.over = false
@@ -25,7 +25,21 @@ class Level1 extends Level {
                         'enemy1',
                         new Enemy(
                             new Circle(new Vector(0, 0), 0.02, 0.01, 'red'),
-                            new Body(new Motion(new Vector(1/2, 0.1), new Vector(0.2, 0)))
+                            new Body(new Motion(new Vector(1/4, 0.1), new Vector(0.2, 0)))
+                        )
+                    ],
+                    [
+                        'enemy2',
+                        new Enemy(
+                            new Circle(new Vector(0, 0), 0.02, 0.01, 'red'),
+                            new Body(new Motion(new Vector(2/4, 0.1), new Vector(0.2, 0)))
+                        ),
+                    ],
+                    [
+                        'enemy3',
+                        new Enemy(
+                            new Circle(new Vector(0, 0), 0.02, 0.01, 'red'),
+                            new Body(new Motion(new Vector(3/4, 0.1), new Vector(0.2, 0)))
                         )
                     ]
                 ])
@@ -33,5 +47,8 @@ class Level1 extends Level {
         ])
         this.border = new Square(0, 0, 1, 'grey', 0.01, false)
         this.line = new Segment(new Point(0, 0.7), new Point(1, 0.7), 1, 'darkgrey')
+    }
+    isWon() {
+        return this.group.get('enemyGroup').size == 0
     }
 }

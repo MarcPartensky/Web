@@ -1,8 +1,11 @@
 class Rectangle extends BasePolygon {
   static color = "#ffffff";
-  static lineWidth = 1;
+  static lineWidth = 0.01;
   static of(x, y, w, h, ...args) {
-    return this(x,y, w,h, ...args);
+    return new this(
+        new Vector(x,y), 
+        new Vector(w,h),
+    ...args);
   }
   static from(a, ...args) {
     return new this(a.slice(0,2), a.slice(2), ...args)

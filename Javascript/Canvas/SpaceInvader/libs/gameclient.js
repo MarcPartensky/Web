@@ -90,23 +90,18 @@ class GameClient extends GameBase {
     switch(evt.keyCode) {
         case 39: // Arrow Right for moving right
             this.movement.right = true;
-            break;
         case 37: // Arrow Left for moving left
             this.movement.left = true;
-            break;
         case 40: // Arrow Up for moving up
             this.movement.up = true;
-            break;
         case 38: // Arrow Down for moving down
             this.movement.down = true;
-            break;
         case 16: // Left and Right shift for zooming in and out
             if (evt.location == 1) {
                 this.movement.zoomout = true;
             } else {
                 this.movement.zoomin = true;
             }
-            break;
         case 18: // Alt for pause
             if (this.game.dt) {
                 this.game.dt = 0;
@@ -119,23 +114,18 @@ class GameClient extends GameBase {
     switch(evt.keyCode) {
       case 39: // Arrow Right
         this.movement.right = false;
-        break;
       case 37: // Arrow Left
         this.movement.left = false;
-        break;
       case 40: // Arrow Up
         this.movement.up = false;
-        break;
       case 38: // Arrow Down
         this.movement.down = false;
-        break;
       case 16:
         if (evt.location == 1) {
           this.movement.zoomout = false;
         } else {
           this.movement.zoomin = false;
         }
-        break;
       }
   }
   onScroll(evt) {

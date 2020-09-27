@@ -69,8 +69,11 @@ class Square extends BasePolygon {
     }
   }
   contains(p) {
-    return this.x <= p[0] <= this.x+this.s &&
-          this.y <=  p[1] <= this.y+this.s;
-    
+    return (
+        this.x <= p[0] &&
+        p[0] <= this.x+this.s &&
+        this.y <=  p[1] &&
+        p[1] <= this.y+this.s
+    )
   }
 }
