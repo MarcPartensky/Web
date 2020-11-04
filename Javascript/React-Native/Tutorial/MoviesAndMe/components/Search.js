@@ -4,10 +4,9 @@ import { View, Button, TextInput, StyleSheet } from 'react-native'
 export default class Search extends React.Component {
     render() {
         return (
-            <View style={{ flex: 1, backgroundcolor: 'yellow' }}>
-                <TextInput style={styles.textinput} placeholder="Titre du film"/>
-                <Button style={{height: 50}} title="Rechercher" onPress={() => {}}/>
-                <View style={{ height: 335, backgroundColor: 'green' }}></View>
+            <View style={{ flex: 1, backgroundcolor: 'yellow', flexDirection: 'row' }}>
+                <View style={{ flex: 1, backgroundColor: 'red' }}></View>
+                <View style={{ flex: 2, backgroundColor: 'green' }}></View>
             </View>
         )
     }
