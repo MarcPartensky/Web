@@ -1,0 +1,84 @@
+
+
+<!-- <script> -->
+<!--     var showdown  = require('showdown'), -->
+<!--     converter = new showdown.Converter(), -->
+<!--     text      = '# hello, markdown!', -->
+<!--     html      = converter.makeHtml(text); -->
+<!-- </script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
+
+<textarea id='input'>
+# Todolist
+
+## Obligatoire
+- [ ] chercher des offres sur monster
+- [ ] appeller la bpi
+- [ ] améliorer photo sur cvs
+- [ ] glou comprimé
+
+## Tâches
+- [x] pong avec rust
+
+- [ ] ajouter spark + aws emr au cv + linkedin + site web
+- [ ] ajouter docker, tensorflow au cv
+- [ ] carte de visite ([affinity designer](/Volumes/$/Application/Affinity\ Designer.app) + [affinity photo](/Volumes/$/Application/Affinity\ Photo.app))
+- [ ] ajouter connexion dans la page d'accueil
+- [ ] ajouter formulaire qui fonctionne sur la page d'accueil
+- [ ] bilan de compétences
+- [ ] ajouter déploiement docker de fourier et pygame-geometry
+- [ ] touch typing site multijoueur + countdown dès première lettre tapée
+- [ ] touch typing + django channels
+- [ ] supprimer tous les s des applications django
+- [ ] portail de l'informatique
+- [ ] 3d kit unity
+- [ ] compétitions de programmation google kick start?, facebook?
+- [ ] ctf?
+- [ ] socket django
+- [ ] chat django
+- [ ] online liveshare codeshare.live
+- [ ] section liste de projets sur site web dans tel ou tel techno = preuve pour freelancer.com
+- [ ] version anglaise du CV
+- [ ] créer un compte fiverr
+- [ ] login google sur mon site
+- [ ] go dans go
+- [ ] bon calendrier sur mon site
+- [ ] optimisation chargement page d'accueil
+
+## Tutoriels
+- [ ] pytorch
+- [ ] sklearn
+- [ ] scala
+- [ ] react native
+- [ ] angular
+- [ ] développement mobile java
+- [ ] rust
+
+## Lectures
+- [ ] zero to one
+- [ ] bio Elon Musk
+- [ ] "Quand la machine apprend" de Yann Le Cun
+- [ ] manifeste agile
+
+## Bonus
+- [x] mac setup cj
+- [ ] page de cv
+- [ ] cdn website section
+- [ ] protection des secrets avec mac (ce dont parlait valentin)
+- [ ] bot discord gestion de rôle automatique + leaderboard + rename avec €
+- [ ] afficher la liste des taches sur mon site
+- [ ] fourier sur page d'accueil
+
+## Tâche de fond
+</textarea>
+
+<p id='output'></p>
+
+<script>
+    var converter = new showdown.Converter();
+    showdown.setFlavor('github');
+    text      = document.getElementById('input')
+    html      = converter.makeHtml(text.value)
+    document.getElementById('output').innerHTML= html
+</script>
