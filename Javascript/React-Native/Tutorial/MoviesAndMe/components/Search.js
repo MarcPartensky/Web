@@ -2,6 +2,10 @@ import React from 'react'
 import { View, Button, TextInput, StyleSheet } from 'react-native'
 
 export default class Search extends React.Component {
+    _loadFilms() {
+
+    }
+
     render() {
         return (
             <View style={{ flex: 1, backgroundcolor: 'yellow', flexDirection: 'row' }}>
