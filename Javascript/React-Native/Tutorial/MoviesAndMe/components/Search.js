@@ -8,6 +8,8 @@ export default class Search extends React.Component {
 
     constructor(props) {
         super(props)
+        this.page = 0
+        this.totalPages = 0
         this.state = {
             films: [],
             isLoading: false,
@@ -18,9 +20,11 @@ export default class Search extends React.Component {
     _loadFilms() {
         this.setState({ isLoading: true })
         if (this.state.searchedText.length > 0) {
-            getFilmsFromApiWithSearchedText(this.state.searchedText).then(data => {
+            getFilmsFromApiWithSearchedText(this.state.searchedText, this.page+1).then(data => {
+                this.page = data.page
+                this.totalPages = data.total_pages
                 this.setState({
-                    films: data.results,
+                    films: this.state.films.concat(data.results),
                     isLoading: false
                 })
             })
@@ -41,6 +45,18 @@ export default class Search extends React.Component {
         }
     }
 
+    _searchFilms() {
+        this.page = 0
+        this.totalPages = 0
+        this.setState({
+            films: []
+        }, () => {
+            console.log("Page: " + this.page+" / TotalPages : " + this.totalPages +
+                " / Nombre de films : " + this.state.films.length)
+            this._loadFilms()
+        })
+    }
+
 
     render() {
         return (
@@ -49,13 +65,19 @@ export default class Search extends React.Component {
               style={styles.textinput}
               placeholder='Titre du film'
               onChangeText={(text) => this._searchTextInputChanged(text)}
-              onSubmitEditing={() => this._loadFilms()}
+              onSubmitEditing={() => this._searchFilms()}
             />
-              <Button title='Rechercher' onPress={() => this._loadFilms()}/>
+              <Button title='Rechercher' onPress={() => this._searchFilms()}/>
             {/* Ici j'ai simplement repris l'exemple sur la documentation de la FlatList */}
             <FlatList
                 data={this.state.films}
                 keyExtractor={(item) => item.id.toString()}
+                onEndReachedThreshold={0.5}
+                onEndReached={() => {
+                    if (this.page < this.totalPages) {
+                        this._loadFilms()
+                    }
+                }}
                 renderItem={({item}) => <FilmItem film={item}/>}
             />
             {this._displayLoading()}
