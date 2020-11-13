@@ -93,7 +93,7 @@ app.use('/dist', express.static('dist'));
 
 import path from 'path';
 const __dirname = path.resolve();
-  
+
 console.log(__dirname)
 
 // var path = __dirname.split("/");

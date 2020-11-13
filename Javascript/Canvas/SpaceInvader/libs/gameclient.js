@@ -7,22 +7,22 @@ class GameClient extends GameBase {
         ticks,
         canvas,
         eventListeners=[],
-        movement=GameClient.movement, 
+        movement=GameClient.movement,
         backgroundColor=GameClient.backgroundColor
     ) {
         super(ticks)
         this.canvas = canvas
-        this.eventListeners = eventListeners 
+        this.eventListeners = eventListeners
         this.backgroundColor = backgroundColor
         this.mouse = new Vector(0, 0)
         this.movement = movement
-        this.context = new ContextAdapter(this.canvas.getContext('2d')) 
+        this.context = new ContextAdapter(this.canvas.getContext('2d'))
     }
     get ticks() {
         return this._ticks
     }
     set ticks(number) {
-        this._ticks = number 
+        this._ticks = number
         clearInterval(this.interval)
         this.interval = setInterval(this.update.bind(this), number)
     }
@@ -156,8 +156,6 @@ class GameClient extends GameBase {
       this.context.plane.units[0].irmul(1+GameClient.zoomDelta);
     }
     if (this.movement.zoomout) {
-      this.context.plane.units[0].irmul(1-GameClient.zoomDelta);
-    }
-  }
+      this.context.plane.units[0].irmul(1-GameClient.zoomDelta); } }
 
 }
