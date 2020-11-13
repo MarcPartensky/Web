@@ -17,7 +17,6 @@ export default class GameClient extends Game {
     }
     start() {
        this.deactivate()
-       console.log(this.canvas.addEventListener, this.onKeyDown.bind(this))
        this.eventListeners = [
             this.canvas.addEventListener("keydown", this.onKeyDown.bind(this)),
             this.canvas.addEventListener("keyup", this.onKeyUp.bind(this)),
