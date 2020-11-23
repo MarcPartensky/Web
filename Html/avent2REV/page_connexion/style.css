@@ -1,0 +1,20 @@
+body
+{
+    background-image: url("images/village.jpg");
+    background-size: cover;
+}
+
+#bloc_page
+{
+    background-color: white;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    height: 200px;
+    text-align: center;
+    padding: 5px;
+}

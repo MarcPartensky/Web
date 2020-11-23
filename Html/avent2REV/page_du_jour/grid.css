@@ -1,0 +1,16 @@
+.gauche {
+    background: blue;
+    grid-column-start: col-start 1;
+}
+
+.droite {
+    background: green;
+    grid-column-start: col-start 2;
+}
+
+.container {
+  display: grid | inline-grid;
+  background: yellow;
+  grid-template-columns: 40px 50px auto 50px 40px;
+  /* grid-template-rows: 25% 100px auto; */
+}
