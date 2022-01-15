@@ -9,7 +9,7 @@
 //     vm = require('vm');
 //import { SocketClient } from "models/gameserver.js";
 
-import EventEmitter from 'events';
+// import EventEmitter from 'events';
 import express from 'express';
 import http from 'http';
 import vm from 'vm';
